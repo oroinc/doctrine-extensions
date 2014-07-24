@@ -7,7 +7,7 @@ use Doctrine\ORM\Query\SqlWalker;
 use Oro\ORM\Query\AST\Functions\SimpleFunction;
 use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
-class DayOfWeek extends PlatformFunctionNode
+class Dayofyear extends PlatformFunctionNode
 {
     /**
      * @param SqlWalker $sqlWalker
@@ -18,6 +18,6 @@ class DayOfWeek extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'DAYOFWEEK(' . $expression->dispatch($sqlWalker) . ')';
+        return 'DAYOFYEAR(' . $expression->dispatch($sqlWalker) . ')';
     }
 }

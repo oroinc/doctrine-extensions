@@ -7,7 +7,7 @@ use Doctrine\ORM\Query\SqlWalker;
 use Oro\ORM\Query\AST\Functions\SimpleFunction;
 use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
-class DayOfWeek extends PlatformFunctionNode
+class Dayofweek extends PlatformFunctionNode
 {
     /**
      * @param SqlWalker $sqlWalker

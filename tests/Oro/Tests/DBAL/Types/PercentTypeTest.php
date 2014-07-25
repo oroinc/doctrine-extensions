@@ -31,7 +31,7 @@ class PercentTypeTest extends \PHPUnit_Framework_TestCase
     public function testGetSQLDeclaration()
     {
         $platform = TestUtil::getEntityManager()->getConnection()->getDatabasePlatform();
-        $output = $this->percentType->getSQLDeclaration([], $platform);
+        $output = $this->percentType->getSQLDeclaration(array(), $platform);
 
         $this->assertEquals("DOUBLE PRECISION", $output);
     }

@@ -1,0 +1,16 @@
+imports:
+    - php
+
+before_commands:
+    - composer install
+
+filter:
+    excluded_paths: [vendor/*, tests/*, app/*, bin/*, library/*]
+
+tools:
+    php_sim: false
+    php_pdepend: true
+    php_analyzer: true
+    php_code_coverage: true
+    php_mess_detector: true
+    php_code_sniffer: true

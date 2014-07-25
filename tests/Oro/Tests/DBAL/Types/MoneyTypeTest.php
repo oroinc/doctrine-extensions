@@ -30,7 +30,7 @@ class MoneyTypeTest extends \PHPUnit_Framework_TestCase
     public function testGetSQLDeclaration()
     {
         $platform = TestUtil::getEntityManager()->getConnection()->getDatabasePlatform();
-        $output = $this->type->getSQLDeclaration([], $platform);
+        $output = $this->type->getSQLDeclaration(array(), $platform);
 
         $this->assertEquals("NUMERIC(19, 4)", $output);
     }

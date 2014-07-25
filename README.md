@@ -24,7 +24,6 @@ Available functions:
 * `DATE(expr)` - Extract the date part of a date or datetime expression
 * `TIME(expr)` - Extract the time portion of the expression passed
 * `TIMESTAMP(expr)` - Convert expression to TIMESTAMP
-
 * `DAY(expr)` - Return the day of the month (0-31)
 * `DAYOFWEEK(expr)` - Return the weekday index from the date passed
 * `DAYOFYEAR(expr)` - Return the day of the year (1-366)
@@ -35,11 +34,11 @@ Available functions:
 * `SECOND(expr)` - Return the second from the date passed
 * `WEEK(expr)` - Return the week from the date passed
 * `YEAR(expr)` - Return the year from the date passed
-
 * `POW(expr, power)` - Return the argument raised to the specified power
 * `SIGN(expr)` - Return the sign of the argument
+* `GROUP_CONCAT` - Return a concatenated string
 
-Return a concatenated string
+GROUP_CONCAT full syntax:
 ```
 GROUP_CONCAT([DISTINCT] expr [,expr ...]
             [ORDER BY {unsigned_integer | col_name | expr}

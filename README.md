@@ -62,7 +62,7 @@ Functions Registration
 
 ### Doctrine2 
 
-(http://docs.doctrine-project.org/en/latest/cookbook/dql-user-defined-functions.html "DQL User Defined Functions")
+[Doctrine2 Documentation: "DQL User Defined Functions"](http://docs.doctrine-project.org/en/latest/cookbook/dql-user-defined-functions.html)
 
 ```php
 <?php
@@ -113,9 +113,13 @@ Most of functions, that require only one ArithmeticPrimary argument may be parse
 This class is responsible for parsing function definition and saving parsed data to parameters. It is extended from
 `Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode`. This layer work with DQL function parsing.
 SQL generation is responsibility of platform specific functions, that extends `PlatformFunctionNode`.
-`AbstractPlatformAwareFunctionNode` creates appropriate instance of platform function based on current connection Database Platform instance
-name and DQL function name.
-Platform function classes naming rule is `Oro\ORM\Query\AST\Platform\Functions\$platformName\$functionName`
+`AbstractPlatformAwareFunctionNode` creates appropriate instance of platform function based on current connection Database Platform instance name and DQL function name.
+
+Platform function classes naming rule is:
+
+```
+Oro\ORM\Query\AST\Platform\Functions\$platformName\$functionName
+```
 
 ### Adding new platform
 To add support of new platform you just need to create new folder `Oro\ORM\Query\AST\Platform\Functions\$platformName`

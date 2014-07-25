@@ -18,6 +18,6 @@ class Week extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'WEEK(' . $expression->dispatch($sqlWalker) . ')';
+        return 'WEEK(' . $expression->dispatch($sqlWalker) . ', 3)';
     }
 }

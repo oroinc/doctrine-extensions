@@ -25,14 +25,13 @@ Available functions:
 * `TIME(expr)` - Extract the time portion of the expression passed
 * `TIMESTAMP(expr)` - Convert expression to TIMESTAMP
 * `DAY(expr)` - Return the day of the month (0-31)
-* `DAYOFWEEK(expr)` - Return the weekday index from the date passed
 * `DAYOFYEAR(expr)` - Return the day of the year (1-366)
 * `HOUR(expr)` - Return the hour from the date passed
 * `MINUTE(expr)` - Return the minute from the date passed
 * `MONTH(expr)` - Return the month from the date passed
 * `QUARTER(expr)` - Return the quarter from the date passed
 * `SECOND(expr)` - Return the second from the date passed
-* `WEEK(expr)` - Return the week from the date passed
+* `WEEK(expr)` - The number of the week of the year that the day is in. By definition (ISO 8601), weeks start on Mondays and the first week of a year contains January 4 of that year. In other words, the first Thursday of a year is in week 1 of that year.
 * `YEAR(expr)` - Return the year from the date passed
 * `POW(expr, power)` - Return the argument raised to the specified power
 * `SIGN(expr)` - Return the sign of the argument
@@ -87,8 +86,7 @@ doctrine:
                 time:         Oro\ORM\Query\AST\Functions\SimpleFunction
                 timestamp:    Oro\ORM\Query\AST\Functions\SimpleFunction
             numeric_functions:
-                dayofmonth:   Oro\ORM\Query\AST\Functions\SimpleFunction
-                dayofweek:    Oro\ORM\Query\AST\Functions\SimpleFunction
+                weekday:      Oro\ORM\Query\AST\Functions\SimpleFunction
                 dayofyear:    Oro\ORM\Query\AST\Functions\SimpleFunction
                 week:         Oro\ORM\Query\AST\Functions\SimpleFunction
                 day:          Oro\ORM\Query\AST\Functions\SimpleFunction

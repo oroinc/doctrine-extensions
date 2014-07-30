@@ -1,6 +1,8 @@
 Oro Doctrine Extensions
 =======================
 
+[![Build Status](https://travis-ci.org/orocrm/doctrine-extensions.svg?branch=master)](https://travis-ci.org/orocrm/doctrine-extensions)
+
 Table of Contents
 -----------------
 

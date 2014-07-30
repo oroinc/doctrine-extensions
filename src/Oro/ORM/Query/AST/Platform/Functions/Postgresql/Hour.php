@@ -10,9 +10,7 @@ use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 class Hour extends PlatformFunctionNode
 {
     /**
-     * @param SqlWalker $sqlWalker
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getSql(SqlWalker $sqlWalker)
     {

@@ -2,7 +2,6 @@
 
 namespace Oro\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Types\Type;
 
 use Oro\DBAL\Types\PercentType;

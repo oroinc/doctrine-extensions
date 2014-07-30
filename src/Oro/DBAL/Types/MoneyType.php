@@ -45,6 +45,4 @@ class MoneyType extends Type
     {
         return true;
     }
-
-
 }

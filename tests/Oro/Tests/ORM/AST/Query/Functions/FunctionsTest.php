@@ -33,7 +33,6 @@ class FunctionsTest extends TestCase
                 $configuration->addCustomStringFunction($functionName, $functionClass);
         }
 
-
         $query = new Query($this->entityManager);
         $query->setDQL($dql);
 
@@ -47,6 +46,9 @@ class FunctionsTest extends TestCase
         );
     }
 
+    /**
+     * @return array
+     */
     public function functionsDataProvider()
     {
         $platform = TestUtil::getPlatformName();

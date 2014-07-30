@@ -10,9 +10,7 @@ use Oro\ORM\Query\AST\Functions\Numeric\Pow as Base;
 class Pow extends PlatformFunctionNode
 {
     /**
-     * @param SqlWalker $sqlWalker
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getSql(SqlWalker $sqlWalker)
     {

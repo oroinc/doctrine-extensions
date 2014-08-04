@@ -21,5 +21,6 @@ class ObjectTypeTest extends \PHPUnit_Framework_TestCase
         $actualDbValue = $type->convertToDatabaseValue($object, $platform);
         $this->assertEquals($encoded, $actualDbValue);
         $this->assertEquals($object, $type->convertToPHPValue($actualDbValue, $platform));
+        $this->assertEquals($object, $type->convertToPHPValue($encoded, $platform));
     }
 }

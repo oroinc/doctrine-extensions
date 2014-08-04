@@ -12,7 +12,10 @@ class ArrayType extends BaseType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        $value = base64_decode($value);
+        if ($value && strpos($value, ';') === false) {
+            $value = base64_decode($value);
+        }
+
         return parent::convertToPHPValue($value, $platform);
     }
 

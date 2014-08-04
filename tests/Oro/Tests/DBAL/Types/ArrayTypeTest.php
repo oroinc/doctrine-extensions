@@ -19,5 +19,6 @@ class ArrayTypeTest extends \PHPUnit_Framework_TestCase
         $actualDbValue = $type->convertToDatabaseValue($array, $platform);
         $this->assertEquals($encoded, $actualDbValue);
         $this->assertEquals($array, $type->convertToPHPValue($actualDbValue, $platform));
+        $this->assertEquals($array, $type->convertToPHPValue($encoded, $platform));
     }
 }

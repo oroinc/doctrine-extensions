@@ -151,3 +151,5 @@ This library also consist additional field types:
 * `ArrayType`
 
 `ObjectType` and `ArrayType` use base64 encoded string to store values in Db instead of storing serialized strings.
+For backward compatibility values that are already stored in Db will be unserialized without base64 encoding. New values
+will be base64 encoded before storing in Db and base64 decoded before unserialization.

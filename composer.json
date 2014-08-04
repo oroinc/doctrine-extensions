@@ -1,7 +1,6 @@
 {
     "name": "oro/doctrine-extensions",
     "type": "library",
-    "version": "1.0.0",
     "description": "Doctrine Extensions for MySQL and PostgreSQL.",
     "homepage": "https://github.com/orocrm/doctrine-extensions/",
     "keywords": ["database", "mysql", "postgresql", "dql", "function", "doctrine", "type"],

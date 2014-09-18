@@ -57,7 +57,7 @@ Add the following dependency to your composer.json
 ```json
 {
     "require": {
-        "orocrm/doctrine-extensions": "dev-master"
+        "oro/doctrine-extensions": "dev-master"
     }
 }
 ```

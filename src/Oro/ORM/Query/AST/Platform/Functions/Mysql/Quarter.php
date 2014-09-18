@@ -16,6 +16,6 @@ class Quarter extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'QUARTER(' . $expression->dispatch($sqlWalker) . ')';
+        return 'QUARTER(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

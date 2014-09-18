@@ -16,6 +16,6 @@ class Dayofweek extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'DAYOFWEEK(' . $expression->dispatch($sqlWalker) . ')';
+        return 'DAYOFWEEK(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

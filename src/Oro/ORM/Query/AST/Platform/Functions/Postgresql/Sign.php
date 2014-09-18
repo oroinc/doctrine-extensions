@@ -16,6 +16,6 @@ class Sign extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'SIGN(' . $expression->dispatch($sqlWalker) . ')';
+        return 'SIGN(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

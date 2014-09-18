@@ -16,6 +16,6 @@ class Time extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'TIME(' . $expression->dispatch($sqlWalker) . ')';
+        return 'TIME(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

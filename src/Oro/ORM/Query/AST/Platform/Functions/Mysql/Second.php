@@ -16,6 +16,6 @@ class Second extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'SECOND(' . $expression->dispatch($sqlWalker) . ')';
+        return 'SECOND(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

@@ -5,9 +5,8 @@ namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\SqlWalker;
 use Oro\ORM\Query\AST\Functions\SimpleFunction;
-use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
-class Minute extends PlatformFunctionNode
+class Minute extends AbstractTimestampAwarePlatformFunctionNode
 {
     /**
      * {@inheritdoc}
@@ -16,6 +15,6 @@ class Minute extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'EXTRACT(MINUTE FROM ' . $expression->dispatch($sqlWalker) . ')';
+        return 'EXTRACT(MINUTE FROM ' . $this->getTimestampValue($expression, $sqlWalker) . ')';
     }
 }

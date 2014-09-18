@@ -16,6 +16,6 @@ class Timestamp extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return '"timestamp"(' . $expression->dispatch($sqlWalker) . ')';
+        return '"timestamp"(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

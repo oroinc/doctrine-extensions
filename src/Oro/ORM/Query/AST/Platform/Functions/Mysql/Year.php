@@ -16,6 +16,6 @@ class Year extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'YEAR(' . $expression->dispatch($sqlWalker) . ')';
+        return 'YEAR(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

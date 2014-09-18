@@ -16,6 +16,6 @@ class Month extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'MONTH(' . $expression->dispatch($sqlWalker) . ')';
+        return 'MONTH(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

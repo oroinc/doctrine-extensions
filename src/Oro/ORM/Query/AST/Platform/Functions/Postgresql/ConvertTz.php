@@ -22,9 +22,9 @@ class ConvertTz extends PlatformFunctionNode
         $toTz = $this->parameters[BaseFunction::TO_TZ_KEY];
 
         return '"timestamp"('
-            . $value->dispatch($sqlWalker)
+            . $this->getExpressionValue($value, $sqlWalker)
             . ')'
-            . ' AT TIME ZONE ' . $toTz->dispatch($sqlWalker)
-            . ' AT TIME ZONE ' . $fromTz->dispatch($sqlWalker);
+            . ' AT TIME ZONE ' . $this->getExpressionValue($toTz, $sqlWalker)
+            . ' AT TIME ZONE ' . $this->getExpressionValue($fromTz, $sqlWalker);
     }
 }

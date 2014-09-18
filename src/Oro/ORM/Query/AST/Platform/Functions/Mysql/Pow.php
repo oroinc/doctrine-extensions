@@ -20,9 +20,9 @@ class Pow extends PlatformFunctionNode
         $power = $this->parameters[Base::POWER_KEY];
 
         return 'POW('
-            . $value->dispatch($sqlWalker)
+            . $this->getExpressionValue($value, $sqlWalker)
             . ', '
-            . $power->dispatch($sqlWalker)
+            . $this->getExpressionValue($power, $sqlWalker)
         . ')';
     }
 }

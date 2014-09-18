@@ -26,6 +26,7 @@ Available functions:
 * `DATE(expr)` - Extract the date part of a date or datetime expression
 * `TIME(expr)` - Extract the time portion of the expression passed
 * `TIMESTAMP(expr)` - Convert expression to TIMESTAMP
+* `TIMESTAMPDIFF(unit, datetime_expr1, datetime_expr2)` - Returns *datetime_expr2* – *datetime_expr1*, where *datetime_expr1* and *datetime_expr2* are date or datetime expressions. The *unit* should be one of the following values: *MICROSECOND* (microseconds), *SECOND*, *MINUTE*, *HOUR*, *DAY*, *WEEK*, *MONTH*, *QUARTER*, or *YEAR*.
 * `CONVERT_TZ(expr, from_tz, to_tz)` - Converts a datetime value expr from the time zone given by from_tz to the time zone given by to_tz and returns the resulting datetime value
 * `DAY(expr)` - Return the day of the month (0-31)
 * `DAYOFWEEK(expr)` - Returns the weekday index for date (1 = Sunday, 2 = Monday, …, 7 = Saturday). These index values correspond to the ODBC standard.
@@ -87,26 +88,27 @@ doctrine:
     orm:
         dql:
             datetime_functions:
-                date:         Oro\ORM\Query\AST\Functions\SimpleFunction
-                time:         Oro\ORM\Query\AST\Functions\SimpleFunction
-                timestamp:    Oro\ORM\Query\AST\Functions\SimpleFunction
-                convert_tz:   Oro\ORM\Query\AST\Functions\DateTime\ConvertTz
+                date:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                time:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                timestamp:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                convert_tz:     Oro\ORM\Query\AST\Functions\DateTime\ConvertTz
             numeric_functions:
-                weekday:      Oro\ORM\Query\AST\Functions\SimpleFunction
-                dayofyear:    Oro\ORM\Query\AST\Functions\SimpleFunction
-                dayofweek:    Oro\ORM\Query\AST\Functions\SimpleFunction
-                week:         Oro\ORM\Query\AST\Functions\SimpleFunction
-                day:          Oro\ORM\Query\AST\Functions\SimpleFunction
-                hour:         Oro\ORM\Query\AST\Functions\SimpleFunction
-                minute:       Oro\ORM\Query\AST\Functions\SimpleFunction
-                month:        Oro\ORM\Query\AST\Functions\SimpleFunction
-                quarter:      Oro\ORM\Query\AST\Functions\SimpleFunction
-                second:       Oro\ORM\Query\AST\Functions\SimpleFunction
-                year:         Oro\ORM\Query\AST\Functions\SimpleFunction
-                sign:         Oro\ORM\Query\AST\Functions\Numeric\Sign
-                pow:          Oro\ORM\Query\AST\Functions\Numeric\Pow
+                timestampdiff:  Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff
+                dayofyear:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                dayofweek:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                week:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                day:            Oro\ORM\Query\AST\Functions\SimpleFunction
+                hour:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                minute:         Oro\ORM\Query\AST\Functions\SimpleFunction
+                month:          Oro\ORM\Query\AST\Functions\SimpleFunction
+                quarter:        Oro\ORM\Query\AST\Functions\SimpleFunction
+                second:         Oro\ORM\Query\AST\Functions\SimpleFunction
+                year:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                sign:           Oro\ORM\Query\AST\Functions\Numeric\Sign
+                pow:            Oro\ORM\Query\AST\Functions\Numeric\Pow
             string_functions:
-                group_concat: Oro\ORM\Query\AST\Functions\String\GroupConcat
+                group_concat:   Oro\ORM\Query\AST\Functions\String\GroupConcat
+                cast:           Oro\ORM\Query\AST\Functions\Cast
 ```
 
 Extendability and Database Support

@@ -16,6 +16,6 @@ class Hour extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'HOUR(' . $expression->dispatch($sqlWalker) . ')';
+        return 'HOUR(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

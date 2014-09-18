@@ -2,10 +2,12 @@
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\SqlWalker;
+
+use Oro\ORM\Query\AST\Functions\Cast as CastDQL;
 use Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff as BaseFunction;
+use Oro\ORM\Query\AST\Functions\SimpleFunction;
 use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
 class Timestampdiff extends PlatformFunctionNode
@@ -17,95 +19,173 @@ class Timestampdiff extends PlatformFunctionNode
     {
         /** @var string $unit */
         $unit = $this->parameters[BaseFunction::UNIT_KEY];
-        /** @var Node $val1 */
-        $val1 = $this->parameters[BaseFunction::VAL1_KEY];
-        /** @var Node $val2 */
-        $val2 = $this->parameters[BaseFunction::VAL2_KEY];
+        /** @var Node $firstDateNode */
+        $firstDateNode = $this->parameters[BaseFunction::VAL1_KEY];
+        /** @var Node $secondDateNode */
+        $secondDateNode = $this->parameters[BaseFunction::VAL2_KEY];
 
-        $expr = sprintf(
-            'CAST(ROUND(%s) AS INT)',
-            $this->getDiffExpr(strtoupper($unit), $val1->dispatch($sqlWalker), $val2->dispatch($sqlWalker))
+        $castFunction = new Cast(
+            array(
+                CastDQL::PARAMETER_KEY => sprintf(
+                    'ROUND(%s)',
+                    $this->getSqlByUnit($unit, $firstDateNode, $secondDateNode, $sqlWalker)
+                ),
+                CastDQL::TYPE_KEY => 'INT'
+            )
         );
 
-        return $expr;
+        return $castFunction->getSql($sqlWalker);
     }
 
     /**
+     * Get TimestampDiff expression by unit.
+     *
      * @param string $unit
-     * @param string $val1
-     * @param string $val2
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
      *
      * @return string
-     *
-     * @throws DBALException
      */
-    protected function getDiffExpr($unit, $val1, $val2)
+    protected function getSqlByUnit($unit, Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
     {
-        switch ($unit) {
-            case 'MICROSECOND':
-                return sprintf(
-                    '(EXTRACT(EPOCH FROM CAST(%s AS timestamp)) - EXTRACT(EPOCH FROM CAST(%s AS timestamp))) * 1000000',
-                    $val2,
-                    $val1
-                );
-            case 'SECOND':
-                return sprintf(
-                    '(EXTRACT(EPOCH FROM CAST(%s AS timestamp)) - EXTRACT(EPOCH FROM CAST(%s AS timestamp)))',
-                    $val2,
-                    $val1
-                );
-            case 'MINUTE':
-                return sprintf(
-                    '(EXTRACT(EPOCH FROM CAST(%s AS timestamp)) - EXTRACT(EPOCH FROM CAST(%s AS timestamp))) / 60',
-                    $val2,
-                    $val1
-                );
-            case 'HOUR':
-                return sprintf(
-                    '(EXTRACT(EPOCH FROM CAST(%s AS timestamp)) - EXTRACT(EPOCH FROM CAST(%s AS timestamp))) / 3600',
-                    $val2,
-                    $val1
-                );
-            case 'DAY':
-                return sprintf('EXTRACT(DAY FROM CAST(%s AS timestamp) - CAST(%s AS timestamp))', $val2, $val1);
-            case 'WEEK':
-                return sprintf('EXTRACT(DAY FROM CAST(%s AS timestamp) - CAST(%s AS timestamp)) / 7', $val2, $val1);
-            case 'MONTH':
-                return
-                    sprintf(
-                        'CAST(EXTRACT(YEAR FROM CAST(%s AS timestamp))'
-                        . ' - EXTRACT(YEAR FROM CAST(%s AS timestamp)) AS INT)',
-                        $val2,
-                        $val1
-                    )
-                    . ' * 12 + '
-                    . sprintf(
-                        'EXTRACT(MONTH FROM CAST(%s AS timestamp)) - EXTRACT(MONTH FROM CAST(%s AS timestamp))',
-                        $val2,
-                        $val1
-                    );
-            case 'QUARTER':
-                return
-                    sprintf(
-                        'CAST(EXTRACT(YEAR FROM CAST(%s AS timestamp))'
-                        . ' - EXTRACT(YEAR FROM CAST(%s AS timestamp)) AS INT)',
-                        $val2,
-                        $val1
-                    )
-                    . ' * 4 + '
-                    . sprintf(
-                        'EXTRACT(QUARTER FROM CAST(%s AS timestamp)) - EXTRACT(QUARTER FROM CAST(%s AS timestamp))',
-                        $val2,
-                        $val1
-                    );
-            case 'YEAR':
-                return sprintf(
-                    'EXTRACT(YEAR FROM CAST(%s AS timestamp)) - EXTRACT(YEAR FROM CAST(%s AS timestamp))',
-                    $val2,
-                    $val1
-                );
-            default:
-                throw new DBALException("Unit '$unit' is not valid for TIMESTAMPDIFF function.");
-        }
+        $method = 'getDiffFor' . ucfirst(strtolower($unit));
+        return call_user_func(array($this, $method), $firstDateNode, $secondDateNode, $sqlWalker);
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForSecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        $firstDateTimestampFunction = new Timestamp(array(SimpleFunction::PARAMETER_KEY => $firstDateNode));
+        $secondDateTimestampFunction = new Timestamp(array(SimpleFunction::PARAMETER_KEY => $secondDateNode));
+
+        return sprintf(
+            '(EXTRACT(EPOCH FROM %s) - EXTRACT(EPOCH FROM %s))',
+            $secondDateTimestampFunction->getSql($sqlWalker),
+            $firstDateTimestampFunction->getSql($sqlWalker)
+        );
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForMicrosecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        return $this->getDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker) . ' * 1000000';
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForMinute(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        return $this->getDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker) . ' / 60';
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForHour(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        return $this->getDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker) . ' / 3600';
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForDay(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        $firstDateTimestampFunction = new Timestamp(array(SimpleFunction::PARAMETER_KEY => $firstDateNode));
+        $secondDateTimestampFunction = new Timestamp(array(SimpleFunction::PARAMETER_KEY => $secondDateNode));
+
+        return sprintf(
+            'EXTRACT(DAY FROM %s - %s)',
+            $secondDateTimestampFunction->getSql($sqlWalker),
+            $firstDateTimestampFunction->getSql($sqlWalker)
+        );
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForWeek(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        return $this->getDiffForDay($firstDateNode, $secondDateNode, $sqlWalker) . ' / 7';
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForYear(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        $firstDateYearFunction = new Year(array(SimpleFunction::PARAMETER_KEY => $firstDateNode));
+        $secondDateYearFunction = new Year(array(SimpleFunction::PARAMETER_KEY => $secondDateNode));
+
+        return sprintf(
+            '(%s - %s)',
+            $secondDateYearFunction->getSql($sqlWalker),
+            $firstDateYearFunction->getSql($sqlWalker)
+        );
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForMonth(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        $firstDateMonthFunction = new Month(array(SimpleFunction::PARAMETER_KEY => $firstDateNode));
+        $secondDateMonthFunction = new Month(array(SimpleFunction::PARAMETER_KEY => $secondDateNode));
+
+        return sprintf(
+            '%s * 12 + (%s - %s)',
+            $this->getDiffForYear($firstDateNode, $secondDateNode, $sqlWalker),
+            $secondDateMonthFunction->getSql($sqlWalker),
+            $firstDateMonthFunction->getSql($sqlWalker)
+        );
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForQuarter(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        $firstDateQuarterFunction = new Quarter(array(SimpleFunction::PARAMETER_KEY => $firstDateNode));
+        $secondDateQuarterFunction = new Quarter(array(SimpleFunction::PARAMETER_KEY => $secondDateNode));
+
+        return sprintf(
+            '%s * 4 + (%s - %s)',
+            $this->getDiffForYear($firstDateNode, $secondDateNode, $sqlWalker),
+            $secondDateQuarterFunction->getSql($sqlWalker),
+            $firstDateQuarterFunction->getSql($sqlWalker)
+        );
     }
 }

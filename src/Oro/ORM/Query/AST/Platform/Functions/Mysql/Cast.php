@@ -25,6 +25,6 @@ class Cast extends PlatformFunctionNode
             $type = 'unsigned';
         }
 
-        return 'CAST(' . $value->dispatch($sqlWalker) . ' AS ' . $type . ')';
+        return 'CAST(' . $this->getExpressionValue($value, $sqlWalker) . ' AS ' . $type . ')';
     }
 }

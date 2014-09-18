@@ -27,6 +27,6 @@ class Cast extends PlatformFunctionNode
             return $timestampFunction->getSql($sqlWalker);
         }
 
-        return 'CAST(' . $value->dispatch($sqlWalker) . ' AS ' . $type . ')';
+        return 'CAST(' . $this->getExpressionValue($value, $sqlWalker) . ' AS ' . $type . ')';
     }
 }

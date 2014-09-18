@@ -16,6 +16,6 @@ class Day extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'DAY(' . $expression->dispatch($sqlWalker) . ')';
+        return 'DAY(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

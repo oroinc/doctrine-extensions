@@ -22,11 +22,11 @@ class ConvertTz extends PlatformFunctionNode
         $toTz = $this->parameters[BaseFunction::TO_TZ_KEY];
 
         return 'CONVERT_TZ('
-            . $value->dispatch($sqlWalker)
+            . $this->getExpressionValue($value, $sqlWalker)
             . ', '
-            . $fromTz->dispatch($sqlWalker)
+            . $this->getExpressionValue($fromTz, $sqlWalker)
             . ', '
-            . $toTz->dispatch($sqlWalker)
+            . $this->getExpressionValue($toTz, $sqlWalker)
         . ')';
     }
 }

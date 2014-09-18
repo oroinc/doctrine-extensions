@@ -5,9 +5,8 @@ namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\SqlWalker;
 use Oro\ORM\Query\AST\Functions\SimpleFunction;
-use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
-class Dayofyear extends PlatformFunctionNode
+class Dayofyear extends AbstractTimestampAwarePlatformFunctionNode
 {
     /**
      * {@inheritdoc}
@@ -16,6 +15,6 @@ class Dayofyear extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'EXTRACT(DOY FROM ' . $expression->dispatch($sqlWalker) . ')';
+        return 'EXTRACT(DOY FROM ' . $this->getTimestampValue($expression, $sqlWalker) . ')';
     }
 }

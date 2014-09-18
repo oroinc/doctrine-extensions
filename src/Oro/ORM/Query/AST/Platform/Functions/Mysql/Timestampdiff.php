@@ -24,9 +24,9 @@ class Timestampdiff extends PlatformFunctionNode
         return 'TIMESTAMPDIFF('
             . $unit
             . ', '
-            . $val1->dispatch($sqlWalker)
+            . $this->getExpressionValue($val1, $sqlWalker)
             . ', '
-            . $val2->dispatch($sqlWalker)
+            . $this->getExpressionValue($val2, $sqlWalker)
         . ')';
     }
 }

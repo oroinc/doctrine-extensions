@@ -16,6 +16,6 @@ class Dayofyear extends PlatformFunctionNode
     {
         /** @var Node $expression */
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
-        return 'DAYOFYEAR(' . $expression->dispatch($sqlWalker) . ')';
+        return 'DAYOFYEAR(' . $this->getExpressionValue($expression, $sqlWalker) . ')';
     }
 }

@@ -8,7 +8,7 @@ use Doctrine\ORM\Query\SqlWalker;
 use Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff as BaseFunction;
 use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
-class TimestampDiff extends PlatformFunctionNode
+class Timestampdiff extends PlatformFunctionNode
 {
     /**
      * {@inheritdoc}

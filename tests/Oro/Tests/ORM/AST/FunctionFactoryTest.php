@@ -37,7 +37,9 @@ class FunctionFactoryTest extends \PHPUnit_Framework_TestCase
             array('MySql', 'DATE'),
             array('postgresql', 'group_concat'),
             array('Mysql', 'Group_Concat'),
-            array('postgresql', 'GROUP_CONCAT')
+            array('postgresql', 'GROUP_CONCAT'),
+            array('Mysql', 'TimestampDiff'),
+            array('postgresql', 'TIMESTAMPDIFF'),
         );
     }
 }

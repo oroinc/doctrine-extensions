@@ -62,7 +62,7 @@
   expectedResult:
       - "2014-01-01 02:00:00"
 
-- type: "integer"
+- type: "numeric"
   name: "timestampdiff"
   className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff"
   dql: "SELECT TIMESTAMPDIFF(MICROSECOND, '2014-01-01 00:00:00', '2014-01-01 00:00:10.100') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -70,7 +70,7 @@
   expectedResult:
       - 10100000
 
-- type: "integer"
+- type: "numeric"
   name: "timestampdiff"
   className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff"
   dql: "SELECT TIMESTAMPDIFF(SECOND, '2014-01-01 00:00:00', '2014-01-01 00:00:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -78,7 +78,7 @@
   expectedResult:
       - 10
 
-- type: "integer"
+- type: "numeric"
   name: "timestampdiff"
   className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff"
   dql: "SELECT TIMESTAMPDIFF(MINUTE, '2014-01-01 00:00:00', '2014-01-01 00:10:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -86,7 +86,7 @@
   expectedResult:
       - 10
 
-- type: "integer"
+- type: "numeric"
   name: "timestampdiff"
   className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff"
   dql: "SELECT TIMESTAMPDIFF(HOUR, '2014-01-01 00:00:00', '2014-01-01 10:10:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -94,7 +94,7 @@
   expectedResult:
       - 10
 
-- type: "integer"
+- type: "numeric"
   name: "timestampdiff"
   className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff"
   dql: "SELECT TIMESTAMPDIFF(DAY, '2014-01-01 00:00:00', '2014-01-11 10:10:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -102,7 +102,7 @@
   expectedResult:
       - 10
 
-- type: "integer"
+- type: "numeric"
   name: "timestampdiff"
   className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff"
   dql: "SELECT TIMESTAMPDIFF(WEEK, '2014-01-01 00:00:00', '2014-03-15 10:10:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -110,7 +110,7 @@
   expectedResult:
       - 10
 
-- type: "integer"
+- type: "numeric"
   name: "timestampdiff"
   className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff"
   dql: "SELECT TIMESTAMPDIFF(MONTH, '2014-01-01 00:00:00', '2014-03-15 10:10:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -118,7 +118,7 @@
   expectedResult:
       - 2
 
-- type: "integer"
+- type: "numeric"
   name: "timestampdiff"
   className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff"
   dql: "SELECT TIMESTAMPDIFF(QUARTER, '2014-01-01 00:00:00', '2015-04-15 10:10:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -126,7 +126,7 @@
   expectedResult:
       - 5
 
-- type: "integer"
+- type: "numeric"
   name: "timestampdiff"
   className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff"
   dql: "SELECT TIMESTAMPDIFF(YEAR, '2014-01-01 00:00:00', '2015-04-15 10:10:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"

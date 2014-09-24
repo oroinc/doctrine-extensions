@@ -12,7 +12,7 @@ class ObjectType extends BaseType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value && strpos($value, ';') === false) {
+        if ($value && !$this->isSerialized($value)) {
             $value = base64_decode($value);
         }
 
@@ -26,5 +26,14 @@ class ObjectType extends BaseType
     {
         $convertedValue = parent::convertToDatabaseValue($value, $platform);
         return base64_encode($convertedValue);
+    }
+
+    /**
+     * @param string $string
+     * @return bool
+     */
+    protected function isSerialized($string)
+    {
+        return strpos($string, ';') !== false || strpos($string, ':') !== false || strpos($string, '{') !== false;
     }
 }

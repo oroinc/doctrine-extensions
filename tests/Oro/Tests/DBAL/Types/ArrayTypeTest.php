@@ -7,18 +7,55 @@ use Oro\Tests\Connection\TestUtil;
 
 class ArrayTypeTest extends \PHPUnit_Framework_TestCase
 {
-    public function testSerialization()
+    /**
+     * @dataProvider serializationDataProvider
+     * @param array $data
+     */
+    public function testSerialization($data)
     {
-        $array = array('a' => 'b');
-        $encoded = base64_encode(serialize($array));
+        $encoded = base64_encode(serialize($data));
 
         $platform = TestUtil::getEntityManager()->getConnection()->getDatabasePlatform();
-        Type::overrideType(Type::TARRAY, 'Oro\DBAL\Types\ArrayType');
-        $type = Type::getType(Type::TARRAY);
+        $type = $this->getType();
 
-        $actualDbValue = $type->convertToDatabaseValue($array, $platform);
+        $actualDbValue = $type->convertToDatabaseValue($data, $platform);
         $this->assertEquals($encoded, $actualDbValue);
-        $this->assertEquals($array, $type->convertToPHPValue($actualDbValue, $platform));
-        $this->assertEquals($array, $type->convertToPHPValue($encoded, $platform));
+        $this->assertEquals($data, $type->convertToPHPValue($actualDbValue, $platform));
+        $this->assertEquals($data, $type->convertToPHPValue($encoded, $platform));
+    }
+
+    /**
+     * @dataProvider serializationDataProvider
+     * @param array $data
+     */
+    public function testCompatibilityMode($data)
+    {
+        $dataSerialized = serialize($data);
+
+        $platform = TestUtil::getEntityManager()->getConnection()->getDatabasePlatform();
+        $type = $this->getType();
+
+        $this->assertEquals($data, $type->convertToPHPValue($dataSerialized, $platform));
+    }
+
+    /**
+     * @return Type
+     */
+    protected function getType()
+    {
+        Type::overrideType(Type::TARRAY, 'Oro\DBAL\Types\ArrayType');
+        return Type::getType(Type::TARRAY);
+    }
+
+    /**
+     * @return array
+     */
+    public function serializationDataProvider()
+    {
+        return array(
+            array(array('a' => 'b')),
+            array(array()),
+            array(array(1, 2, 3)),
+        );
     }
 }

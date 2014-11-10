@@ -11,6 +11,7 @@ Table of Contents
     - [Functions Registration](#functions-registration)
         - [Doctrine2](#doctrine2)
         - [Symfony2](#symfony2)
+        - [Silex](#silex)
     - [Extendability and Database Support](#extendability-and-database-support)
         - [Architecture](#architecture)
         - [Adding new platform](#adding-new-platform)
@@ -113,6 +114,53 @@ doctrine:
                 cast:           Oro\ORM\Query\AST\Functions\Cast
 ```
 
+### Silex
+
+If you are using an ORM service provider make sure that you are adding the custom function to the configuration
+
+for [palmasev/DoctrineORMServiceProvider](https://github.com/palmasev/DoctrineORMServiceProvider)
+
+``` php
+
+    $config = $app['doctrine_orm.configuration'];
+
+    $config->addCustomDateTimeFunction( 'year', 'Oro\ORM\Query\AST\Functions\SimpleFunction' );
+    $config->addCustomDateTimeFunction( 'month', 'Oro\ORM\Query\AST\Functions\SimpleFunction' );
+```
+
+for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/dflydev-doctrine-orm-service-provider)
+
+``` php
+
+    $app->register( new Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider, [
+        ...
+        'orm.custom.functions.string' => [
+            'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
+            'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat'
+        ],
+        'orm.custom.functions.datetime' => [
+            'date'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'time'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'timestamp'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'convert_tz'    => 'Oro\ORM\Query\AST\Functions\DateTime\ConvertTz'
+        ],
+        'orm.custom.functions.numeric' => [
+            'timestampdiff' => 'Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff',
+            'dayofyear'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'dayofweek'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'week'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'day'           => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'hour'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'minute'        => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'month'         => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'quarter'       => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'second'        => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'year'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'sign'          => 'Oro\ORM\Query\AST\Functions\Numeric\Sign',
+            'pow'           => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
+        ]
+    ]);
+```
 Extendability and Database Support
 ----------------------------------
 

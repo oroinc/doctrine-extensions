@@ -96,6 +96,7 @@ doctrine:
             numeric_functions:
                 timestampdiff:  Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff
                 dayofyear:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                dayofmonth:     Oro\ORM\Query\AST\Functions\SimpleFunction
                 dayofweek:      Oro\ORM\Query\AST\Functions\SimpleFunction
                 week:           Oro\ORM\Query\AST\Functions\SimpleFunction
                 day:            Oro\ORM\Query\AST\Functions\SimpleFunction

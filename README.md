@@ -30,6 +30,7 @@ Available functions:
 * `CONVERT_TZ(expr, from_tz, to_tz)` - Converts a datetime value expr from the time zone given by from_tz to the time zone given by to_tz and returns the resulting datetime value
 * `DAY(expr)` - Return the day of the month (0-31)
 * `DAYOFWEEK(expr)` - Returns the weekday index for date (1 = Sunday, 2 = Monday, …, 7 = Saturday). These index values correspond to the ODBC standard.
+* `DAYOFMONTH(expr)` - Returns the day of the month for date, in the range 1 to 31, or 0 for dates such as '0000-00-00' or '2008-00-00' that have a zero day part.
 * `DAYOFYEAR(expr)` - Return the day of the year (1-366)
 * `HOUR(expr)` - Return the hour from the date passed
 * `MINUTE(expr)` - Return the minute from the date passed
@@ -65,7 +66,7 @@ Add the following dependency to your composer.json
 Functions Registration
 ----------------------
 
-### Doctrine2 
+### Doctrine2
 
 [Doctrine2 Documentation: "DQL User Defined Functions"](http://docs.doctrine-project.org/en/latest/cookbook/dql-user-defined-functions.html)
 
@@ -79,7 +80,7 @@ $config->addCustomDatetimeFunction('date', 'Oro\ORM\Query\AST\Functions\SimpleFu
 $em = EntityManager::create($dbParams, $config);
 ```
 
-### Symfony2 
+### Symfony2
 
 In Symfony2 you can register functions in `config.yml`
 
@@ -135,7 +136,7 @@ and implement required function there according to naming rules
 ### Adding new function
 
 In case when your function is function with only one ArithmeticPrimary argument you may not create DQL function parser
-and use `Oro\ORM\Query\AST\Functions\SimpleFunction` for this. 
+and use `Oro\ORM\Query\AST\Functions\SimpleFunction` for this.
 Then only platform specific SQL implementation of your function is required.
 
 In case when your are implementing more complex function, like GROUP_CONCAT both DQL parser and SQL implementations are required.

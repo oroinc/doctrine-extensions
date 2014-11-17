@@ -52,7 +52,12 @@ class FunctionsTest extends TestCase
     public function functionsDataProvider()
     {
         $platform = TestUtil::getPlatformName();
-        $data = Yaml::parse(__DIR__ . '/fixtures/functions.' . strtolower($platform) . '.yml');
+        $data = [];
+        $files = new \FilesystemIterator(__DIR__ . '/fixtures/' . $platform, \FilesystemIterator::SKIP_DOTS);
+        foreach ($files as $file) {
+            $data = array_merge($data, Yaml::parse($file));
+        }
+
         return $data;
     }
 }

@@ -1,0 +1,15 @@
+- type: "datetime"
+  name: "date"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT DATE(f.createdAt) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT DATE(t0_.created_at) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - "2014-01-04"
+
+- type: "datetime"
+  name: "date"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT DATE('2014-01-04 12:11:13') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT DATE('2014-01-04 12:11:13') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - "2014-01-04"

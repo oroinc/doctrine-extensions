@@ -1,0 +1,79 @@
+- type: "numeric"
+  name: "cast"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Cast"
+  dql: "SELECT CAST(12 as int) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST(12 AS unsigned) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 12
+
+- type: "numeric"
+  name: "cast"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Cast"
+  dql: "SELECT CAST('12' as int) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('12' AS unsigned) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 12
+
+- type: "numeric"
+  name: "cast"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Cast"
+  dql: "SELECT CAST('123' as integer) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('123' AS unsigned) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 123
+
+- type: "numeric"
+  name: "cast"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Cast"
+  dql: "SELECT CAST('12' as char) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('12' AS char(1)) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 1
+
+- type: "numeric"
+  name: "cast"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Cast"
+  dql: "SELECT CAST('123' as decimal) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('123' AS decimal) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 123
+
+- type: "numeric"
+  name: "cast"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Cast"
+  dql: "SELECT CAST('2014-01-02 12:13:14' as date) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('2014-01-02 12:13:14' AS date) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '2014-01-02'
+
+- type: "numeric"
+  name: "cast"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Cast"
+  dql: "SELECT CAST('2014-01-02 12:13:14' as time) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('2014-01-02 12:13:14' AS time) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '12:13:14'
+
+- type: "numeric"
+  name: "cast"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Cast"
+  dql: "SELECT CAST('2014-01-02 12:13:14' as datetime) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('2014-01-02 12:13:14' AS datetime) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '2014-01-02 12:13:14'
+
+- type: "numeric"
+  name: "cast"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Cast"
+  dql: "SELECT CAST(f.createdAt as datetime) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST(t0_.created_at AS datetime) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '2014-01-04 05:06:07'
+
+- type: "numeric"
+  name: "cast"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Cast"
+  dql: "SELECT CAST(f.createdAt as char) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST(t0_.created_at AS char(1)) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '2'

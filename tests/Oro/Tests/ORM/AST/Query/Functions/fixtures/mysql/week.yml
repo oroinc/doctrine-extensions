@@ -1,0 +1,7 @@
+- type: "numeric"
+  name: "week"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT WEEK(f.createdAt) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT WEEK(t0_.created_at, 3) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 1

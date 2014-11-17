@@ -1,0 +1,15 @@
+- type: "numeric"
+  name: "sign"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\Sign"
+  dql: "SELECT SIGN(f.budget) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT SIGN(t0_.budget) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 1
+
+- type: "numeric"
+  name: "sign"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\Sign"
+  dql: "SELECT SIGN(-12) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT SIGN(-12) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - -1

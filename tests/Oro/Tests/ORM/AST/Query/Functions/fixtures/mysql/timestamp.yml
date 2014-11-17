@@ -1,0 +1,15 @@
+- type: "datetime"
+  name: "timestamp"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT TIMESTAMP(f.createdAt) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: 'SELECT TIMESTAMP(t0_.created_at) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1'
+  expectedResult:
+      - "2014-01-04 05:06:07"
+
+- type: "datetime"
+  name: "timestamp"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT TIMESTAMP('2014-01-04 05:06:07') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT TIMESTAMP('2014-01-04 05:06:07') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  expectedResult:
+      - "2014-01-04 05:06:07"

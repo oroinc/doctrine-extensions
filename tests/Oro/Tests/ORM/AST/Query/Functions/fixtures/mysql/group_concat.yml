@@ -1,0 +1,15 @@
+- type: "string"
+  name: "group_concat"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\String\\GroupConcat"
+  dql: "SELECT GROUP_CONCAT(DISTINCT f.id ORDER BY f.id DESC SEPARATOR ':') FROM Oro\\Entities\\Foo f GROUP BY f.code"
+  sql: "SELECT GROUP_CONCAT(DISTINCT t0_.id  ORDER BY t0_.id DESC SEPARATOR ':') AS sclr0 FROM test_foo t0_ GROUP BY t0_.code"
+  expectedResult:
+      - "2:1"
+
+- type: "string"
+  name: "group_concat"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\String\\GroupConcat"
+  dql: "SELECT GROUP_CONCAT(f.id) FROM Oro\\Entities\\Foo f GROUP BY f.code"
+  sql: "SELECT GROUP_CONCAT(t0_.id) AS sclr0 FROM test_foo t0_ GROUP BY t0_.code"
+  expectedResult:
+      - "1,2"

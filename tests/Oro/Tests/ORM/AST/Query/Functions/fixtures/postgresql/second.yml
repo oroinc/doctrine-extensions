@@ -1,0 +1,7 @@
+- type: "numeric"
+  name: "second"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT SECOND(f.createdAt) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT EXTRACT(SECOND FROM t0_.created_at) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 7

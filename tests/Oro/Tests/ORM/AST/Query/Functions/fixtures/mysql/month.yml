@@ -1,0 +1,7 @@
+- type: "numeric"
+  name: "month"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT MONTH(f.createdAt) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT MONTH(t0_.created_at) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 1

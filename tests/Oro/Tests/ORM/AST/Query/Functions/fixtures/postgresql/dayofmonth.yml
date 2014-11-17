@@ -1,0 +1,15 @@
+- type: "numeric"
+  name: "dayofmonth"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT DAYOFMONTH(f.createdAt) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT EXTRACT(DAY FROM t0_.created_at) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 4
+
+- type: "numeric"
+  name: "dayofmonth"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT DAYOFMONTH('2014-01-04 12:11:13') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT EXTRACT(DAY FROM "timestamp"('2014-01-04 12:11:13')) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  expectedResult:
+      - 4

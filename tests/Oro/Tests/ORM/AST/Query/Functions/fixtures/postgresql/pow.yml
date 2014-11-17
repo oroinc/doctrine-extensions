@@ -1,0 +1,23 @@
+- type: "numeric"
+  name: "pow"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\Pow"
+  dql: "SELECT POW(3, 2) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT POW(3, 2) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 9
+
+- type: "numeric"
+  name: "pow"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\Pow"
+  dql: "SELECT POW(-3, 2) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT POW(-3, 2) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 9
+
+- type: "numeric"
+  name: "pow"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\Pow"
+  dql: "SELECT POW(f.budget, 2) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT POW(t0_.budget, 2) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 10000

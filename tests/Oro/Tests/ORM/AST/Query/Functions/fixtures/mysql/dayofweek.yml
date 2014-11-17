@@ -1,0 +1,15 @@
+- type: "numeric"
+  name: "dayofweek"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT DAYOFWEEK('2014-01-03') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT DAYOFWEEK('2014-01-03') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  expectedResult:
+      - 6
+
+- type: "numeric"
+  name: "dayofweek"
+  className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction"
+  dql: "SELECT DAYOFWEEK(f.createdAt) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT DAYOFWEEK(t0_.created_at) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 7

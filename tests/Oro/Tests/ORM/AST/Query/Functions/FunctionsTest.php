@@ -52,7 +52,7 @@ class FunctionsTest extends TestCase
     public function functionsDataProvider()
     {
         $platform = TestUtil::getPlatformName();
-        $data = [];
+        $data = array();
         $files = new \FilesystemIterator(__DIR__ . '/fixtures/' . $platform, \FilesystemIterator::SKIP_DOTS);
         foreach ($files as $file) {
             $data = array_merge($data, Yaml::parse($file));

@@ -11,6 +11,7 @@ Table of Contents
     - [Functions Registration](#functions-registration)
         - [Doctrine2](#doctrine2)
         - [Symfony2](#symfony2)
+        - [Silex](#silex)
     - [Extendability and Database Support](#extendability-and-database-support)
         - [Architecture](#architecture)
         - [Adding new platform](#adding-new-platform)
@@ -30,6 +31,7 @@ Available functions:
 * `CONVERT_TZ(expr, from_tz, to_tz)` - Converts a datetime value expr from the time zone given by from_tz to the time zone given by to_tz and returns the resulting datetime value
 * `DAY(expr)` - Return the day of the month (0-31)
 * `DAYOFWEEK(expr)` - Returns the weekday index for date (1 = Sunday, 2 = Monday, …, 7 = Saturday). These index values correspond to the ODBC standard.
+* `DAYOFMONTH(expr)` - Returns the day of the month for date, in the range 1 to 31, or 0 for dates such as '0000-00-00' or '2008-00-00' that have a zero day part.
 * `DAYOFYEAR(expr)` - Return the day of the year (1-366)
 * `HOUR(expr)` - Return the hour from the date passed
 * `MINUTE(expr)` - Return the minute from the date passed
@@ -65,7 +67,7 @@ Add the following dependency to your composer.json
 Functions Registration
 ----------------------
 
-### Doctrine2 
+### Doctrine2
 
 [Doctrine2 Documentation: "DQL User Defined Functions"](http://docs.doctrine-project.org/en/latest/cookbook/dql-user-defined-functions.html)
 
@@ -79,7 +81,7 @@ $config->addCustomDatetimeFunction('date', 'Oro\ORM\Query\AST\Functions\SimpleFu
 $em = EntityManager::create($dbParams, $config);
 ```
 
-### Symfony2 
+### Symfony2
 
 In Symfony2 you can register functions in `config.yml`
 
@@ -95,6 +97,7 @@ doctrine:
             numeric_functions:
                 timestampdiff:  Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff
                 dayofyear:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                dayofmonth:     Oro\ORM\Query\AST\Functions\SimpleFunction
                 dayofweek:      Oro\ORM\Query\AST\Functions\SimpleFunction
                 week:           Oro\ORM\Query\AST\Functions\SimpleFunction
                 day:            Oro\ORM\Query\AST\Functions\SimpleFunction
@@ -111,6 +114,53 @@ doctrine:
                 cast:           Oro\ORM\Query\AST\Functions\Cast
 ```
 
+### Silex
+
+If you are using an ORM service provider make sure that you are adding the custom function to the configuration
+
+for [palmasev/DoctrineORMServiceProvider](https://github.com/palmasev/DoctrineORMServiceProvider)
+
+``` php
+
+    $config = $app['doctrine_orm.configuration'];
+
+    $config->addCustomDateTimeFunction( 'year', 'Oro\ORM\Query\AST\Functions\SimpleFunction' );
+    $config->addCustomDateTimeFunction( 'month', 'Oro\ORM\Query\AST\Functions\SimpleFunction' );
+```
+
+for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/dflydev-doctrine-orm-service-provider)
+
+``` php
+
+    $app->register( new Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider, [
+        ...
+        'orm.custom.functions.string' => [
+            'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
+            'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat'
+        ],
+        'orm.custom.functions.datetime' => [
+            'date'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'time'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'timestamp'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'convert_tz'    => 'Oro\ORM\Query\AST\Functions\DateTime\ConvertTz'
+        ],
+        'orm.custom.functions.numeric' => [
+            'timestampdiff' => 'Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff',
+            'dayofyear'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'dayofweek'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'week'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'day'           => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'hour'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'minute'        => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'month'         => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'quarter'       => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'second'        => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'year'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+            'sign'          => 'Oro\ORM\Query\AST\Functions\Numeric\Sign',
+            'pow'           => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
+        ]
+    ]);
+```
 Extendability and Database Support
 ----------------------------------
 
@@ -135,7 +185,7 @@ and implement required function there according to naming rules
 ### Adding new function
 
 In case when your function is function with only one ArithmeticPrimary argument you may not create DQL function parser
-and use `Oro\ORM\Query\AST\Functions\SimpleFunction` for this. 
+and use `Oro\ORM\Query\AST\Functions\SimpleFunction` for this.
 Then only platform specific SQL implementation of your function is required.
 
 In case when your are implementing more complex function, like GROUP_CONCAT both DQL parser and SQL implementations are required.

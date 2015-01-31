@@ -8,6 +8,7 @@ php:
 
 env:
   - DB=mysql
+  - DB=sqlite
   - DB=pgsql POSTGRESQL_VERSION=9.1
   - DB=pgsql POSTGRESQL_VERSION=9.2
   - DB=pgsql POSTGRESQL_VERSION=9.3

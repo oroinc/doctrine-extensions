@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Doctrine Extensions for MySQL and PostgreSQL.",
     "homepage": "https://github.com/orocrm/doctrine-extensions/",
-    "keywords": ["database", "mysql", "postgresql", "dql", "function", "doctrine", "type"],
+    "keywords": ["database", "mysql", "postgresql", "sqlite", "dql", "function", "doctrine", "type"],
     "license": "MIT",
     "authors": [
         {

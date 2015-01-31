@@ -2,18 +2,32 @@
 
 namespace Oro\Tests\Connection;
 
-use Doctrine\ORM\Tools\SchemaTool;
 use Oro\Tests\TestCase;
 
 class TearDownTest extends TestCase
 {
-    public function testSchemaDown()
+    public function testDropDatabase()
     {
-        $schemaTool = new SchemaTool($this->entityManager);
-        $schemaTool->dropDatabase();
+        $connection    = $this->entityManager->getConnection();
+        $schemaManager = $connection->getSchemaManager();
+        $params        = $connection->getParams();
 
-        $schemaManager = $this->entityManager->getConnection()->getSchemaManager();
-        $tables = $schemaManager->listTableNames();
-        $this->assertEmpty($tables);
+        if (isset($params['master'])) {
+            $params = $params['master'];
+        }
+
+        $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
+
+        if (!isset($params['path'])) {
+            $name = $connection->getDatabasePlatform()->quoteSingleIdentifier($name);
+        }
+
+        $schemaManager->dropDatabase($name);
+
+        if ($params['path']) {
+            $this->assertFileNotExists($name);
+        } else {
+            $this->assertNotContains($name, $schemaManager->listDatabases());
+        }
     }
 }

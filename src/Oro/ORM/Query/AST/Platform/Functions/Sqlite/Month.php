@@ -16,8 +16,8 @@ class Month extends PlatformFunctionNode
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
 
         return sprintf(
-            'strftime(\'%s\', %s)',
-            'm',
+            "strftime('%s', %s)",
+            '%m',
             $this->getExpressionValue($expression, $sqlWalker)
         );
     }

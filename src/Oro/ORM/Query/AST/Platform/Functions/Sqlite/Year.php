@@ -16,8 +16,8 @@ class Year extends PlatformFunctionNode
         $expression = $this->parameters[SimpleFunction::PARAMETER_KEY];
 
         return sprintf(
-            'strftime(\'%s\', %s)',
-            'Y',
+            "strftime('%s', %s)",
+            '%Y',
             $this->getExpressionValue($expression, $sqlWalker)
         );
     }

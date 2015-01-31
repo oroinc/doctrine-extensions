@@ -35,26 +35,57 @@ class TestUtil
 
     private static function hasRequiredConnectionParams()
     {
-        return isset(
-            $GLOBALS['db_type'],
-            $GLOBALS['db_username'],
-            $GLOBALS['db_password'],
-            $GLOBALS['db_host'],
-            $GLOBALS['db_name'],
-            $GLOBALS['db_port']
-        );
+        if (!isset($GLOBALS['db_type'])) {
+            return false;
+        }
+
+        switch ($GLOBALS['db_type']) {
+            case 'pdo_sqlite':
+                $requires = [
+                    'db_path'
+                ];
+                break;
+            default:
+                $requires = [
+                    'db_type',
+                    'db_username',
+                    'db_password',
+                    'db_host',
+                    'db_name',
+                    'db_port',
+                ];
+                break;
+        }
+
+        foreach ($requires as $requiredParam) {
+            if (!isset($GLOBALS[$requiredParam])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static function getConnectionParams()
     {
-        $connectionParams = array(
-            'driver' => $GLOBALS['db_type'],
-            'user' => $GLOBALS['db_username'],
-            'password' => $GLOBALS['db_password'],
-            'host' => $GLOBALS['db_host'],
-            'dbname' => $GLOBALS['db_name'],
-            'port' => $GLOBALS['db_port']
-        );
+        switch ($GLOBALS['db_type']) {
+            case 'pdo_sqlite':
+                $connectionParams = array(
+                    'driver' => $GLOBALS['db_type'],
+                    'path' => $GLOBALS['db_path']
+                );
+                break;
+            default:
+                $connectionParams = array(
+                    'driver' => $GLOBALS['db_type'],
+                    'user' => $GLOBALS['db_username'],
+                    'password' => $GLOBALS['db_password'],
+                    'host' => $GLOBALS['db_host'],
+                    'dbname' => $GLOBALS['db_name'],
+                    'port' => $GLOBALS['db_port']
+                );
+                break;
+        }
 
         if (isset($GLOBALS['db_server'])) {
             $connectionParams['server'] = $GLOBALS['db_server'];

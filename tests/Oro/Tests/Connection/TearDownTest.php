@@ -2,10 +2,23 @@
 
 namespace Oro\Tests\Connection;
 
+use Doctrine\ORM\Tools\SchemaTool;
 use Oro\Tests\TestCase;
 
 class TearDownTest extends TestCase
 {
+    public function testDropSchema()
+    {
+        $connection    = $this->entityManager->getConnection();
+        $schemaManager = $connection->getSchemaManager();
+        $metadatas     = $this->entityManager->getMetadataFactory()->getAllMetadata();
+
+        $tool = new SchemaTool($this->entityManager);
+        $tool->dropSchema($metadatas);
+
+        $this->assertEmpty($schemaManager->listTables());
+    }
+
     public function testDropDatabase()
     {
         $connection    = $this->entityManager->getConnection();

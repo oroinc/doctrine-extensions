@@ -9,14 +9,10 @@ class TearDownTest extends TestCase
 {
     public function testDropSchema()
     {
-        $connection    = $this->entityManager->getConnection();
-        $schemaManager = $connection->getSchemaManager();
-        $metadatas     = $this->entityManager->getMetadataFactory()->getAllMetadata();
-
         $tool = new SchemaTool($this->entityManager);
-        $tool->dropSchema($metadatas);
+        $tool->dropSchema($this->metadata);
 
-        $this->assertEmpty($schemaManager->listTables());
+        $this->assertEmpty($this->entityManager->getConnection()->getSchemaManager()->listTables());
     }
 
     public function testDropDatabase()

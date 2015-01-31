@@ -7,13 +7,16 @@ use Doctrine\ORM\Tools\Setup;
 
 class TestUtil
 {
-    /** @var EntityManager */
+    /**
+     * @var EntityManager
+     */
     private static $entityManager;
 
     /**
      * Get entity manager instance.
      *
      * @return EntityManager
+     *
      * @throws \Exception
      */
     public static function getEntityManager()
@@ -41,19 +44,19 @@ class TestUtil
 
         switch ($GLOBALS['db_type']) {
             case 'pdo_sqlite':
-                $requires = [
+                $requires = array(
                     'db_path'
-                ];
+                );
                 break;
             default:
-                $requires = [
+                $requires = array(
                     'db_type',
                     'db_username',
                     'db_password',
                     'db_host',
                     'db_name',
                     'db_port',
-                ];
+                );
                 break;
         }
 
@@ -102,11 +105,13 @@ class TestUtil
      * Get database platform name.
      *
      * @return string
+     *
      * @throws \Exception
      */
     public static function getPlatformName()
     {
         $entityManager = self::getEntityManager();
+
         return $entityManager->getConnection()->getDatabasePlatform()->getName();
     }
 }

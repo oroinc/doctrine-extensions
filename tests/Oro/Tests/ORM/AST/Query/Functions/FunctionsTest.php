@@ -2,35 +2,29 @@
 
 namespace Oro\Tests\ORM\AST\Query\Functions;
 
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Query;
+
+use Symfony\Component\Yaml\Yaml;
+
 use Oro\Tests\Connection\TestUtil;
 use Oro\Tests\TestCase;
-use Symfony\Component\Yaml\Yaml;
 
 class FunctionsTest extends TestCase
 {
     /**
      * @dataProvider functionsDataProvider
-     * @param string $type
-     * @param string $functionName
-     * @param string $functionClass
+     * @param array $functions
      * @param string $dql
      * @param string $sql
      * @param string $expectedResult
      */
-    public function testDateFunction($type, $functionName, $functionClass, $dql, $sql, $expectedResult)
+    public function testDqlFunction(array $functions, $dql, $sql, $expectedResult)
     {
         $configuration = $this->entityManager->getConfiguration();
-        switch ($type) {
-            case 'datetime':
-                $configuration->addCustomDatetimeFunction($functionName, $functionClass);
-                break;
-            case 'numeric':
-                $configuration->addCustomNumericFunction($functionName, $functionClass);
-                break;
-            case 'string':
-            default:
-                $configuration->addCustomStringFunction($functionName, $functionClass);
+
+        foreach ($functions as $function) {
+            $this->registerDqlFunction($function['type'], $function['name'], $function['className'], $configuration);
         }
 
         $query = new Query($this->entityManager);
@@ -59,5 +53,26 @@ class FunctionsTest extends TestCase
         }
 
         return $data;
+    }
+
+    /**
+     * @param string $type
+     * @param string $functionName
+     * @param string $functionClass
+     * @param Configuration $configuration
+     */
+    protected function registerDqlFunction($type, $functionName, $functionClass, Configuration $configuration)
+    {
+        switch ($type) {
+            case 'datetime':
+                $configuration->addCustomDatetimeFunction($functionName, $functionClass);
+                break;
+            case 'numeric':
+                $configuration->addCustomNumericFunction($functionName, $functionClass);
+                break;
+            case 'string':
+            default:
+                $configuration->addCustomStringFunction($functionName, $functionClass);
+        }
     }
 }

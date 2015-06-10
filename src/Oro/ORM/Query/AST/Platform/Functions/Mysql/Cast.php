@@ -19,10 +19,12 @@ class Cast extends PlatformFunctionNode
         $type  = $this->parameters[DqlFunction::TYPE_KEY];
 
         $type = strtolower($type);
-        if ($type == 'integer') {
-            $type = 'signed';
-        } elseif (in_array($type, array('string', 'text'))) {
+        if ($type == 'char') {
+            $type = 'char(1)';
+        } elseif ($type == 'string' || $type == 'text') {
             $type = 'char';
+        } elseif ($type == 'int' || $type == 'integer') {
+            $type = 'signed';
         }
 
         return 'CAST(' . $this->getExpressionValue($value, $sqlWalker) . ' AS ' . $type . ')';

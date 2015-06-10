@@ -1,4 +1,12 @@
-#Type::INTEGER
+#INT
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT CAST('123' as int) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('123' AS signed) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 123
+
+#INTEGER
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
   dql: "SELECT CAST('123' as integer) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -6,7 +14,15 @@
   expectedResult:
       - 123
 
-#Type::STRING
+#CHAR
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT CAST('12' as char) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('12' AS char(1)) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 1
+
+#STRING
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
   dql: "SELECT CAST(12 as string) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -21,7 +37,7 @@
   expectedResult:
       - '2014-01-04 05:06:07'
 
-#Type::TEXT
+#TEXT
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
   dql: "SELECT CAST(12 as text) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -36,7 +52,7 @@
   expectedResult:
       - '2014-01-04 05:06:07'
 
-#Type::DECIMAL
+#DECIMAL
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
   dql: "SELECT CAST('123' as decimal) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -44,7 +60,7 @@
   expectedResult:
       - 123
 
-#Type::DATE
+#DATE
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
   dql: "SELECT CAST('2014-01-02 12:13:14' as date) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -52,7 +68,7 @@
   expectedResult:
       - '2014-01-02'
 
-#Type::TIME
+#TIME
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
   dql: "SELECT CAST('2014-01-02 12:13:14' as time) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
@@ -60,7 +76,7 @@
   expectedResult:
       - '12:13:14'
 
-#Type::DATETIME
+#DATETIME
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
   dql: "SELECT CAST('2014-01-02 12:13:14' as datetime) FROM Oro\\Entities\\Foo f WHERE f.id = 1"

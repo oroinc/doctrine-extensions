@@ -2,6 +2,8 @@
 
 namespace Oro\ORM\Query\AST\Functions;
 
+use Doctrine\DBAL\Types\Type;
+
 use Doctrine\ORM\Query\AST\Literal;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\Lexer;
@@ -10,16 +12,6 @@ class Cast extends AbstractPlatformAwareFunctionNode
 {
     const PARAMETER_KEY = 'expression';
     const TYPE_KEY = 'type';
-
-    protected $supportedTypes = array(
-        'char',
-        'date',
-        'datetime',
-        'time',
-        'int',
-        'integer',
-        'decimal'
-    );
 
     /**
      * {@inheritdoc}
@@ -58,7 +50,7 @@ class Cast extends AbstractPlatformAwareFunctionNode
             $parser->syntaxError(
                 sprintf(
                     'Type unsupported. Supported types are: "%s"',
-                    implode(', ', $this->supportedTypes)
+                    implode(', ', $this->getSupportedTypes())
                 ),
                 $lexer->token
             );
@@ -78,12 +70,16 @@ class Cast extends AbstractPlatformAwareFunctionNode
     protected function checkType($type)
     {
         $type = strtolower(trim($type));
-        foreach ($this->supportedTypes as $supportedType) {
-            if (strpos($type, $supportedType) === 0) {
-                return true;
-            }
-        }
+        return Type::hasType($type);
+    }
 
-        return false;
+    /**
+     * Gets supported types
+     *
+     * @return array
+     */
+    protected function getSupportedTypes()
+    {
+        return array_keys(Type::getTypesMap());
     }
 }

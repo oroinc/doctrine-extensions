@@ -16,13 +16,13 @@ class Cast extends PlatformFunctionNode
     {
         /** @var Node $value */
         $value = $this->parameters[DqlFunction::PARAMETER_KEY];
-        $type = $this->parameters[DqlFunction::TYPE_KEY];
+        $type  = $this->parameters[DqlFunction::TYPE_KEY];
 
         $type = strtolower($type);
-        if ($type == 'char') {
-            $type = 'char(1)';
-        } elseif ($type == 'int' || $type == 'integer') {
-            $type = 'unsigned';
+        if ($type == 'integer') {
+            $type = 'signed';
+        } elseif (in_array($type, array('string', 'text'))) {
+            $type = 'char';
         }
 
         return 'CAST(' . $this->getExpressionValue($value, $sqlWalker) . ' AS ' . $type . ')';

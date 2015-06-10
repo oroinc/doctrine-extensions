@@ -29,6 +29,13 @@
   expectedResult:
       - 1
 
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT CAST(f.createdAt as char) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST(t0_.created_at AS char) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '2'
+
 #STRING
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }

@@ -13,6 +13,8 @@ class Cast extends AbstractPlatformAwareFunctionNode
 
     protected $supportedTypes = array(
         'char',
+        'string',
+        'text',
         'date',
         'datetime',
         'time',

@@ -12,6 +12,7 @@ Table of Contents
         - [Doctrine2](#doctrine2)
         - [Symfony2](#symfony2)
         - [Silex](#silex)
+        - [Zend Framework 2](#zend-framework-2)
     - [Extendability and Database Support](#extendability-and-database-support)
         - [Architecture](#architecture)
         - [Adding new platform](#adding-new-platform)
@@ -160,6 +161,46 @@ for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/d
             'pow'           => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
         ]
     ]);
+```
+### Zend Framework 2
+
+In Zend Framework 2 you can register functions in `config/autoload/doctrine.global.php`
+
+``` php
+return [
+        'doctrine' => [
+        'configuration' => [
+            'orm_default' => [
+                'datetime_functions' => [
+                    'date' =>            'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'time' =>            'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'timestamp' =>      'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'convert_tz' =>      'Oro\ORM\Query\AST\Functions\DateTime\ConvertTz',
+                ],
+                'numeric_functions' => [
+                    'timestampdiff'  =>  'Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff',
+                    'dayofyear'  =>      'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'dayofmonth'  =>     'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'dayofweek'  =>      'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'week'  =>           'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'day'  =>            'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'hour'  =>           'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'minute'  =>         'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'month'  =>          'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'quarter'  =>        'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'second'  =>         'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'year'  =>           'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'sign'  =>           'Oro\ORM\Query\AST\Functions\Numeric\Sign',
+                    'pow'  =>            'Oro\ORM\Query\AST\Functions\Numeric\Pow',
+                ],
+                'string_functions' => [
+                    'group_concat' =>   'Oro\ORM\Query\AST\Functions\String\GroupConcat',
+                    'cast' =>           'Oro\ORM\Query\AST\Functions\Cast'
+                ]
+            ]
+        ]
+    ]
+];
 ```
 Extendability and Database Support
 ----------------------------------

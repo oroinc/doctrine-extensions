@@ -1,0 +1,13 @@
+- functions:
+    - { name: "concat_ws", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\ConcatWs", type: "string" }
+  dql: "SELECT CONCAT_WS(', ', 'abc', 'def') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CONCAT_WS(', ', 'abc', 'def') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - abc, def
+
+- functions:
+    - { name: "concat_ws", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\ConcatWs", type: "string" }
+  dql: "SELECT CONCAT_WS(', ', f.name, f.code) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CONCAT_WS(', ', t0_.name, t0_.code) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - test, code

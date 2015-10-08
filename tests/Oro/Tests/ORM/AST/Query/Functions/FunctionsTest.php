@@ -31,7 +31,7 @@ class FunctionsTest extends TestCase
         $query->setDQL($dql);
 
         if (is_array($sql)) {
-            $constraints = [];
+            $constraints = array();
             foreach ($sql as $sqlVariant) {
                 $constraints[] = $this->equalTo($sqlVariant);
             }

@@ -66,6 +66,15 @@
   expectedResult:
       - '2014-01-04 05:06:07'
 
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT CAST(CONCAT('{\"a\":', f.id, '}') as json) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql:
+    - "SELECT CAST('{\"a\":' || t0_.id || '}' AS json) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+    - "SELECT CAST('{\"a\":' || t0_.id || '}' AS text) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '{"a":1}'
+
 #DECIMAL
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }

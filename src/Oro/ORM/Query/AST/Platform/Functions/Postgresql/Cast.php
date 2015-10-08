@@ -19,12 +19,17 @@ class Cast extends PlatformFunctionNode
         $value = $this->parameters[DqlFunction::PARAMETER_KEY];
         $type = $this->parameters[DqlFunction::TYPE_KEY];
 
-        if (strtolower($type) == 'datetime') {
+        $type = strtolower($type);
+        if ($type === 'datetime') {
             $timestampFunction = new Timestamp(
                 array(SimpleFunction::PARAMETER_KEY => $value)
             );
 
             return $timestampFunction->getSql($sqlWalker);
+        }
+
+        if ($type === 'json' && !$sqlWalker->getConnection()->getDatabasePlatform()->hasNativeJsonType()) {
+            $type = 'text';
         }
 
         /**
@@ -33,7 +38,7 @@ class Cast extends PlatformFunctionNode
          * without length specifier, the type accepts strings of any size. The latter is a PostgreSQL extension.
          * http://www.postgresql.org/docs/9.2/static/datatype-character.html
          */
-        if (strtolower($type) == 'string') {
+        if ($type === 'string') {
             $type = 'varchar';
         }
 

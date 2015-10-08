@@ -29,7 +29,7 @@ class Cast extends PlatformFunctionNode
         }
 
         if ($type === 'json') {
-            return 'to_json(' . $this->getExpressionValue($value, $sqlWalker) . ')';
+            return '(' . $this->getExpressionValue($value, $sqlWalker) . ')::json';
         }
 
         /**

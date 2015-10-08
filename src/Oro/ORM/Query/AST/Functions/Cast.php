@@ -20,7 +20,8 @@ class Cast extends AbstractPlatformAwareFunctionNode
         'time',
         'int',
         'integer',
-        'decimal'
+        'decimal',
+        'json'
     );
 
     /**

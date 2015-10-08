@@ -18,7 +18,7 @@ before_script:
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'create database doctrine_extensions_tests;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS doctrine_extensions_tests;'; fi"
   - composer self-update
-  - composer update --dev
+  - composer update --prefer-dist
   - vendor/bin/phpunit --configuration tests/config/$DB.phpunit.xml tests/Oro/Tests/Connection/SetupTest.php
 
 after_success:

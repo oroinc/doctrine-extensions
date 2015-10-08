@@ -29,7 +29,12 @@ class Cast extends PlatformFunctionNode
         }
 
         if ($type === 'json') {
-            return '(' . $this->getExpressionValue($value, $sqlWalker) . ')::json';
+            if ($sqlWalker->getConnection()->getDatabasePlatform()->hasNativeJsonType()) {
+                return '(' . $this->getExpressionValue($value, $sqlWalker) . ')::json';
+            }
+            else {
+                $type = 'text';
+            }
         }
 
         /**

@@ -21,7 +21,9 @@ class Cast extends AbstractPlatformAwareFunctionNode
         'int',
         'integer',
         'decimal',
-        'json'
+        'json',
+        'bool',
+        'boolean'
     );
 
     /**
@@ -31,7 +33,7 @@ class Cast extends AbstractPlatformAwareFunctionNode
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
-        $this->parameters[self::PARAMETER_KEY] = $parser->ArithmeticPrimary();
+        $this->parameters[self::PARAMETER_KEY] = $parser->ArithmeticExpression();
 
         $parser->match(Lexer::T_AS);
 

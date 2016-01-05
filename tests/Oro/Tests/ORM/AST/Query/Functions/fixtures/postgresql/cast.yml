@@ -83,6 +83,13 @@
   expectedResult:
       - 123
 
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT CAST(-123 as decimal) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST(-123 AS decimal) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - -123
+
 #DATE
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
@@ -113,3 +120,25 @@
   sql: SELECT "timestamp"(t0_.created_at) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
   expectedResult:
       - '2014-01-04 05:06:07'
+
+#BOOLEAN
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT CAST(1 as boolean) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST(1 AS boolean) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - true
+
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT CAST(-1 as boolean) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST(-1 AS boolean) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - true
+
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT CAST(0 as boolean) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST(0 AS boolean) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - false

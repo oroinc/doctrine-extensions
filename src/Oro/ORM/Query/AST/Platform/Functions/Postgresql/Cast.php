@@ -32,6 +32,10 @@ class Cast extends PlatformFunctionNode
             $type = 'text';
         }
 
+        if ($type === 'bool') {
+            $type = 'boolean';
+        }
+
         /**
          * The notations varchar(n) and char(n) are aliases for character varying(n) and character(n), respectively.
          * character without length specifier is equivalent to character(1). If character varying is used

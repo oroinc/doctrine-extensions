@@ -59,7 +59,11 @@ class FunctionsTest extends TestCase
         $data = array();
         $files = new \FilesystemIterator(__DIR__ . '/fixtures/' . $platform, \FilesystemIterator::SKIP_DOTS);
         foreach ($files as $file) {
-            $data = array_merge($data, Yaml::parse($file));
+            $fileData = Yaml::parse($file);
+            if (!is_array($fileData)) {
+                throw new \RuntimeException(sprintf('Could not parse file %s', $file));
+            }
+            $data = array_merge($data, $fileData);
         }
 
         return $data;

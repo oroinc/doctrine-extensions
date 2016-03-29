@@ -24,7 +24,13 @@ class GroupConcat extends PlatformFunctionNode
             $fields[] = $pathExp->dispatch($sqlWalker);
         }
 
-        $result .= sprintf('%s', implode(', ', $fields));
+        if (count($fields) === 1) {
+            $concatenatedFields = reset($fields);
+        } else {
+            $platform = $sqlWalker->getConnection()->getDatabasePlatform();
+            $concatenatedFields = call_user_func_array(array($platform, 'getConcatExpression'), $fields);
+        }
+        $result .= $concatenatedFields;
 
         if (!empty($this->parameters[Base::ORDER_KEY])) {
             $result .= ' ' . $sqlWalker->walkOrderByClause($this->parameters[Base::ORDER_KEY]);

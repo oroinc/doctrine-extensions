@@ -11,3 +11,17 @@
   sql: "SELECT GROUP_CONCAT(t0_.id) AS sclr0 FROM test_foo t0_ GROUP BY t0_.code"
   expectedResult:
       - "1,2"
+
+- functions:
+    - { name: "group_concat", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\GroupConcat", type: "string" }
+  dql: "SELECT GROUP_CONCAT(CONCAT(f.id, ' ', f.name)) FROM Oro\\Entities\\Foo f GROUP BY f.code"
+  sql: "SELECT GROUP_CONCAT(CONCAT(t0_.id, ' ', t0_.name)) AS sclr0 FROM test_foo t0_ GROUP BY t0_.code"
+  expectedResult:
+      - "1 test,2 test"
+
+- functions:
+    - { name: "group_concat", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\GroupConcat", type: "string" }
+  dql: "SELECT GROUP_CONCAT(CONCAT(f.id, ' ', f.name), ' ', CONCAT(f.name, ' ', f.id) ORDER BY f.id DESC SEPARATOR ':') FROM Oro\\Entities\\Foo f GROUP BY f.code"
+  sql: "SELECT GROUP_CONCAT(CONCAT(t0_.id, ' ', t0_.name), ' ', CONCAT(t0_.name, ' ', t0_.id)  ORDER BY t0_.id DESC SEPARATOR ':') AS sclr0 FROM test_foo t0_ GROUP BY t0_.code"
+  expectedResult:
+      - "2 test test 2:1 test test 1"

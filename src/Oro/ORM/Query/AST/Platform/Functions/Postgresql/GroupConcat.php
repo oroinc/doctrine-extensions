@@ -28,7 +28,7 @@ class GroupConcat extends PlatformFunctionNode
             $concatenatedFields = reset($fields);
         } else {
             $platform = $sqlWalker->getConnection()->getDatabasePlatform();
-            $concatenatedFields = call_user_func_array([$platform, 'getConcatExpression'], $fields);
+            $concatenatedFields = call_user_func_array(array($platform, 'getConcatExpression'), $fields);
         }
         $result .= $concatenatedFields;
 

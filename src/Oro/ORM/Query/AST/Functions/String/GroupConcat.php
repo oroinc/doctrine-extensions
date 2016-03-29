@@ -32,7 +32,7 @@ class GroupConcat extends AbstractPlatformAwareFunctionNode
 
         // first Path Expression is mandatory
         $this->parameters[self::PARAMETER_KEY] = array();
-        $this->parameters[self::PARAMETER_KEY][] = $parser->SingleValuedPathExpression();
+        $this->parameters[self::PARAMETER_KEY][] = $parser->StringPrimary();
 
         while ($lexer->isNextToken(Lexer::T_COMMA)) {
             $parser->match(Lexer::T_COMMA);

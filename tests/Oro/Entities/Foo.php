@@ -46,6 +46,13 @@ class Foo
     protected $code;
 
     /**
+     * @var string
+     *
+     * @Column(name="comment", type="text")
+     */
+    protected $comment;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -115,5 +122,21 @@ class Foo
     public function setCode($code)
     {
         $this->code = $code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
     }
 }

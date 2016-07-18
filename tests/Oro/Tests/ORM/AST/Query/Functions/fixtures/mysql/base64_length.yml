@@ -1,5 +1,5 @@
 - functions:
-    - { name: "base64_length", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "string" }
+    - { name: "base64_length", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "string", minimumVersion: 5.6.0 }
   dql: "SELECT BASE64_LENGTH(f.comment) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
   sql: "SELECT LENGTH(FROM_BASE64(t0_.comment)) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
   expectedResult:

@@ -24,6 +24,9 @@ class FunctionsTest extends TestCase
         $configuration = $this->entityManager->getConfiguration();
 
         foreach ($functions as $function) {
+            if (isset($function['minimumVersion'])) {
+                $this->skipIfNotMinimumVersion($function['minimumVersion']);
+            }
             $this->registerDqlFunction($function['type'], $function['name'], $function['className'], $configuration);
         }
 
@@ -87,6 +90,21 @@ class FunctionsTest extends TestCase
             case 'string':
             default:
                 $configuration->addCustomStringFunction($functionName, $functionClass);
+        }
+    }
+
+    /**
+     * Skips test if db is not at minimum version
+     * @param string $minimumVersion
+     */
+    protected function skipIfNotMinimumVersion($minimumVersion)
+    {
+        $version = $this->entityManager->getConnection()
+            ->executeQuery('SELECT VERSION()')
+            ->fetchColumn();
+
+        if (version_compare($version, $minimumVersion) < 0) {
+            $this->markTestSkipped(sprintf('Required version is "%s" but "%s" found', $minimumVersion, $version));
         }
     }
 }

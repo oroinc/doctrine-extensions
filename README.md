@@ -35,6 +35,7 @@ Available functions:
 * `DAYOFMONTH(expr)` - Returns the day of the month for date, in the range 1 to 31, or 0 for dates such as '0000-00-00' or '2008-00-00' that have a zero day part.
 * `DAYOFYEAR(expr)` - Return the day of the year (1-366)
 * `HOUR(expr)` - Return the hour from the date passed
+* `MD5(expr)` - Calculate MD5 checksum
 * `MINUTE(expr)` - Return the minute from the date passed
 * `MONTH(expr)` - Return the month from the date passed
 * `QUARTER(expr)` - Return the quarter from the date passed
@@ -112,6 +113,7 @@ doctrine:
                 sign:           Oro\ORM\Query\AST\Functions\Numeric\Sign
                 pow:            Oro\ORM\Query\AST\Functions\Numeric\Pow
             string_functions:
+                md5:            Oro\ORM\Query\AST\Functions\SimpleFunction
                 group_concat:   Oro\ORM\Query\AST\Functions\String\GroupConcat
                 concat_ws:      Oro\ORM\Query\AST\Functions\String\ConcatWs
                 cast:           Oro\ORM\Query\AST\Functions\Cast
@@ -138,6 +140,7 @@ for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/d
     $app->register( new Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider, [
         ...
         'orm.custom.functions.string' => [
+            'md5'           => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
             'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
             'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat',
             'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs'
@@ -175,31 +178,32 @@ return [
         'configuration' => [
             'orm_default' => [
                 'datetime_functions' => [
-                    'date' =>            'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'time' =>            'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'timestamp' =>      'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'convert_tz' =>      'Oro\ORM\Query\AST\Functions\DateTime\ConvertTz',
+                    'date'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'time'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'timestamp'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'convert_tz'    => 'Oro\ORM\Query\AST\Functions\DateTime\ConvertTz',
                 ],
                 'numeric_functions' => [
-                    'timestampdiff'  =>  'Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff',
-                    'dayofyear'  =>      'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'dayofmonth'  =>     'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'dayofweek'  =>      'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'week'  =>           'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'day'  =>            'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'hour'  =>           'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'minute'  =>         'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'month'  =>          'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'quarter'  =>        'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'second'  =>         'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'year'  =>           'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                    'sign'  =>           'Oro\ORM\Query\AST\Functions\Numeric\Sign',
-                    'pow'  =>            'Oro\ORM\Query\AST\Functions\Numeric\Pow',
+                    'timestampdiff' => 'Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff',
+                    'dayofyear'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'dayofmonth'    => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'dayofweek'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'week'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'day'           => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'hour'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'minute'        => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'month'         => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'quarter'       => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'second'        => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'year'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'sign'          => 'Oro\ORM\Query\AST\Functions\Numeric\Sign',
+                    'pow'           => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
                 ],
-                'string_functions' => [
-                    'group_concat' =>   'Oro\ORM\Query\AST\Functions\String\GroupConcat',
-                    'cast' =>           'Oro\ORM\Query\AST\Functions\Cast',
-                    'concat_ws' => 'Oro\ORM\Query\AST\Functions\String\ConcatWs'
+                'string_functions'  => [
+                    'md5'           => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat',
+                    'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
+                    'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs'
                 ]
             ]
         ]

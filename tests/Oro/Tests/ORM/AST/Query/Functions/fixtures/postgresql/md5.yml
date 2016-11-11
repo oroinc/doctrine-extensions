@@ -1,0 +1,13 @@
+- functions:
+    - { name: "md5", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "string" }
+  dql: "SELECT MD5(f.name) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT MD5(t0_.name) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '098f6bcd4621d373cade4e832627b4f6'
+
+- functions:
+    - { name: "md5", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "string" }
+  dql: "SELECT MD5('test') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT MD5('test') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '098f6bcd4621d373cade4e832627b4f6'

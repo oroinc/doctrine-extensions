@@ -3,4 +3,4 @@
   dql: "SELECT REPLACE('abc', 'a', 'b') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
   sql: "SELECT REPLACE('abc', 'a', 'b') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
   expectedResult:
-      - bbc, def
+      - bbc

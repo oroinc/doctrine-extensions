@@ -1,3 +1,5 @@
+sudo: false
+
 language: php
 
 php:
@@ -16,10 +18,12 @@ env:
   - DB=pgsql POSTGRESQL_VERSION=9.4
 
 before_script:
-  - sh -c "if [ '$DB' = 'pgsql' ]; then sudo /etc/init.d/postgresql stop; sudo /etc/init.d/postgresql start $POSTGRESQL_VERSION; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS doctrine_extensions_tests;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'create database doctrine_extensions_tests;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS doctrine_extensions_tests;'; fi"
+  - psql -V
+  - psql -c 'SELECT version();' -U postgres
+  - mysql -V
   - composer self-update
   - composer update --prefer-dist
   - vendor/bin/phpunit --configuration tests/config/$DB.phpunit.xml tests/Oro/Tests/Connection/SetupTest.php

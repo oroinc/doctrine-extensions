@@ -47,6 +47,7 @@ Available functions:
 * `CAST(expr as type)` - Takes an expression of any type and produces a result value of a specified type. Supported types are: "char, string, text, date, datetime, time, int, integer, decimal, boolean"
 * `CONCAT_WS` - Concatenate all but the first argument with separators. The first argument is used as the separator string.
 * `GROUP_CONCAT` - Return a concatenated string
+* `REPLACE(subject,from,to)` - Replaces all occurrances of a string "from" with "to" within a string "subject"
 
 GROUP_CONCAT full syntax:
 ```
@@ -117,6 +118,7 @@ doctrine:
                 group_concat:   Oro\ORM\Query\AST\Functions\String\GroupConcat
                 concat_ws:      Oro\ORM\Query\AST\Functions\String\ConcatWs
                 cast:           Oro\ORM\Query\AST\Functions\Cast
+                replace:        Oro\ORM\Query\AST\Functions\String\Replace
 ```
 
 ### Silex
@@ -143,7 +145,8 @@ for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/d
             'md5'           => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
             'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
             'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat',
-            'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs'
+            'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs',
+            'replace'       => 'Oro\ORM\Query\AST\Functions\String\Replace'
         ],
         'orm.custom.functions.datetime' => [
             'date'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
@@ -203,7 +206,8 @@ return [
                     'md5'           => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                     'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat',
                     'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
-                    'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs'
+                    'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs',
+                    'replace'       => 'Oro\ORM\Query\AST\Functions\String\Replace'
                 ]
             ]
         ]

@@ -52,6 +52,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit --configuration tests/config/$DB.phpunit.xml --testsuite="Oro Doctrine Extensions Test Suite"
+  - vendor/bin/phpcs . -p --encoding=utf-8 --extensions=php --standard=psr2
 
 after_success:
   - vendor/bin/phpunit --configuration tests/config/$DB.phpunit.xml tests/Oro/Tests/Connection/TearDownTest.php

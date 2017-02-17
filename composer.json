@@ -19,7 +19,8 @@
         "phpunit/phpunit": "4.*",
         "doctrine/data-fixtures": "^1.0",
         "symfony/yaml": "2.*",
-        "doctrine/orm": "<2.5.0"
+        "doctrine/orm": "<2.5.0",
+        "squizlabs/php_codesniffer": "2.8.*"
     },
     "autoload": {
         "psr-0": {

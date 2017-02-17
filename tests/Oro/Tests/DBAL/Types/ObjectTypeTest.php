@@ -63,4 +63,3 @@ class ObjectTypeTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
-

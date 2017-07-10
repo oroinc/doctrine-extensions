@@ -35,6 +35,20 @@
 
 - functions:
     - { name: "timestampdiff", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff", type: "numeric" }
+  dql: "SELECT TIMESTAMPDIFF(DAY, '2016-01-01 00:00:00', '2017-01-01 00:00:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT TIMESTAMPDIFF(DAY, '2016-01-01 00:00:00', '2017-01-01 00:00:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  expectedResult:
+      - 366
+
+- functions:
+    - { name: "timestampdiff", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff", type: "numeric" }
+  dql: "SELECT TIMESTAMPDIFF(DAY, '2016-01-01 00:00:00', '2017-01-02 00:10:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT TIMESTAMPDIFF(DAY, '2016-01-01 00:00:00', '2017-01-02 00:10:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  expectedResult:
+      - 367
+
+- functions:
+    - { name: "timestampdiff", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff", type: "numeric" }
   dql: "SELECT TIMESTAMPDIFF(WEEK, '2014-01-01 00:00:00', '2014-03-15 10:10:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
   sql: SELECT TIMESTAMPDIFF(WEEK, '2014-01-01 00:00:00', '2014-03-15 10:10:10') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
   expectedResult:
@@ -42,10 +56,24 @@
 
 - functions:
     - { name: "timestampdiff", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff", type: "numeric" }
-  dql: "SELECT TIMESTAMPDIFF(MONTH, '2014-01-01 00:00:00', '2014-03-15 10:10:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql: SELECT TIMESTAMPDIFF(MONTH, '2014-01-01 00:00:00', '2014-03-15 10:10:10') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  dql: "SELECT TIMESTAMPDIFF(MONTH, '2016-01-01 00:00:00', '2017-01-01 00:00:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT TIMESTAMPDIFF(MONTH, '2016-01-01 00:00:00', '2017-01-01 00:00:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
   expectedResult:
-      - 2
+      - 12
+
+- functions:
+    - { name: "timestampdiff", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff", type: "numeric" }
+  dql: "SELECT TIMESTAMPDIFF(MONTH, '2016-01-01 00:00:01', '2017-01-01 00:00:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT TIMESTAMPDIFF(MONTH, '2016-01-01 00:00:01', '2017-01-01 00:00:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  expectedResult:
+      - 11
+
+- functions:
+    - { name: "timestampdiff", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff", type: "numeric" }
+  dql: "SELECT TIMESTAMPDIFF(MONTH, '2016-01-01 00:00:01', '2017-02-01 00:00:02') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT TIMESTAMPDIFF(MONTH, '2016-01-01 00:00:01', '2017-02-01 00:00:02') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  expectedResult:
+      - 13
 
 - functions:
     - { name: "timestampdiff", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff", type: "numeric" }
@@ -56,7 +84,22 @@
 
 - functions:
     - { name: "timestampdiff", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff", type: "numeric" }
-  dql: "SELECT TIMESTAMPDIFF(YEAR, '2014-01-01 00:00:00', '2015-04-15 10:10:10') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql: SELECT TIMESTAMPDIFF(YEAR, '2014-01-01 00:00:00', '2015-04-15 10:10:10') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  dql: "SELECT TIMESTAMPDIFF(QUARTER, '2016-01-01 00:00:01', '2016-06-01 00:00:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT TIMESTAMPDIFF(QUARTER, '2016-01-01 00:00:01', '2016-06-01 00:00:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
   expectedResult:
       - 1
+
+- functions:
+    - { name: "timestampdiff", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff", type: "numeric" }
+  dql: "SELECT TIMESTAMPDIFF(YEAR, '2016-01-01 00:00:00', '2017-01-01 00:00:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT TIMESTAMPDIFF(YEAR, '2016-01-01 00:00:00', '2017-01-01 00:00:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  expectedResult:
+      - 1
+
+- functions:
+    - { name: "timestampdiff", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\TimestampDiff", type: "numeric" }
+  dql: "SELECT TIMESTAMPDIFF(YEAR, '2016-01-01 00:00:01', '2017-01-01 00:00:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT TIMESTAMPDIFF(YEAR, '2016-01-01 00:00:01', '2017-01-01 00:00:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  expectedResult:
+      - 0
+

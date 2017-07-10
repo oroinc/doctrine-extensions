@@ -14,7 +14,7 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
     /**
      * @var array
      */
-    private static $knownFormats = [
+    private static $knownFormats = array(
         '%a',
         '%b',
         '%c',
@@ -47,12 +47,12 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
         '%Y',
         '%y',
         '%%',
-    ];
+    );
 
     /**
      * @var array
      */
-    private static $supportedFormats = [
+    private static $supportedFormats = array(
         '%a',
         '%b',
         '%c',
@@ -77,7 +77,7 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
         '%Y',
         '%y',
         '%%',
-    ];
+    );
 
     /**
      * {@inheritdoc}

@@ -5,9 +5,8 @@ namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\SqlWalker;
 use Oro\ORM\Query\AST\Functions\String\DateFormat as BaseFunction;
-use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
-class DateFormat extends PlatformFunctionNode
+class DateFormat extends AbstractTimestampAwarePlatformFunctionNode
 {
     /**
      * @var array
@@ -50,7 +49,7 @@ class DateFormat extends PlatformFunctionNode
         $format = $this->parameters[BaseFunction::FORMAT_KEY];
 
         return 'to_char('
-                . '"timestamp"(' . $this->getExpressionValue($date, $sqlWalker) . '), '
+                . $this->getTimestampValue($date, $sqlWalker) . ', '
                 . $this->getPostgresFormat($this->getExpressionValue($format, $sqlWalker))
             . ')';
     }

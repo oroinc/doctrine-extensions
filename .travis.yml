@@ -4,40 +4,40 @@ language: php
 
 matrix:
   include:
-    - php: 5.4
+    - php: 5.4.45
       env: DB=mysql DB_IMAGE=mysql:5.5    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 5.5
+    - php: 5.5.38
       env: DB=mysql DB_IMAGE=mysql:5.5    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 5.6
+    - php: 5.6.30
       env: DB=mysql DB_IMAGE=mysql:5.7    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 7.0
+    - php: 7.0.21
       env: DB=mysql DB_IMAGE=mysql:8.0    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 7.1
+    - php: 7.1.7
       env: DB=mysql DB_IMAGE=mysql:8.0    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
 
-    - php: 5.4
+    - php: 5.4.45
       env: DB=mysql DB_IMAGE=mariadb:5.5  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 5.6
+    - php: 5.6.30
       env: DB=mysql DB_IMAGE=mariadb:10.0 VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 7.1
+    - php: 7.1.7
       env: DB=mysql DB_IMAGE=mariadb:10.1 VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
 
-    - php: 5.4
+    - php: 5.4.45
       env: DB=mysql DB_IMAGE=percona:5.5  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 5.6
+    - php: 5.6.30
       env: DB=mysql DB_IMAGE=percona:5.6  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 7.1
+    - php: 7.1.7
       env: DB=mysql DB_IMAGE=percona:5.7  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
 
-    - php: 5.4
+    - php: 5.4.45
       env: DB=pgsql DB_IMAGE=postgres:9.2 VARS='-p 54320:5432 -e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
-    - php: 5.5
+    - php: 5.5.38
       env: DB=pgsql DB_IMAGE=postgres:9.3 VARS='-p 54320:5432 -e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
-    - php: 5.6
+    - php: 5.6.30
       env: DB=pgsql DB_IMAGE=postgres:9.4 VARS='-p 54320:5432 -e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
-    - php: 7.0
+    - php: 7.0.21
       env: DB=pgsql DB_IMAGE=postgres:9.5 VARS='-p 54320:5432 -e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
-    - php: 7.1
+    - php: 7.1.7
       env: DB=pgsql DB_IMAGE=postgres:9.6 VARS='-p 54320:5432 -e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
 
 install:
@@ -45,7 +45,7 @@ install:
   - composer install --prefer-dist --optimize-autoloader --no-interaction  --no-suggest
   - docker pull ${DB_IMAGE}
   - docker run -d --name database ${VARS} ${DB_IMAGE}
-  - sleep 15
+  - sleep 30s
 
 before_script:
   - vendor/bin/phpunit --configuration tests/config/$DB.phpunit.xml tests/Oro/Tests/Connection/SetupTest.php

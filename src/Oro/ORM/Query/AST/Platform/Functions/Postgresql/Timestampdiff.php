@@ -4,13 +4,9 @@ namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\SqlWalker;
-
-use Oro\ORM\Query\AST\Functions\Cast as CastDQL;
 use Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff as BaseFunction;
-use Oro\ORM\Query\AST\Functions\SimpleFunction;
-use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
-class Timestampdiff extends PlatformFunctionNode
+class Timestampdiff extends AbstractTimestampAwarePlatformFunctionNode
 {
     /**
      * {@inheritdoc}
@@ -24,17 +20,7 @@ class Timestampdiff extends PlatformFunctionNode
         /** @var Node $secondDateNode */
         $secondDateNode = $this->parameters[BaseFunction::VAL2_KEY];
 
-        $castFunction = new Cast(
-            array(
-                CastDQL::PARAMETER_KEY => sprintf(
-                    'ROUND(%s)',
-                    $this->getSqlByUnit($unit, $firstDateNode, $secondDateNode, $sqlWalker)
-                ),
-                CastDQL::TYPE_KEY => 'INT'
-            )
-        );
-
-        return $castFunction->getSql($sqlWalker);
+        return $this->getSqlByUnit($unit, $firstDateNode, $secondDateNode, $sqlWalker);
     }
 
     /**
@@ -50,25 +36,8 @@ class Timestampdiff extends PlatformFunctionNode
     protected function getSqlByUnit($unit, Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
     {
         $method = 'getDiffFor' . ucfirst(strtolower($unit));
+
         return call_user_func(array($this, $method), $firstDateNode, $secondDateNode, $sqlWalker);
-    }
-
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForSecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
-    {
-        $firstDateTimestampFunction = new Timestamp(array(SimpleFunction::PARAMETER_KEY => $firstDateNode));
-        $secondDateTimestampFunction = new Timestamp(array(SimpleFunction::PARAMETER_KEY => $secondDateNode));
-
-        return sprintf(
-            '(EXTRACT(EPOCH FROM %s) - EXTRACT(EPOCH FROM %s))',
-            $secondDateTimestampFunction->getSql($sqlWalker),
-            $firstDateTimestampFunction->getSql($sqlWalker)
-        );
     }
 
     /**
@@ -79,7 +48,24 @@ class Timestampdiff extends PlatformFunctionNode
      */
     protected function getDiffForMicrosecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
     {
-        return $this->getDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker) . ' * 1000000';
+        return sprintf(
+            'EXTRACT(MICROSECOND FROM %s - %s)',
+            $this->getTimestampValue($secondDateNode, $sqlWalker),
+            $this->getTimestampValue($firstDateNode, $sqlWalker)
+        );
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForSecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        return $this->getFloorValue(
+            $this->getRawDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker)
+        );
     }
 
     /**
@@ -90,7 +76,9 @@ class Timestampdiff extends PlatformFunctionNode
      */
     protected function getDiffForMinute(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
     {
-        return $this->getDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker) . ' / 60';
+        return $this->getFloorValue(
+            $this->getRawDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker) . ' / 60'
+        );
     }
 
     /**
@@ -101,7 +89,9 @@ class Timestampdiff extends PlatformFunctionNode
      */
     protected function getDiffForHour(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
     {
-        return $this->getDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker) . ' / 3600';
+        return $this->getFloorValue(
+            $this->getRawDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker) . ' / 3600'
+        );
     }
 
     /**
@@ -112,13 +102,10 @@ class Timestampdiff extends PlatformFunctionNode
      */
     protected function getDiffForDay(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
     {
-        $firstDateTimestampFunction = new Timestamp(array(SimpleFunction::PARAMETER_KEY => $firstDateNode));
-        $secondDateTimestampFunction = new Timestamp(array(SimpleFunction::PARAMETER_KEY => $secondDateNode));
-
         return sprintf(
             'EXTRACT(DAY FROM %s - %s)',
-            $secondDateTimestampFunction->getSql($sqlWalker),
-            $firstDateTimestampFunction->getSql($sqlWalker)
+            $this->getTimestampValue($secondDateNode, $sqlWalker),
+            $this->getTimestampValue($firstDateNode, $sqlWalker)
         );
     }
 
@@ -130,24 +117,8 @@ class Timestampdiff extends PlatformFunctionNode
      */
     protected function getDiffForWeek(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
     {
-        return $this->getDiffForDay($firstDateNode, $secondDateNode, $sqlWalker) . ' / 7';
-    }
-
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForYear(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
-    {
-        $firstDateYearFunction = new Year(array(SimpleFunction::PARAMETER_KEY => $firstDateNode));
-        $secondDateYearFunction = new Year(array(SimpleFunction::PARAMETER_KEY => $secondDateNode));
-
-        return sprintf(
-            '(%s - %s)',
-            $secondDateYearFunction->getSql($sqlWalker),
-            $firstDateYearFunction->getSql($sqlWalker)
+        return $this->getFloorValue(
+            $this->getDiffForDay($firstDateNode, $secondDateNode, $sqlWalker) . ' / 7'
         );
     }
 
@@ -159,14 +130,18 @@ class Timestampdiff extends PlatformFunctionNode
      */
     protected function getDiffForMonth(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
     {
-        $firstDateMonthFunction = new Month(array(SimpleFunction::PARAMETER_KEY => $firstDateNode));
-        $secondDateMonthFunction = new Month(array(SimpleFunction::PARAMETER_KEY => $secondDateNode));
+        $firstDateTimestamp = $this->getTimestampValue($firstDateNode, $sqlWalker);
+        $secondDateTimestamp = $this->getTimestampValue($secondDateNode, $sqlWalker);
+
+        $months = sprintf(
+            'EXTRACT(MONTH from %s)',
+            $this->getAge($firstDateTimestamp, $secondDateTimestamp)
+        );
 
         return sprintf(
-            '%s * 12 + (%s - %s)',
+            '(%s * 12 + %s)',
             $this->getDiffForYear($firstDateNode, $secondDateNode, $sqlWalker),
-            $secondDateMonthFunction->getSql($sqlWalker),
-            $firstDateMonthFunction->getSql($sqlWalker)
+            $months
         );
     }
 
@@ -178,14 +153,56 @@ class Timestampdiff extends PlatformFunctionNode
      */
     protected function getDiffForQuarter(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
     {
-        $firstDateQuarterFunction = new Quarter(array(SimpleFunction::PARAMETER_KEY => $firstDateNode));
-        $secondDateQuarterFunction = new Quarter(array(SimpleFunction::PARAMETER_KEY => $secondDateNode));
+        return $this->getFloorValue(
+            $this->getDiffForMonth($firstDateNode, $secondDateNode, $sqlWalker) . ' / 3'
+        );
+    }
 
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getDiffForYear(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
+        $firstDateTimestamp = $this->getTimestampValue($firstDateNode, $sqlWalker);
+        $secondDateTimestamp = $this->getTimestampValue($secondDateNode, $sqlWalker);
+
+        return sprintf('EXTRACT(YEAR from %s)', $this->getAge($firstDateTimestamp, $secondDateTimestamp));
+    }
+
+    /**
+     * @param string $firstDateTimestamp
+     * @param string $secondDateTimestamp
+     * @return string
+     */
+    protected function getAge($firstDateTimestamp, $secondDateTimestamp)
+    {
+        return sprintf('age(%s, %s)', $secondDateTimestamp, $firstDateTimestamp);
+    }
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    protected function getFloorValue($value)
+    {
+        return sprintf('FLOOR(%s)', $value);
+    }
+
+    /**
+     * @param Node $firstDateNode
+     * @param Node $secondDateNode
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    protected function getRawDiffForSecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    {
         return sprintf(
-            '%s * 4 + (%s - %s)',
-            $this->getDiffForYear($firstDateNode, $secondDateNode, $sqlWalker),
-            $secondDateQuarterFunction->getSql($sqlWalker),
-            $firstDateQuarterFunction->getSql($sqlWalker)
+            'EXTRACT(EPOCH FROM %s - %s)',
+            $this->getTimestampValue($secondDateNode, $sqlWalker),
+            $this->getTimestampValue($firstDateNode, $sqlWalker)
         );
     }
 }

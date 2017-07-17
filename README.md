@@ -48,6 +48,35 @@ Available functions:
 * `CONCAT_WS` - Concatenate all but the first argument with separators. The first argument is used as the separator string.
 * `GROUP_CONCAT` - Return a concatenated string
 * `REPLACE(subject,from,to)` - Replaces all occurrances of a string "from" with "to" within a string "subject"
+* `DATE_FORMAT(date,format)` - Formats the date value according to the format string.
+ The following specifiers may be used in the format string. The % character is required before format specifier characters.
+
+|Specifier|Description|
+| ------------- | -----|
+|%a|Abbreviated weekday name (Sun..Sat)|
+|%b|Abbreviated month name (Jan..Dec)|
+|%c|Month, numeric (0..12)|
+|%d|Day of the month, numeric (00..31)|
+|%e|Day of the month, numeric (0..31)|
+|%f|Microseconds (000000..999999)|
+|%H|Hour (00..23)|
+|%h|Hour (01..12)|
+|%I|Hour (01..12)|
+|%i|Minutes, numeric (00..59)|
+|%j|Day of year (001..366)|
+|%k|Hour (0..23)|
+|%l|Hour (1..12)|
+|%M|Month name (January..December)|
+|%m|Month, numeric (00..12)|
+|%p|AM or PM|
+|%r|Time, 12-hour (hh:mm:ss followed by AM or PM)|
+|%S|Seconds (00..59)|
+|%s|Seconds (00..59)|
+|%T|Time, 24-hour (hh:mm:ss)|
+|%W|Weekday name (Sunday..Saturday)|
+|%Y|Year, numeric, four digits|
+|%y|Year, numeric (two digits)|
+|%%|A literal % character|
 
 GROUP_CONCAT full syntax:
 ```
@@ -119,6 +148,7 @@ doctrine:
                 concat_ws:      Oro\ORM\Query\AST\Functions\String\ConcatWs
                 cast:           Oro\ORM\Query\AST\Functions\Cast
                 replace:        Oro\ORM\Query\AST\Functions\String\Replace
+                date_format:    Oro\ORM\Query\AST\Functions\String\DateFormat
 ```
 
 ### Silex
@@ -146,7 +176,8 @@ for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/d
             'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
             'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat',
             'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs',
-            'replace'       => 'Oro\ORM\Query\AST\Functions\String\Replace'
+            'replace'       => 'Oro\ORM\Query\AST\Functions\String\Replace',
+            'date_format'   => 'Oro\ORM\Query\AST\Functions\String\DateFormat'
         ],
         'orm.custom.functions.datetime' => [
             'date'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
@@ -207,7 +238,8 @@ return [
                     'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat',
                     'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
                     'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs',
-                    'replace'       => 'Oro\ORM\Query\AST\Functions\String\Replace'
+                    'replace'       => 'Oro\ORM\Query\AST\Functions\String\Replace',
+                    'date_format'   => 'Oro\ORM\Query\AST\Functions\String\DateFormat'
                 ]
             ]
         ]

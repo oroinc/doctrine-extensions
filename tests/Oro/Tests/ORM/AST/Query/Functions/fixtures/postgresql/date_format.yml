@@ -1,0 +1,13 @@
+- functions:
+    - { name: "date_format", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\DateFormat", type: "string" }
+  dql: "SELECT DATE_FORMAT(f.createdAt, 'Test 100%%T %a %b %c %d %e %f %H %h %I %i %j %k %l %M %m %p %r %S %s %T %W %Y %y') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT to_char(t0_.created_at, 'Test 100%T Dy Mon FMMM DD FMDD US HH24 HH12 HH12 MI DDD FMHH24 FMHH12 FMMonth MM AM HH12:MI:SS AM SS SS HH24:MI:SS FMDay YYYY YY') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - "Test 100%T Sat Jan 1 04 4 000000 05 05 05 06 004 5 5 January 01 AM 05:06:07 AM 07 07 05:06:07 Saturday 2014 14"
+
+- functions:
+    - { name: "date_format", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\DateFormat", type: "string" }
+  dql: "SELECT DATE_FORMAT('2014-01-04 05:06:07', 'Test 100%%T %a %b %c %d %e %f %H %h %I %i %j %k %l %M %m %p %r %S %s %T %W %Y %y') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT to_char(\"timestamp\"('2014-01-04 05:06:07'), 'Test 100%T Dy Mon FMMM DD FMDD US HH24 HH12 HH12 MI DDD FMHH24 FMHH12 FMMonth MM AM HH12:MI:SS AM SS SS HH24:MI:SS FMDay YYYY YY') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - "Test 100%T Sat Jan 1 04 4 000000 05 05 05 06 004 5 5 January 01 AM 05:06:07 AM 07 07 05:06:07 Saturday 2014 14"

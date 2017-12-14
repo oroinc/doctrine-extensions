@@ -1,0 +1,6 @@
+- functions:
+    - { name: "round", className: "Oro\\ORM\\Query\\AST\\Functions\\Numeric\\Round", type: "numeric" }
+  dql: "SELECT ROUND(0.7819, 2) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT ROUND(0.7819, 2) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 0.78

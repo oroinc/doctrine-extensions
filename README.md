@@ -43,6 +43,7 @@ Available functions:
 * `WEEK(expr)` - The number of the week of the year that the day is in. By definition (ISO 8601), weeks start on Mondays and the first week of a year contains January 4 of that year. In other words, the first Thursday of a year is in week 1 of that year.
 * `YEAR(expr)` - Return the year from the date passed
 * `POW(expr, power)` - Return the argument raised to the specified power
+* `ROUND(value, precision)` - Return the value formated with the precision specified
 * `SIGN(expr)` - Return the sign of the argument
 * `CAST(expr as type)` - Takes an expression of any type and produces a result value of a specified type. Supported types are: "char, string, text, date, datetime, time, int, integer, decimal, boolean"
 * `CONCAT_WS` - Concatenate all but the first argument with separators. The first argument is used as the separator string.
@@ -142,6 +143,7 @@ doctrine:
                 year:           Oro\ORM\Query\AST\Functions\SimpleFunction
                 sign:           Oro\ORM\Query\AST\Functions\Numeric\Sign
                 pow:            Oro\ORM\Query\AST\Functions\Numeric\Pow
+                round:          Oro\ORM\Query\AST\Functions\Numeric\Round
             string_functions:
                 md5:            Oro\ORM\Query\AST\Functions\SimpleFunction
                 group_concat:   Oro\ORM\Query\AST\Functions\String\GroupConcat
@@ -199,6 +201,7 @@ for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/d
             'year'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
             'sign'          => 'Oro\ORM\Query\AST\Functions\Numeric\Sign',
             'pow'           => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
+            'round'         => 'Oro\ORM\Query\AST\Functions\Numeric\Round',
         ]
     ]);
 ```
@@ -232,6 +235,7 @@ return [
                     'year'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                     'sign'          => 'Oro\ORM\Query\AST\Functions\Numeric\Sign',
                     'pow'           => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
+                    'round'         => 'Oro\ORM\Query\AST\Functions\Numeric\Round',
                 ],
                 'string_functions'  => [
                     'md5'           => 'Oro\ORM\Query\AST\Functions\SimpleFunction',

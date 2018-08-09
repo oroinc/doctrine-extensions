@@ -1,0 +1,12 @@
+- functions:
+    - { name: "binary", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "string" }
+  dql: "SELECT f.name FROM Oro\\Entities\\Foo f WHERE BINARY(f.name) = 'test'"
+  sql: "SELECT t0_.name AS name0 FROM test_foo t0_ WHERE BINARY(t0_.name) = 'test'"
+  expectedResult:
+      - test
+
+- functions:
+    - { name: "binary", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "string" }
+  dql: "SELECT f.name FROM Oro\\Entities\\Foo f WHERE BINARY(f.name) = 'Test'"
+  sql: "SELECT t0_.name AS name0 FROM test_foo t0_ WHERE BINARY(t0_.name) = 'Test'"
+  expectedResult: ~

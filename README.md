@@ -51,6 +51,7 @@ Available functions:
 * `REPLACE(subject,from,to)` - Replaces all occurrances of a string "from" with "to" within a string "subject"
 * `DATE_FORMAT(date,format)` - Formats the date value according to the format string.
  The following specifiers may be used in the format string. The % character is required before format specifier characters.
+* `BINARY(expr)` - Cast a string to a binary string (Available only for MySql)
 
 |Specifier|Description|
 | ------------- | -----|
@@ -151,6 +152,7 @@ doctrine:
                 cast:           Oro\ORM\Query\AST\Functions\Cast
                 replace:        Oro\ORM\Query\AST\Functions\String\Replace
                 date_format:    Oro\ORM\Query\AST\Functions\String\DateFormat
+                binary:         Oro\ORM\Query\AST\Functions\SimpleFunction
 ```
 
 ### Silex
@@ -179,7 +181,8 @@ for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/d
             'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat',
             'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs',
             'replace'       => 'Oro\ORM\Query\AST\Functions\String\Replace',
-            'date_format'   => 'Oro\ORM\Query\AST\Functions\String\DateFormat'
+            'date_format'   => 'Oro\ORM\Query\AST\Functions\String\DateFormat',
+            'binary'        => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
         ],
         'orm.custom.functions.datetime' => [
             'date'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
@@ -243,7 +246,8 @@ return [
                     'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
                     'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs',
                     'replace'       => 'Oro\ORM\Query\AST\Functions\String\Replace',
-                    'date_format'   => 'Oro\ORM\Query\AST\Functions\String\DateFormat'
+                    'date_format'   => 'Oro\ORM\Query\AST\Functions\String\DateFormat',
+                    'binary'        => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                 ]
             ]
         ]

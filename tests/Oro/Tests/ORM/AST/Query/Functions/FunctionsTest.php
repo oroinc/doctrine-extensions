@@ -31,7 +31,7 @@ class FunctionsTest extends TestCase
         $query->setDQL($dql);
 
         if (is_array($sql)) {
-            $constraints = array();
+            $constraints = [];
             foreach ($sql as $sqlVariant) {
                 $constraints[] = $this->equalTo($sqlVariant);
             }
@@ -42,12 +42,16 @@ class FunctionsTest extends TestCase
             $this->assertEquals($sql, $query->getSQL(), sprintf('Unexpected SQL for "%s"', $dql));
         }
         $result = $query->getArrayResult();
-        $this->assertNotEmpty($result);
-        $this->assertEquals(
-            $expectedResult,
-            array_values(array_shift($result)),
-            sprintf('Unexpected result for "%s"', $dql)
-        );
+        if (!$expectedResult) {
+            $this->assertEmpty($result);
+        } else {
+            $this->assertNotEmpty($result);
+            $this->assertEquals(
+                $expectedResult,
+                array_values(array_shift($result)),
+                sprintf('Unexpected result for "%s"', $dql)
+            );
+        }
     }
 
     /**
@@ -56,7 +60,7 @@ class FunctionsTest extends TestCase
     public function functionsDataProvider()
     {
         $platform = TestUtil::getPlatformName();
-        $data = array();
+        $data = [];
         $files = new \FilesystemIterator(__DIR__ . '/fixtures/' . $platform, \FilesystemIterator::SKIP_DOTS);
         foreach ($files as $file) {
             $fileData = Yaml::parse($file);

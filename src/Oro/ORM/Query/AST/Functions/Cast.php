@@ -11,7 +11,10 @@ class Cast extends AbstractPlatformAwareFunctionNode
     const PARAMETER_KEY = 'expression';
     const TYPE_KEY = 'type';
 
-    protected $supportedTypes = array(
+    /**
+     * @var array
+     */
+    protected $supportedTypes = [
         'char',
         'string',
         'text',
@@ -23,8 +26,9 @@ class Cast extends AbstractPlatformAwareFunctionNode
         'decimal',
         'json',
         'bool',
-        'boolean'
-    );
+        'boolean',
+        'binary'
+    ];
 
     /**
      * {@inheritdoc}
@@ -45,9 +49,9 @@ class Cast extends AbstractPlatformAwareFunctionNode
             $parser->match(Lexer::T_OPEN_PARENTHESIS);
             /** @var Literal $parameter */
             $parameter = $parser->Literal();
-            $parameters = array(
+            $parameters = [
                 $parameter->value
-            );
+            ];
             if ($lexer->isNextToken(Lexer::T_COMMA)) {
                 while ($lexer->isNextToken(Lexer::T_COMMA)) {
                     $parser->match(Lexer::T_COMMA);

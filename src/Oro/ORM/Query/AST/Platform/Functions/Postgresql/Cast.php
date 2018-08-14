@@ -22,7 +22,7 @@ class Cast extends PlatformFunctionNode
         $type = strtolower($type);
         if ($type === 'datetime') {
             $timestampFunction = new Timestamp(
-                array(SimpleFunction::PARAMETER_KEY => $value)
+                [SimpleFunction::PARAMETER_KEY => $value]
             );
 
             return $timestampFunction->getSql($sqlWalker);
@@ -34,6 +34,10 @@ class Cast extends PlatformFunctionNode
 
         if ($type === 'bool') {
             $type = 'boolean';
+        }
+
+        if ($type === 'binary') {
+            $type = 'bytea';
         }
 
         /**

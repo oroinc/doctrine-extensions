@@ -11,9 +11,9 @@ matrix:
     - php: 5.6.30
       env: DB=mysql DB_IMAGE=mysql:5.7    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
     - php: 7.0.21
-      env: DB=mysql DB_IMAGE=mysql:8.0    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
+      env: DB=mysql DB_IMAGE=mysql:8.0.3  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
     - php: 7.1.7
-      env: DB=mysql DB_IMAGE=mysql:8.0    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
+      env: DB=mysql DB_IMAGE=mysql:8.0.3  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
 
     - php: 5.4.45
       env: DB=mysql DB_IMAGE=mariadb:5.5  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'

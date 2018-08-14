@@ -140,3 +140,18 @@
   sql: "SELECT CAST(0 AS signed) <> 0 AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
   expectedResult:
       - 0
+
+  #BINARY
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT COUNT(f.id) FROM Oro\\Entities\\Foo f WHERE CAST(f.name as BINARY) = 'test'"
+  sql: "SELECT COUNT(t0_.id) AS sclr0 FROM test_foo t0_ WHERE CAST(t0_.name AS binary) = 'test'"
+  expectedResult:
+      - 3
+
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT COUNT(f.id) FROM Oro\\Entities\\Foo f WHERE CAST(f.name as BINARY) = 'TeSt'"
+  sql: "SELECT COUNT(t0_.id) AS sclr0 FROM test_foo t0_ WHERE CAST(t0_.name AS binary) = 'TeSt'"
+  expectedResult:
+      - 0

@@ -20,12 +20,20 @@ class Round extends PlatformFunctionNode
     public function getSql(SqlWalker $sqlWalker)
     {
         $value = $this->parameters[BaseRound::VALUE];
-        $round = $this->parameters[BaseRound::PRECISION];
+
+        if (isset($this->parameters[BaseRound::PRECISION])) {
+            $round = $this->parameters[BaseRound::PRECISION];
+
+            return sprintf(
+                'ROUND(%s, %s)',
+                $this->getExpressionValue($value, $sqlWalker),
+                $this->getExpressionValue($round, $sqlWalker)
+            );
+        }
 
         return sprintf(
-            'ROUND(%s, %s)',
-            $this->getExpressionValue($value, $sqlWalker),
-            $this->getExpressionValue($round, $sqlWalker)
+            'ROUND(%s)',
+            $this->getExpressionValue($value, $sqlWalker)
         );
     }
 }

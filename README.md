@@ -43,7 +43,7 @@ Available functions:
 * `WEEK(expr)` - The number of the week of the year that the day is in. By definition (ISO 8601), weeks start on Mondays and the first week of a year contains January 4 of that year. In other words, the first Thursday of a year is in week 1 of that year.
 * `YEAR(expr)` - Return the year from the date passed
 * `POW(expr, power)` - Return the argument raised to the specified power
-* `ROUND(value, precision)` - Return the value formated with the precision specified
+* `ROUND(value, ?precision)` - Return the value formated with the (optional) specified precision
 * `SIGN(expr)` - Return the sign of the argument
 * `CAST(expr as type)` - Takes an expression of any type and produces a result value of a specified type. Supported types are: "char, string, text, date, datetime, time, int, integer, decimal, boolean, binary"
 * `CONCAT_WS` - Concatenate all but the first argument with separators. The first argument is used as the separator string.

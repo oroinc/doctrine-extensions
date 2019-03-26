@@ -103,7 +103,7 @@ Functions Registration
 
 ### Doctrine2
 
-[Doctrine2 Documentation: "DQL User Defined Functions"](http://docs.doctrine-project.org/en/latest/cookbook/dql-user-defined-functions.html)
+[Doctrine2 Documentation: "DQL User Defined Functions"](https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/cookbook/dql-user-defined-functions.html)
 
 ```php
 <?php

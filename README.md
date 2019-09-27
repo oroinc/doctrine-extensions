@@ -44,6 +44,7 @@ Available functions:
 * `YEAR(expr)` - Return the year from the date passed
 * `POW(expr, power)` - Return the argument raised to the specified power
 * `ROUND(value, ?precision)` - Return the value formated with the (optional) specified precision
+* `CEIL(value)` - Return the value rounded up
 * `SIGN(expr)` - Return the sign of the argument
 * `CAST(expr as type)` - Takes an expression of any type and produces a result value of a specified type. Supported types are: "char, string, text, date, datetime, time, int, integer, decimal, boolean, binary"
 * `CONCAT_WS` - Concatenate all but the first argument with separators. The first argument is used as the separator string.
@@ -144,6 +145,7 @@ doctrine:
                 sign:           Oro\ORM\Query\AST\Functions\Numeric\Sign
                 pow:            Oro\ORM\Query\AST\Functions\Numeric\Pow
                 round:          Oro\ORM\Query\AST\Functions\Numeric\Round
+                ceil:           Oro\ORM\Query\AST\Functions\SimpleFunction
             string_functions:
                 md5:            Oro\ORM\Query\AST\Functions\SimpleFunction
                 group_concat:   Oro\ORM\Query\AST\Functions\String\GroupConcat
@@ -202,6 +204,7 @@ for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/d
             'sign'          => 'Oro\ORM\Query\AST\Functions\Numeric\Sign',
             'pow'           => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
             'round'         => 'Oro\ORM\Query\AST\Functions\Numeric\Round',
+            'ceil'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
         ]
     ]);
 ```
@@ -236,6 +239,7 @@ return [
                     'sign'          => 'Oro\ORM\Query\AST\Functions\Numeric\Sign',
                     'pow'           => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
                     'round'         => 'Oro\ORM\Query\AST\Functions\Numeric\Round',
+                    'ceil'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                 ],
                 'string_functions'  => [
                     'md5'           => 'Oro\ORM\Query\AST\Functions\SimpleFunction',

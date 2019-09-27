@@ -1,0 +1,6 @@
+- functions:
+    - { name: "ceil", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "numeric" }
+  dql: "SELECT CEIL(12.34) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CEIL(12.34) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 13

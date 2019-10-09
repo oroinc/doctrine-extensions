@@ -28,7 +28,7 @@ class FunctionFactory
         if (!class_exists($className)) {
             throw QueryException::syntaxError(
                 sprintf(
-                    'Function "%s" does not supported for platform "%s"',
+                    'Function "%s" is not supported for platform "%s"',
                     $functionName,
                     $platformName
                 )

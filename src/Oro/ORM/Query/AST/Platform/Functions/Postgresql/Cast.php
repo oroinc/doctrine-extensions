@@ -36,7 +36,7 @@ class Cast extends PlatformFunctionNode
             $type = 'boolean';
         }
 
-        /**
+        /*
          * The notations varchar(n) and char(n) are aliases for character varying(n) and character(n), respectively.
          * character without length specifier is equivalent to character(1). If character varying is used
          * without length specifier, the type accepts strings of any size. The latter is a PostgreSQL extension.

@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Type;
 use Oro\DBAL\Types\PercentType;
 use Oro\Tests\Connection\TestUtil;
 
-class PercentTypeTest extends \PHPUnit_Framework_TestCase
+class PercentTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var PercentType

@@ -4,14 +4,20 @@ namespace Oro\Tests\ORM\AST;
 
 use Oro\ORM\Query\AST\FunctionFactory;
 
-class FunctionFactoryTest extends \PHPUnit_Framework_TestCase
+class FunctionFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \Doctrine\ORM\Query\QueryException
-     * @expectedExceptionMessage [Syntax Error] Function "TestF" does not supported for platform "Test"
-     */
     public function testCreateException()
     {
+        if (method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException(
+                'Doctrine\ORM\Query\QueryException',
+                '[Syntax Error] Function "TestF" does not supported for platform "Test"'
+            );
+        } else {
+            $this->expectException('Doctrine\ORM\Query\QueryException');
+            $this->expectExceptionMessage('[Syntax Error] Function "TestF" does not supported for platform "Test"');
+        }
+
         FunctionFactory::create('Test', 'TestF', array());
     }
 

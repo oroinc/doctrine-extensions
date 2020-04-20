@@ -4,11 +4,9 @@ namespace Oro\Tests\ORM\AST\Query\Functions;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Query;
-
-use Symfony\Component\Yaml\Yaml;
-
 use Oro\Tests\Connection\TestUtil;
 use Oro\Tests\TestCase;
+use Symfony\Component\Yaml\Yaml;
 
 class FunctionsTest extends TestCase
 {
@@ -30,17 +28,25 @@ class FunctionsTest extends TestCase
         $query = new Query($this->entityManager);
         $query->setDQL($dql);
 
-        if (is_array($sql)) {
-            $constraints = array();
-            foreach ($sql as $sqlVariant) {
-                $constraints[] = $this->equalTo($sqlVariant);
-            }
-            $constraint = new \PHPUnit_Framework_Constraint_Or();
-            $constraint->setConstraints($constraints);
-            $this->assertThat($query->getSQL(), $constraint);
-        } else {
-            $this->assertEquals($sql, $query->getSQL(), sprintf('Unexpected SQL for "%s"', $dql));
+        $sql = (array)$sql;
+
+        $constraints = array();
+        foreach ($sql as $sqlVariant) {
+            $constraints[] = $this->equalTo($sqlVariant);
+
+            /**
+             * Doctrine 2.5 compat, @see \Doctrine\ORM\Mapping\AnsiQuoteStrategy::getColumnAlias
+             */
+            $constraints[] = $this->equalTo(str_replace('sclr0', 'sclr_0', $sqlVariant));
         }
+        if (class_exists('PHPUnit_Framework_Constraint_Or')) {
+            $constraint = new \PHPUnit_Framework_Constraint_Or();
+        } else {
+            $constraint = new \PHPUnit\Framework\Constraint\LogicalOr();
+        }
+        $constraint->setConstraints($constraints);
+        $this->assertThat($query->getSQL(), $constraint);
+
         $result = $query->getArrayResult();
         $this->assertNotEmpty($result);
         $this->assertEquals(
@@ -59,9 +65,15 @@ class FunctionsTest extends TestCase
         $data = array();
         $files = new \FilesystemIterator(__DIR__ . '/fixtures/' . $platform, \FilesystemIterator::SKIP_DOTS);
         foreach ($files as $file) {
-            $fileData = Yaml::parse($file);
+            $fileData = Yaml::parse(file_get_contents($file));
             if (!is_array($fileData)) {
-                throw new \RuntimeException(sprintf('Could not parse file %s', $file));
+                throw new \RuntimeException(
+                    sprintf(
+                        'Could not parse file %s with data: "%s"',
+                        $file,
+                        serialize($fileData)
+                    )
+                );
             }
             $data = array_merge($data, $fileData);
         }

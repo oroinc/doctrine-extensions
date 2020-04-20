@@ -3,8 +3,8 @@
 namespace Oro\ORM\Query\AST\Platform\Functions\Mysql;
 
 use Doctrine\ORM\Query\AST\Node;
-use Oro\ORM\Query\AST\Functions\String\GroupConcat as Base;
 use Doctrine\ORM\Query\SqlWalker;
+use Oro\ORM\Query\AST\Functions\String\GroupConcat as Base;
 use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
 class GroupConcat extends PlatformFunctionNode

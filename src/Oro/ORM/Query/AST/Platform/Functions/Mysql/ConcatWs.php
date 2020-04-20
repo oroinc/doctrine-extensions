@@ -3,7 +3,6 @@
 namespace Oro\ORM\Query\AST\Platform\Functions\Mysql;
 
 use Doctrine\ORM\Query\SqlWalker;
-
 use Oro\ORM\Query\AST\Functions\String\ConcatWs as Base;
 use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 

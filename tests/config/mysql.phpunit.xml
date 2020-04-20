@@ -7,16 +7,18 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          stopOnFailure="false"
-         syntaxCheck="false"
+         failOnRisky="true"
+         failOnWarning="true"
          bootstrap="../bootstrap.php"
+         verbose="true"
 >
     <php>
         <var name="db_type" value="pdo_mysql"/>
-        <var name="db_host" value="127.0.0.1" />
+        <var name="db_host" value="0.0.0.0" />
         <var name="db_username" value="travis" />
         <var name="db_password" value="travis" />
         <var name="db_name" value="doctrine_extensions_tests" />
-        <var name="db_port" value="33060"/>
+        <var name="db_port" value="3307"/>
     </php>
 
     <testsuites>

@@ -5,7 +5,7 @@ namespace Oro\Tests\DBAL\Types;
 use Doctrine\DBAL\Types\Type;
 use Oro\Tests\Connection\TestUtil;
 
-class ArrayTypeTest extends \PHPUnit_Framework_TestCase
+class ArrayTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider serializationDataProvider

@@ -4,8 +4,8 @@ namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\SqlWalker;
-use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 use Oro\ORM\Query\AST\Functions\Numeric\Pow as Base;
+use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
 class Pow extends PlatformFunctionNode
 {

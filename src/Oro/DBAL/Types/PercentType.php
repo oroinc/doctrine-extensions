@@ -2,8 +2,8 @@
 
 namespace Oro\DBAL\Types;
 
-use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\Type;
 
 class PercentType extends Type
 {
@@ -30,7 +30,7 @@ class PercentType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return (null === $value) ? null : (double) $value;
+        return (null === $value) ? null : (float) $value;
     }
 
     /**

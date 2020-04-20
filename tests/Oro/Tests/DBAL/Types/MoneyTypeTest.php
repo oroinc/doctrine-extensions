@@ -6,7 +6,7 @@ use Doctrine\DBAL\Types\Type;
 use Oro\DBAL\Types\MoneyType;
 use Oro\Tests\Connection\TestUtil;
 
-class MoneyTypeTest extends \PHPUnit_Framework_TestCase
+class MoneyTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var MoneyType

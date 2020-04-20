@@ -5,7 +5,7 @@ namespace Oro\Tests;
 use Doctrine\ORM\EntityManager;
 use Oro\Tests\Connection\TestUtil;
 
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var EntityManager

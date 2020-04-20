@@ -2,9 +2,8 @@
 
 namespace Oro\ORM\Query\AST\Functions\String;
 
-use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\Lexer;
-
+use Doctrine\ORM\Query\Parser;
 use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class ConcatWs extends AbstractPlatformAwareFunctionNode

@@ -1,58 +1,111 @@
-sudo: required
+os: linux
 dist: trusty
 language: php
 
-matrix:
+branches:
+  only:
+    - master
+    - /^\d+\.\d+$/
+
+cache:
+  directories:
+    - $HOME/.composer
+
+env:
+  global:
+    - MYSQL_PASSWORD=travis
+    - MYSQL_DATABASE=doctrine_extensions_tests
+    - MYSQL_USER=travis
+    - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    - POSTGRES_DB=doctrine_extensions_tests
+    - POSTGRES_USER=travis
+    - POSTGRES_PASSWORD=travis
+    - SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT=1
+    - SYMFONY_DEPRECATIONS_HELPER=disabled=1
+
+jobs:
+  allow_failures:
+    - php: 5.4.45
+      env: DB=pgsql DB_IMAGE=postgres:9.2 DOCTRINE_VERSION=2.2.* DOCTRINE_FIXTURES_VERSION=1.0.*
+    - php: 5.5.38
+      env: DB=pgsql DB_IMAGE=postgres:9.3 DOCTRINE_VERSION=2.3.* DOCTRINE_FIXTURES_VERSION=1.0.*
   include:
     - php: 5.4.45
-      env: DB=mysql DB_IMAGE=mysql:5.5    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
+      env: DB=pgsql DB_IMAGE=postgres:9.2 DOCTRINE_VERSION=2.2.* DOCTRINE_FIXTURES_VERSION=1.0.*
     - php: 5.5.38
-      env: DB=mysql DB_IMAGE=mysql:5.5    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 5.6.30
-      env: DB=mysql DB_IMAGE=mysql:5.7    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 7.0.21
-      env: DB=mysql DB_IMAGE=mysql:8.0    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 7.1.7
-      env: DB=mysql DB_IMAGE=mysql:8.0    VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
+      env: DB=pgsql DB_IMAGE=postgres:9.3 DOCTRINE_VERSION=2.3.* DOCTRINE_FIXTURES_VERSION=1.0.*
 
+    # temporary jobs until Doctrine 2.2-2.3 fix
     - php: 5.4.45
-      env: DB=mysql DB_IMAGE=mariadb:5.5  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 5.6.30
-      env: DB=mysql DB_IMAGE=mariadb:10.0 VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 7.1.7
-      env: DB=mysql DB_IMAGE=mariadb:10.1 VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-
-    - php: 5.4.45
-      env: DB=mysql DB_IMAGE=percona:5.5  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 5.6.30
-      env: DB=mysql DB_IMAGE=percona:5.6  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-    - php: 7.1.7
-      env: DB=mysql DB_IMAGE=percona:5.7  VARS='-p 33060:3306 -e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-
-    - php: 5.4.45
-      env: DB=pgsql DB_IMAGE=postgres:9.2 VARS='-p 54320:5432 -e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
+      env: DB=pgsql DB_IMAGE=postgres:9.2 DOCTRINE_VERSION=2.4.* DOCTRINE_FIXTURES_VERSION=1.1.*
     - php: 5.5.38
-      env: DB=pgsql DB_IMAGE=postgres:9.3 VARS='-p 54320:5432 -e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
-    - php: 5.6.30
-      env: DB=pgsql DB_IMAGE=postgres:9.4 VARS='-p 54320:5432 -e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
-    - php: 7.0.21
-      env: DB=pgsql DB_IMAGE=postgres:9.5 VARS='-p 54320:5432 -e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
-    - php: 7.1.7
-      env: DB=pgsql DB_IMAGE=postgres:9.6 VARS='-p 54320:5432 -e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
+      env: DB=pgsql DB_IMAGE=postgres:9.3 DOCTRINE_VERSION=2.4.* DOCTRINE_FIXTURES_VERSION=1.1.*
+
+    - php: 5.6.40
+      env: DB=pgsql DB_IMAGE=postgres:9.4 DOCTRINE_VERSION=2.4.* DOCTRINE_FIXTURES_VERSION=1.1.* PHPCSFIXER=true PHPCS=true
+    - php: 7.1.32
+      env: DB=pgsql DB_IMAGE=postgres:9.5 DOCTRINE_VERSION=2.5.*
+    - php: 7.2.29
+      env: DB=pgsql DB_IMAGE=postgres:9.6 DOCTRINE_VERSION=2.6.*
+    - php: 7.3
+      env: DB=pgsql DB_IMAGE=postgres:9.6 DOCTRINE_VERSION=2.6.*
+    - php: 7.3
+      env: DB=pgsql DB_IMAGE=postgres:10.12 DOCTRINE_VERSION=2.7.* DOCTRINE_FIXTURES_VERSION=1.4.*
+    - php: 7.4
+      env: DB=pgsql DB_IMAGE=postgres:11.7 DOCTRINE_VERSION=2.7.* DOCTRINE_FIXTURES_VERSION=1.4.*
+    - php: 7.4
+      env: DB=pgsql DB_IMAGE=postgres:12.2 DOCTRINE_VERSION=2.7.* DOCTRINE_FIXTURES_VERSION=1.4.*
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mysql:5.5
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mysql:5.6
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mysql:5.7
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mysql:8.0.3
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mariadb:5.5
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mariadb:10.0
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mariadb:10.1
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mariadb:10.2
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mariadb:10.3
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mariadb:10.4
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=mariadb:10.5
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=percona:5.5
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=percona:5.6
+    - php: 7.3
+      env: DB=mysql DB_IMAGE=percona:5.7
 
 install:
-  - composer self-update
-  - composer install --prefer-dist --optimize-autoloader --no-interaction  --no-suggest
-  - docker pull ${DB_IMAGE}
-  - docker run -d --name database ${VARS} ${DB_IMAGE}
-  - sleep 30s
+  - env | grep 'MYSQL\|POSTGRES' | tee ./.env
+  - travis_retry docker pull ${DB_IMAGE}
+  - travis_retry docker run -d --privileged --name database -p 3307:3306 -p 5433:5432 --env-file ./.env ${DB_IMAGE}
+
+  - if [[ ! -z "$PHPCSFIXER" ]]; then travis_retry php -r "copy('https://cs.symfony.com/download/php-cs-fixer-v2.phar', 'php-cs-fixer.phar');"; fi
+  - if [[ ! -z "$PHPCS" ]]; then travis_retry php -r "copy('https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar', 'phpcs.phar');"; fi
+
+  - travis_retry composer self-update
+  - travis_retry composer require doctrine/orm:${DOCTRINE_VERSION:-2.6.*} doctrine/data-fixtures:${DOCTRINE_FIXTURES_VERSION:-1.3.*}
 
 before_script:
-  - vendor/bin/phpunit --configuration tests/config/$DB.phpunit.xml tests/Oro/Tests/Connection/SetupTest.php
+  - if [[ ! -z "$PHPCSFIXER" ]]; then php php-cs-fixer.phar fix --dry-run --config=.php_cs.php --cache-file=.php_cs.cache --verbose --show-progress=dots --diff --allow-risky=yes src/; fi
+  - if [[ ! -z "$PHPCS" ]]; then php phpcs.phar -p --extensions=php --standard=PSR1,PSR12 --cache=.phpcs.cache --report=code --report=diff -n src/; fi
 
 script:
-  - vendor/bin/phpunit --configuration tests/config/$DB.phpunit.xml --testsuite="Oro Doctrine Extensions Test Suite"
-  - vendor/bin/phpcs src/ tests/ -p --encoding=utf-8 --extensions=php --standard=psr2
+  - travis_retry vendor/bin/simple-phpunit --configuration tests/config/$DB.phpunit.xml tests/Oro/Tests/Connection/SetupTest.php
+  - travis_retry vendor/bin/simple-phpunit --configuration tests/config/$DB.phpunit.xml --testsuite="Oro Doctrine Extensions Test Suite"
 
 after_success:
-  - vendor/bin/phpunit --configuration tests/config/$DB.phpunit.xml tests/Oro/Tests/Connection/TearDownTest.php
+  - travis_retry vendor/bin/simple-phpunit --configuration tests/config/$DB.phpunit.xml tests/Oro/Tests/Connection/TearDownTest.php
+
+after_failure:
+  - docker logs database

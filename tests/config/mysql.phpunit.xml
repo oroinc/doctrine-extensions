@@ -13,6 +13,8 @@
          verbose="true"
 >
     <php>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="memory_limit" value="-1"/>
         <var name="db_type" value="pdo_mysql"/>
         <var name="db_host" value="0.0.0.0" />
         <var name="db_username" value="travis" />

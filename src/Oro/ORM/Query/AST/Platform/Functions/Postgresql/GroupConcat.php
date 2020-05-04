@@ -21,7 +21,7 @@ class GroupConcat extends PlatformFunctionNode
         /** @var Node[] $pathExpressions */
         $pathExpressions = $this->parameters[Base::PARAMETER_KEY];
         foreach ($pathExpressions as $pathExp) {
-            $fields[] = $pathExp->dispatch($sqlWalker);
+            $fields[] = $pathExp instanceof Node ? $pathExp->dispatch($sqlWalker) : $pathExp;
         }
 
         if (count($fields) === 1) {

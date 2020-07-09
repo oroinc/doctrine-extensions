@@ -2,28 +2,35 @@
 
 namespace Oro\ORM\Query\AST;
 
+use Doctrine\Common\Inflector\Inflector as LegacyInflector;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use Doctrine\ORM\Query\QueryException;
-use Doctrine\Common\Inflector\Inflector;
 use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
 class FunctionFactory
 {
+    /**
+     * @var Inflector
+     */
+    private static $inflector;
+
     /**
      * Create platform function node.
      *
      * @param string $platformName
      * @param string $functionName
      * @param array $parameters
-     * @throws \Doctrine\ORM\Query\QueryException
+     * @throws QueryException
      * @return PlatformFunctionNode
      */
     public static function create($platformName, $functionName, array $parameters)
     {
         $className = __NAMESPACE__
             . '\\Platform\\Functions\\'
-            . Inflector::classify(strtolower($platformName))
+            . self::classify(strtolower($platformName))
             . '\\'
-            . Inflector::classify(strtolower($functionName));
+            . self::classify(strtolower($functionName));
 
         if (!class_exists($className)) {
             throw QueryException::syntaxError(
@@ -36,5 +43,20 @@ class FunctionFactory
         }
 
         return new $className($parameters);
+    }
+
+    /**
+     * @param string $platformName
+     * @return string
+     */
+    private static function classify($platformName)
+    {
+        if (class_exists(Inflector::class)) {
+            if (!self::$inflector) {
+                self::$inflector = InflectorFactory::create()->build();
+            }
+            return self::$inflector->classify($platformName);
+        }
+        return LegacyInflector::classify($platformName);
     }
 }

@@ -11,7 +11,7 @@ use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 class FunctionFactory
 {
     /**
-     * @var Inflector
+     * @var Inflector|null
      */
     private static $inflector;
 
@@ -46,17 +46,17 @@ class FunctionFactory
     }
 
     /**
-     * @param string $platformName
+     * @param string $word
      * @return string
      */
-    private static function classify($platformName)
+    private static function classify($word)
     {
         if (class_exists(Inflector::class)) {
             if (!self::$inflector) {
                 self::$inflector = InflectorFactory::create()->build();
             }
-            return self::$inflector->classify($platformName);
+            return self::$inflector->classify($word);
         }
-        return LegacyInflector::classify($platformName);
+        return LegacyInflector::classify($word);
     }
 }

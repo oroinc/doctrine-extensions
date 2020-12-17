@@ -20,6 +20,7 @@
         "doctrine/data-fixtures": "^1.0",
         "symfony/yaml": "2.*",
         "doctrine/orm": "<2.5.0",
+        "doctrine/common": "<3.0.0",
         "squizlabs/php_codesniffer": "2.8.*"
     },
     "autoload": {

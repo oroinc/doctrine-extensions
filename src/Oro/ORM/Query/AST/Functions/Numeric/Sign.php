@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions\Numeric;
 
@@ -8,11 +9,8 @@ use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class Sign extends AbstractPlatformAwareFunctionNode
 {
-    const PARAMETER_KEY = 'expression';
+    public const PARAMETER_KEY = 'expression';
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

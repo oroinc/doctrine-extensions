@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 
@@ -10,10 +11,7 @@ use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
 class Cast extends PlatformFunctionNode
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         /** @var Node $value */
         $value = $this->parameters[DqlFunction::PARAMETER_KEY];

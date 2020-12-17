@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions;
 
@@ -8,13 +9,12 @@ use Oro\ORM\Query\AST\FunctionFactory;
 
 abstract class AbstractPlatformAwareFunctionNode extends FunctionNode
 {
-    /**
-     * @var array
-     */
-    public $parameters = array();
+    /** @var array */
+    public $parameters = [];
 
     /**
-     * {@inheritdoc}
+     * @noinspection PhpMissingReturnTypeInspection
+     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     public function getSql(SqlWalker $sqlWalker)
     {

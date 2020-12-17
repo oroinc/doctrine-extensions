@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 
@@ -8,12 +9,8 @@ use Doctrine\ORM\Query\SqlWalker;
 
 class Replace extends PlatformFunctionNode
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
-        $strings = array();
         $subject = $this->parameters[Base::SUBJECT_KEY];
         $from = $this->parameters[Base::FROM_KEY];
         $to = $this->parameters[Base::TO_KEY];

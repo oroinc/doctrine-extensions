@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Mysql;
 
@@ -8,17 +9,14 @@ use Doctrine\ORM\Query\SqlWalker;
 
 class Replace extends PlatformFunctionNode
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
-        $strings = array();
+        $strings = [];
         $subject = $this->parameters[Base::SUBJECT_KEY];
         $from = $this->parameters[Base::FROM_KEY];
         $to = $this->parameters[Base::TO_KEY];
 
-        return sprintf(
+        return \sprintf(
             'REPLACE(%s, %s, %s)',
             $this->getExpressionValue($subject, $sqlWalker),
             $this->getExpressionValue($from, $sqlWalker),

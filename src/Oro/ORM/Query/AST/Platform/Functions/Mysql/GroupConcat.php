@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Mysql;
 
@@ -11,22 +12,20 @@ class GroupConcat extends PlatformFunctionNode
 {
     /**
      * @url http://sysmagazine.com/posts/181666/
-     *
-     * {@inheritdoc}
      */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         $isDistinct = !empty($this->parameters[Base::DISTINCT_KEY]);
         $result = 'GROUP_CONCAT(' . ($isDistinct ? 'DISTINCT ' : '');
 
-        $fields = array();
+        $fields = [];
         /** @var Node[] $pathExpressions */
         $pathExpressions = $this->parameters[Base::PARAMETER_KEY];
         foreach ($pathExpressions as $pathExp) {
             $fields[] = $pathExp->dispatch($sqlWalker);
         }
 
-        $result .= sprintf('%s', implode(', ', $fields));
+        $result .= \sprintf('%s', \implode(', ', $fields));
 
         if (!empty($this->parameters[Base::ORDER_KEY])) {
             $result .= ' ' . $sqlWalker->walkOrderByClause($this->parameters[Base::ORDER_KEY]);

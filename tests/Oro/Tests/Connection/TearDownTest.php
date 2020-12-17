@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Tests\Connection;
 
@@ -7,13 +8,13 @@ use Oro\Tests\TestCase;
 
 class TearDownTest extends TestCase
 {
-    public function testSchemaDown()
+    public function testSchemaDown(): void
     {
         $schemaTool = new SchemaTool($this->entityManager);
         $schemaTool->dropDatabase();
 
         $schemaManager = $this->entityManager->getConnection()->getSchemaManager();
         $tables = $schemaManager->listTableNames();
-        $this->assertEmpty($tables);
+        static::assertEmpty($tables);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions\DateTime;
 
@@ -8,13 +9,10 @@ use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class ConvertTz extends AbstractPlatformAwareFunctionNode
 {
-    const VALUE_KEY = 'value';
-    const FROM_TZ_KEY = 'from_tz';
-    const TO_TZ_KEY = 'to_tz';
+    public const VALUE_KEY = 'value';
+    public const FROM_TZ_KEY = 'from_tz';
+    public const TO_TZ_KEY = 'to_tz';
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

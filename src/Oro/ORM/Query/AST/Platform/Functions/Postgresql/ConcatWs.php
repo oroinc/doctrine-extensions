@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 
@@ -9,12 +10,9 @@ use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
 class ConcatWs extends PlatformFunctionNode
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
-        $strings = array();
+        $strings = [];
         $stringExpressions = $this->parameters[Base::STRINGS_KEY];
         foreach ($stringExpressions as $stringExp) {
             $strings[] = $sqlWalker->walkStringPrimary($stringExp);
@@ -23,7 +21,7 @@ class ConcatWs extends PlatformFunctionNode
         return sprintf(
             'CONCAT_WS(%s, %s)',
             $sqlWalker->walkStringPrimary($this->parameters[Base::SEPARATOR_KEY]),
-            implode(', ', $strings)
+            \implode(', ', $strings)
         );
     }
 }

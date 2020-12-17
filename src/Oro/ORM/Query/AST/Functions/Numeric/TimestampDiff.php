@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions\Numeric;
 
@@ -8,16 +9,14 @@ use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class TimestampDiff extends AbstractPlatformAwareFunctionNode
 {
-    const UNIT_KEY = 'unit';
-    const VAL1_KEY = 'val1';
-    const VAL2_KEY = 'val2';
+    public const UNIT_KEY = 'unit';
+    public const VAL1_KEY = 'val1';
+    public const VAL2_KEY = 'val2';
 
     /**
-     * List of supported units.
-     *
      * @var array
      */
-    protected $supportedUnits = array(
+    protected $supportedUnits = [
         'MICROSECOND',
         'SECOND',
         'MINUTE',
@@ -27,11 +26,8 @@ class TimestampDiff extends AbstractPlatformAwareFunctionNode
         'MONTH',
         'QUARTER',
         'YEAR'
-    );
+    ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);
@@ -40,11 +36,12 @@ class TimestampDiff extends AbstractPlatformAwareFunctionNode
 
         $lexer = $parser->getLexer();
         $unit = strtoupper(trim($lexer->token['value']));
-        if (!$this->checkUnit($unit)) {
+        if (!$this->isSupportedUnit($unit)) {
             $parser->syntaxError(
-                sprintf(
-                    'Unit is not valid for TIMESTAMPDIFF function. Supported units are: "%s"',
-                    implode(', ', $this->supportedUnits)
+                \sprintf(
+                    'Unit %s is not supported by TIMESTAMPDIFF function. The supported units are: "%s"',
+                    $unit,
+                    \implode(', ', $this->supportedUnits)
                 ),
                 $lexer->token
             );
@@ -58,14 +55,8 @@ class TimestampDiff extends AbstractPlatformAwareFunctionNode
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    /**
-     * Check that unit is supported.
-     *
-     * @param string $unit
-     * @return bool
-     */
-    protected function checkUnit($unit)
+    protected function isSupportedUnit(string $unit): bool
     {
-        return in_array($unit, $this->supportedUnits);
+        return \in_array($unit, $this->supportedUnits, false);
     }
 }

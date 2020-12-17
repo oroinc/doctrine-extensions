@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 
@@ -8,13 +9,10 @@ use Doctrine\ORM\Query\SqlWalker;
 
 class Ceil extends PlatformFunctionNode
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         $value = $this->parameters[SimpleFunction::PARAMETER_KEY];
 
-        return sprintf('CEIL(%s)', $this->getExpressionValue($value, $sqlWalker));
+        return \sprintf('CEIL(%s)', $this->getExpressionValue($value, $sqlWalker));
     }
 }

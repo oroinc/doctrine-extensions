@@ -16,8 +16,9 @@ class FunctionsTest extends TestCase
 {
     /**
      * @dataProvider functionsDataProvider
+     * @param string|string[] $sql
      */
-    public function testDqlFunction(array $functions, string $dql, string $sql, array $expectedResult): void
+    public function testDqlFunction(array $functions, string $dql, $sql, array $expectedResult): void
     {
         $configuration = $this->entityManager->getConfiguration();
 

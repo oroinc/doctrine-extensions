@@ -21,6 +21,7 @@ class Cast extends AbstractPlatformAwareFunctionNode
         'time',
         'int',
         'integer',
+        'bigint',
         'decimal',
         'json',
         'bool',

@@ -24,6 +24,8 @@ class Cast extends PlatformFunctionNode
             $type = 'char';
         } elseif ($type === 'int' || $type === 'integer' || $isBoolean) {
             $type = 'signed';
+        } elseif ($type === 'bigint') {
+            $type = 'unsigned';
         }
 
         $expression = 'CAST(' . $this->getExpressionValue($value, $sqlWalker) . ' AS ' . $type . ')';

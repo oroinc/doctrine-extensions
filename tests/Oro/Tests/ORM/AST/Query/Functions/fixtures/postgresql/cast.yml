@@ -21,6 +21,14 @@
   expectedResult:
       - 123
 
+#BIGINT
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT CAST('9223372036854775807' as bigint) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('9223372036854775807' AS bigint) AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 9223372036854775807
+
 #CHAR
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }

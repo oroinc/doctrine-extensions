@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions\String;
 
@@ -8,13 +9,11 @@ use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class DateFormat extends AbstractPlatformAwareFunctionNode
 {
-    const DATE_KEY = 'date';
-    const FORMAT_KEY = 'format';
+    public const DATE_KEY = 'date';
+    public const FORMAT_KEY = 'format';
 
-    /**
-     * @var array
-     */
-    private static $knownFormats = array(
+    /** @var array */
+    private static $knownFormats = [
         '%a',
         '%b',
         '%c',
@@ -47,12 +46,10 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
         '%Y',
         '%y',
         '%%',
-    );
+    ];
 
-    /**
-     * @var array
-     */
-    private static $supportedFormats = array(
+    /** @var array */
+    private static $supportedFormats = [
         '%a',
         '%b',
         '%c',
@@ -77,11 +74,8 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
         '%Y',
         '%y',
         '%%',
-    );
+    ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);
@@ -97,19 +91,17 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    /**
-     * @param Parser $parser
-     */
-    private function validateFormat(Parser $parser)
+    private function validateFormat(Parser $parser): void
     {
-        $format = str_replace('%%', '', $this->parameters[self::FORMAT_KEY]);
-        $unsupportedFormats = array_diff(self::$knownFormats, self::$supportedFormats);
+        $format = \str_replace('%%', '', $this->parameters[self::FORMAT_KEY]);
+        $unsupportedFormats = \array_diff(self::$knownFormats, self::$supportedFormats);
         foreach ($unsupportedFormats as $unsupportedFormat) {
-            if (strpos($format, $unsupportedFormat) !== false) {
+            if (false !== \strpos($format, $unsupportedFormat)) {
                 $parser->syntaxError(
-                    sprintf(
-                        'Format string contains unsupported specifier. Supported specifiers are: "%s"',
-                        implode(', ', self::$supportedFormats)
+                    \sprintf(
+                        'Format string contains unsupported specifier %s. The supported specifiers are: "%s"',
+                        $unsupportedFormat,
+                        \implode(', ', self::$supportedFormats)
                     )
                 );
                 break;

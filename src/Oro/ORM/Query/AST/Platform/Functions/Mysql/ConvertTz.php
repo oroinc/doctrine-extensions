@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Mysql;
 
@@ -9,10 +10,7 @@ use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
 class ConvertTz extends PlatformFunctionNode
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         /** @var Node $value */
         $value = $this->parameters[BaseFunction::VALUE_KEY];

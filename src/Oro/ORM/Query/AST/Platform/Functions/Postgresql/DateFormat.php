@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 
@@ -8,9 +9,7 @@ use Oro\ORM\Query\AST\Functions\String\DateFormat as BaseFunction;
 
 class DateFormat extends AbstractTimestampAwarePlatformFunctionNode
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private static $map = [
         '%a' => 'Dy',
         '%b' => 'Mon',
@@ -38,10 +37,7 @@ class DateFormat extends AbstractTimestampAwarePlatformFunctionNode
         '%%' => '%',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         /** @var Node $date */
         $date = $this->parameters[BaseFunction::DATE_KEY];
@@ -54,11 +50,7 @@ class DateFormat extends AbstractTimestampAwarePlatformFunctionNode
             . ')';
     }
 
-    /**
-     * @param string $format
-     * @return string
-     */
-    private function getPostgresFormat($format)
+    private function getPostgresFormat(string $format): string
     {
         return strtr($format, self::$map);
     }

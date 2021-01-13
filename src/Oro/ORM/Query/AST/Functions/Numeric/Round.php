@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: albion
- * Date: 17-12-14
- * Time: 10.47.PD
- */
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions\Numeric;
 
@@ -14,12 +9,9 @@ use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class Round extends AbstractPlatformAwareFunctionNode
 {
-    const VALUE = 'value';
-    const PRECISION = 'precision';
+    public const VALUE = 'value';
+    public const PRECISION = 'precision';
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $lexer = $parser->getLexer();

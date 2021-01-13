@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions;
 
@@ -7,34 +8,22 @@ use Doctrine\ORM\Query\SqlWalker;
 
 abstract class PlatformFunctionNode
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     public $parameters;
 
-    /**
-     * @param array $parameters
-     */
     public function __construct(array $parameters)
     {
         $this->parameters = $parameters;
     }
 
-    /**
-     * @param SqlWalker $sqlWalker
-     *
-     * @return string
-     */
-    abstract public function getSql(SqlWalker $sqlWalker);
+    abstract public function getSql(SqlWalker $sqlWalker): string;
 
     /**
      * Get expression value string.
      *
      * @param string|Node $expression
-     * @param SqlWalker $sqlWalker
-     * @return string
      */
-    protected function getExpressionValue($expression, SqlWalker $sqlWalker)
+    protected function getExpressionValue($expression, SqlWalker $sqlWalker): string
     {
         if ($expression instanceof Node) {
             $expression = $expression->dispatch($sqlWalker);

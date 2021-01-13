@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions\Numeric;
 
@@ -8,12 +9,9 @@ use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class Pow extends AbstractPlatformAwareFunctionNode
 {
-    const VALUE_KEY = 'value';
-    const POWER_KEY = 'power';
+    public const VALUE_KEY = 'value';
+    public const POWER_KEY = 'power';
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

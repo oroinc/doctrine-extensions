@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions;
 
@@ -7,11 +8,8 @@ use Doctrine\ORM\Query\Lexer;
 
 class SimpleFunction extends AbstractPlatformAwareFunctionNode
 {
-    const PARAMETER_KEY = 'expression';
+    public const PARAMETER_KEY = 'expression';
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

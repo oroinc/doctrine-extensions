@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions\String;
 
@@ -9,13 +10,10 @@ use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class Replace extends AbstractPlatformAwareFunctionNode
 {
-    const SUBJECT_KEY = 'subject';
-    const FROM_KEY = 'from';
-    const TO_KEY = 'to';
+    public const SUBJECT_KEY = 'subject';
+    public const FROM_KEY = 'from';
+    public const TO_KEY = 'to';
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

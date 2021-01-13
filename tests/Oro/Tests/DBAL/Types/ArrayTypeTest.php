@@ -1,61 +1,66 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Tests\DBAL\Types;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\ORMException;
 use Oro\Tests\Connection\TestUtil;
+use PHPUnit\Framework\TestCase;
 
-class ArrayTypeTest extends \PHPUnit_Framework_TestCase
+class ArrayTypeTest extends TestCase
 {
     /**
      * @dataProvider serializationDataProvider
-     * @param array $data
+     * @throws Exception
+     * @throws ORMException
      */
-    public function testSerialization($data)
+    public function testSerialization(array $data): void
     {
-        $encoded = base64_encode(serialize($data));
+        $encoded = \base64_encode(\serialize($data));
 
         $platform = TestUtil::getEntityManager()->getConnection()->getDatabasePlatform();
         $type = $this->getType();
 
         $actualDbValue = $type->convertToDatabaseValue($data, $platform);
-        $this->assertEquals($encoded, $actualDbValue);
-        $this->assertEquals($data, $type->convertToPHPValue($actualDbValue, $platform));
-        $this->assertEquals($data, $type->convertToPHPValue($encoded, $platform));
+        static::assertEquals($encoded, $actualDbValue);
+        static::assertEquals($data, $type->convertToPHPValue($actualDbValue, $platform));
+        static::assertEquals($data, $type->convertToPHPValue($encoded, $platform));
     }
 
     /**
      * @dataProvider serializationDataProvider
-     * @param array $data
+     * @throws Exception
+     * @throws ORMException
      */
-    public function testCompatibilityMode($data)
+    public function testCompatibilityMode(array $data): void
     {
-        $dataSerialized = serialize($data);
+        $dataSerialized = \serialize($data);
 
         $platform = TestUtil::getEntityManager()->getConnection()->getDatabasePlatform();
         $type = $this->getType();
 
-        $this->assertEquals($data, $type->convertToPHPValue($dataSerialized, $platform));
+        static::assertEquals($data, $type->convertToPHPValue($dataSerialized, $platform));
     }
 
     /**
-     * @return Type
+     * @throws Exception
      */
-    protected function getType()
+    protected function getType(): Type
     {
-        Type::overrideType(Type::TARRAY, 'Oro\DBAL\Types\ArrayType');
-        return Type::getType(Type::TARRAY);
+        /** @noinspection PhpFullyQualifiedNameUsageInspection */
+        Type::overrideType(Types::ARRAY, \Oro\DBAL\Types\ArrayType::class);
+        return Type::getType(Types::ARRAY);
     }
 
-    /**
-     * @return array
-     */
-    public function serializationDataProvider()
+    public function serializationDataProvider(): array
     {
-        return array(
-            array(array('a' => 'b')),
-            array(array()),
-            array(array(1, 2, 3)),
-        );
+        return [
+            [['a' => 'b']],
+            [[]],
+            [[1, 2, 3]],
+        ];
     }
 }

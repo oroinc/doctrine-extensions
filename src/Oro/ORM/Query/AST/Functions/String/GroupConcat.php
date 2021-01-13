@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions\String;
 
@@ -8,15 +9,13 @@ use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class GroupConcat extends AbstractPlatformAwareFunctionNode
 {
-    const PARAMETER_KEY = 'expression';
-    const ORDER_KEY = 'order';
-    const SEPARATOR_KEY = 'separator';
-    const DISTINCT_KEY = 'distinct';
+    public const PARAMETER_KEY = 'expression';
+    public const ORDER_KEY = 'order';
+    public const SEPARATOR_KEY = 'separator';
+    public const DISTINCT_KEY = 'distinct';
 
     /**
      * @url http://sysmagazine.com/posts/181666/
-     *
-     * {@inheritdoc}
      */
     public function parse(Parser $parser)
     {
@@ -31,7 +30,7 @@ class GroupConcat extends AbstractPlatformAwareFunctionNode
         }
 
         // first Path Expression is mandatory
-        $this->parameters[self::PARAMETER_KEY] = array();
+        $this->parameters[self::PARAMETER_KEY] = [];
         $this->parameters[self::PARAMETER_KEY][] = $parser->StringPrimary();
 
         while ($lexer->isNextToken(Lexer::T_COMMA)) {
@@ -44,7 +43,7 @@ class GroupConcat extends AbstractPlatformAwareFunctionNode
         }
 
         if ($lexer->isNextToken(Lexer::T_IDENTIFIER)) {
-            if (strtolower($lexer->lookahead['value']) !== 'separator') {
+            if (\strtolower($lexer->lookahead['value']) !== 'separator') {
                 $parser->syntaxError('separator');
             }
             $parser->match(Lexer::T_IDENTIFIER);

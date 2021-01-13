@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 
@@ -8,10 +9,7 @@ use Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff as BaseFunction;
 
 class Timestampdiff extends AbstractTimestampAwarePlatformFunctionNode
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         /** @var string $unit */
         $unit = $this->parameters[BaseFunction::UNIT_KEY];
@@ -25,181 +23,109 @@ class Timestampdiff extends AbstractTimestampAwarePlatformFunctionNode
 
     /**
      * Get TimestampDiff expression by unit.
-     *
-     * @param string $unit
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     *
-     * @return string
      */
-    protected function getSqlByUnit($unit, Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
-    {
-        $method = 'getDiffFor' . ucfirst(strtolower($unit));
+    protected function getSqlByUnit(
+        string $unit,
+        Node $firstDateNode,
+        Node $secondDateNode,
+        SqlWalker $sqlWalker
+    ): string {
+        $method = 'getDiffFor' . \ucfirst(\strtolower($unit));
 
-        return call_user_func(array($this, $method), $firstDateNode, $secondDateNode, $sqlWalker);
+        return \call_user_func([$this, $method], $firstDateNode, $secondDateNode, $sqlWalker);
     }
 
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForMicrosecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    protected function getDiffForMicrosecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker): string
     {
-        return sprintf(
+        return \sprintf(
             'EXTRACT(MICROSECOND FROM %s - %s)',
             $this->getTimestampValue($secondDateNode, $sqlWalker),
             $this->getTimestampValue($firstDateNode, $sqlWalker)
         );
     }
 
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForSecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    protected function getDiffForSecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker): string
     {
         return $this->getFloorValue(
             $this->getRawDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker)
         );
     }
 
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForMinute(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    protected function getDiffForMinute(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker): string
     {
         return $this->getFloorValue(
             $this->getRawDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker) . ' / 60'
         );
     }
 
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForHour(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    protected function getDiffForHour(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker): string
     {
         return $this->getFloorValue(
             $this->getRawDiffForSecond($firstDateNode, $secondDateNode, $sqlWalker) . ' / 3600'
         );
     }
 
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForDay(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    protected function getDiffForDay(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker): string
     {
-        return sprintf(
+        return \sprintf(
             'EXTRACT(DAY FROM %s - %s)',
             $this->getTimestampValue($secondDateNode, $sqlWalker),
             $this->getTimestampValue($firstDateNode, $sqlWalker)
         );
     }
 
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForWeek(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    protected function getDiffForWeek(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker): string
     {
         return $this->getFloorValue(
             $this->getDiffForDay($firstDateNode, $secondDateNode, $sqlWalker) . ' / 7'
         );
     }
 
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForMonth(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    protected function getDiffForMonth(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker): string
     {
         $firstDateTimestamp = $this->getTimestampValue($firstDateNode, $sqlWalker);
         $secondDateTimestamp = $this->getTimestampValue($secondDateNode, $sqlWalker);
 
-        $months = sprintf(
+        $months = \sprintf(
             'EXTRACT(MONTH from %s)',
             $this->getAge($firstDateTimestamp, $secondDateTimestamp)
         );
 
-        return sprintf(
+        return \sprintf(
             '(%s * 12 + %s)',
             $this->getDiffForYear($firstDateNode, $secondDateNode, $sqlWalker),
             $months
         );
     }
 
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForQuarter(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    protected function getDiffForQuarter(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker): string
     {
         return $this->getFloorValue(
             $this->getDiffForMonth($firstDateNode, $secondDateNode, $sqlWalker) . ' / 3'
         );
     }
 
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getDiffForYear(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    protected function getDiffForYear(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker): string
     {
         $firstDateTimestamp = $this->getTimestampValue($firstDateNode, $sqlWalker);
         $secondDateTimestamp = $this->getTimestampValue($secondDateNode, $sqlWalker);
 
-        return sprintf('EXTRACT(YEAR from %s)', $this->getAge($firstDateTimestamp, $secondDateTimestamp));
+        return \sprintf('EXTRACT(YEAR from %s)', $this->getAge($firstDateTimestamp, $secondDateTimestamp));
     }
 
-    /**
-     * @param string $firstDateTimestamp
-     * @param string $secondDateTimestamp
-     * @return string
-     */
-    protected function getAge($firstDateTimestamp, $secondDateTimestamp)
+    protected function getAge(string $firstDateTimestamp, string $secondDateTimestamp): string
     {
-        return sprintf('age(%s, %s)', $secondDateTimestamp, $firstDateTimestamp);
+        return \sprintf('age(%s, %s)', $secondDateTimestamp, $firstDateTimestamp);
     }
 
-    /**
-     * @param string $value
-     * @return string
-     */
-    protected function getFloorValue($value)
+    protected function getFloorValue(string $value): string
     {
-        return sprintf('FLOOR(%s)', $value);
+        return \sprintf('FLOOR(%s)', $value);
     }
 
-    /**
-     * @param Node $firstDateNode
-     * @param Node $secondDateNode
-     * @param SqlWalker $sqlWalker
-     * @return string
-     */
-    protected function getRawDiffForSecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker)
+    protected function getRawDiffForSecond(Node $firstDateNode, Node $secondDateNode, SqlWalker $sqlWalker): string
     {
-        return sprintf(
+        return \sprintf(
             'EXTRACT(EPOCH FROM %s - %s)',
             $this->getTimestampValue($secondDateNode, $sqlWalker),
             $this->getTimestampValue($firstDateNode, $sqlWalker)

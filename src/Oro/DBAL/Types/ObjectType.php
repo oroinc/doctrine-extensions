@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\DBAL\Types;
 
@@ -7,33 +8,24 @@ use Doctrine\DBAL\Types\ObjectType as BaseType;
 
 class ObjectType extends BaseType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value && !$this->isSerialized($value)) {
-            $value = base64_decode($value);
+        if ($value && !$this->isSerialized((string) $value)) {
+            $value = \base64_decode($value);
         }
 
         return parent::convertToPHPValue($value, $platform);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @noinspection PhpMissingReturnTypeInspection */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         $convertedValue = parent::convertToDatabaseValue($value, $platform);
-        return base64_encode($convertedValue);
+        return \base64_encode($convertedValue);
     }
 
-    /**
-     * @param string $string
-     * @return bool
-     */
-    protected function isSerialized($string)
+    protected function isSerialized(string $string): bool
     {
-        return strpos($string, ';') !== false || strpos($string, ':') !== false || strpos($string, '{') !== false;
+        return false !== \strpos($string, ';') || false !== \strpos($string, ':') || false !== \strpos($string, '{');
     }
 }

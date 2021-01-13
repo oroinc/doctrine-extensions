@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\DBAL\Types;
 
@@ -7,10 +8,12 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 class PercentType extends Type
 {
-    const TYPE = 'percent';
+    public const TYPE = 'percent';
 
     /**
-     * {@inheritdoc}
+     * @return string
+     * @noinspection PhpMissingReturnTypeInspection
+     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     public function getName()
     {
@@ -18,15 +21,19 @@ class PercentType extends Type
     }
 
     /**
-     * {@inheritdoc}
+     * @noinspection PhpMissingReturnTypeInspection
+     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform)
     {
-        return $platform->getFloatDeclarationSQL($fieldDeclaration);
+        return $platform->getFloatDeclarationSQL($column);
     }
 
     /**
-     * {@inheritdoc}
+     * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection PhpMissingReturnTypeInspection
+     * @noinspection ReturnTypeCanBeDeclaredInspection
+     * @noinspection PhpDocSignatureInspection
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
@@ -34,7 +41,9 @@ class PercentType extends Type
     }
 
     /**
-     * {@inheritdoc}
+     * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection PhpMissingReturnTypeInspection
+     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     public function requiresSQLCommentHint(AbstractPlatform $platform)
     {

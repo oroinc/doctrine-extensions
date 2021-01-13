@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions\String;
 
@@ -9,12 +10,9 @@ use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class ConcatWs extends AbstractPlatformAwareFunctionNode
 {
-    const STRINGS_KEY = 'strings';
-    const SEPARATOR_KEY = 'separator';
+    public const STRINGS_KEY = 'strings';
+    public const SEPARATOR_KEY = 'separator';
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

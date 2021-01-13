@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\DBAL\Types;
 
@@ -7,12 +8,13 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 class MoneyType extends Type
 {
-    const TYPE           = 'money';
-    const TYPE_PRECISION = 19;
-    const TYPE_SCALE     = 4;
+    public const TYPE = 'money';
+    public const TYPE_PRECISION = 19;
+    public const TYPE_SCALE = 4;
 
     /**
-     * {@inheritdoc}
+     * @noinspection PhpMissingReturnTypeInspection
+     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     public function getName()
     {
@@ -20,18 +22,21 @@ class MoneyType extends Type
     }
 
     /**
-     * {@inheritdoc}
+     * @noinspection PhpMissingReturnTypeInspection
+     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform)
     {
-        $fieldDeclaration['precision'] = self::TYPE_PRECISION;
-        $fieldDeclaration['scale']     = self::TYPE_SCALE;
+        $column['precision'] = self::TYPE_PRECISION;
+        $column['scale']     = self::TYPE_SCALE;
 
-        return $platform->getDecimalTypeDeclarationSQL($fieldDeclaration);
+        return $platform->getDecimalTypeDeclarationSQL($column);
     }
 
     /**
-     * {@inheritdoc}
+     * @noinspection SenselessMethodDuplicationInspection
+     * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection PhpDocSignatureInspection
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
@@ -39,7 +44,9 @@ class MoneyType extends Type
     }
 
     /**
-     * {@inheritdoc}
+     * @noinspection PhpMissingReturnTypeInspection
+     * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     public function requiresSQLCommentHint(AbstractPlatform $platform)
     {

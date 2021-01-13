@@ -1,19 +1,17 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Literal;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\Lexer;
 
 class Cast extends AbstractPlatformAwareFunctionNode
 {
-    const PARAMETER_KEY = 'expression';
-    const TYPE_KEY = 'type';
+    public const PARAMETER_KEY = 'expression';
+    public const TYPE_KEY = 'type';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $supportedTypes = [
         'char',
         'string',
@@ -30,9 +28,6 @@ class Cast extends AbstractPlatformAwareFunctionNode
         'binary'
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);
@@ -47,7 +42,6 @@ class Cast extends AbstractPlatformAwareFunctionNode
 
         if ($lexer->isNextToken(Lexer::T_OPEN_PARENTHESIS)) {
             $parser->match(Lexer::T_OPEN_PARENTHESIS);
-            /** @var Literal $parameter */
             $parameter = $parser->Literal();
             $parameters = [
                 $parameter->value
@@ -60,14 +54,15 @@ class Cast extends AbstractPlatformAwareFunctionNode
                 }
             }
             $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-            $type .= '(' . implode(', ', $parameters) . ')';
+            $type .= '(' . \implode(', ', $parameters) . ')';
         }
 
-        if (!$this->checkType($type)) {
+        if (!$this->isSupportedType($type)) {
             $parser->syntaxError(
-                sprintf(
-                    'Type unsupported. Supported types are: "%s"',
-                    implode(', ', $this->supportedTypes)
+                \sprintf(
+                    'Type %s is not supported. The supported types are: "%s"',
+                    $type,
+                    \implode(', ', $this->supportedTypes)
                 ),
                 $lexer->token
             );
@@ -78,17 +73,11 @@ class Cast extends AbstractPlatformAwareFunctionNode
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    /**
-     * Check that given type is supported.
-     *
-     * @param string $type
-     * @return bool
-     */
-    protected function checkType($type)
+    protected function isSupportedType(string $type): bool
     {
-        $type = strtolower(trim($type));
+        $type = \strtolower(\trim($type));
         foreach ($this->supportedTypes as $supportedType) {
-            if (strpos($type, $supportedType) === 0) {
+            if (0 === \strpos($type, $supportedType)) {
                 return true;
             }
         }

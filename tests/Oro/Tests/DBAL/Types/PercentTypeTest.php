@@ -1,50 +1,69 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Tests\DBAL\Types;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Types\Type;
 
+use Doctrine\ORM\ORMException;
 use Oro\DBAL\Types\PercentType;
 use Oro\Tests\Connection\TestUtil;
+use PHPUnit\Framework\TestCase;
 
-class PercentTypeTest extends \PHPUnit_Framework_TestCase
+class PercentTypeTest extends TestCase
 {
-    /**
-     * @var PercentType
-     */
+    /** @var PercentType */
     protected $percentType;
 
-    protected function setUp()
+    /**
+     * @throws Exception
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    protected function setUp(): void
     {
         if (!Type::hasType(PercentType::TYPE)) {
-            Type::addType(PercentType::TYPE, 'Oro\DBAL\Types\PercentType');
+            /** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+            Type::addType(PercentType::TYPE, \Oro\DBAL\Types\PercentType::class);
         }
         $this->percentType = Type::getType(PercentType::TYPE);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
-        $this->assertEquals('percent', $this->percentType->getName());
+        static::assertEquals('percent', $this->percentType->getName());
     }
 
-    public function testGetSQLDeclaration()
+    /**
+     * @throws Exception
+     * @throws ORMException
+     */
+    public function testGetSQLDeclaration(): void
     {
         $platform = TestUtil::getEntityManager()->getConnection()->getDatabasePlatform();
-        $output = $this->percentType->getSQLDeclaration(array(), $platform);
+        $output = $this->percentType->getSQLDeclaration([], $platform);
 
-        $this->assertEquals("DOUBLE PRECISION", $output);
+        static::assertEquals("DOUBLE PRECISION", $output);
     }
 
-    public function testConvertToPHPValue()
+    /**
+     * @throws Exception
+     * @throws ORMException
+     */
+    public function testConvertToPHPValue(): void
     {
         $platform = TestUtil::getEntityManager()->getConnection()->getDatabasePlatform();
-        $this->assertNull($this->percentType->convertToPHPValue(null, $platform));
-        $this->assertEquals(12.4, $this->percentType->convertToPHPValue(12.4, $platform));
+        static::assertNull($this->percentType->convertToPHPValue(null, $platform));
+        static::assertEquals(12.4, $this->percentType->convertToPHPValue(12.4, $platform));
     }
 
-    public function testRequiresSQLCommentHint()
+    /**
+     * @throws Exception
+     * @throws ORMException
+     */
+    public function testRequiresSQLCommentHint(): void
     {
         $platform = TestUtil::getEntityManager()->getConnection()->getDatabasePlatform();
-        $this->assertTrue($this->percentType->requiresSQLCommentHint($platform));
+        static::assertTrue($this->percentType->requiresSQLCommentHint($platform));
     }
 }

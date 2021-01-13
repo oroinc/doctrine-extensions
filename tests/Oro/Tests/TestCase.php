@@ -1,29 +1,32 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Tests;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMException;
 use Oro\Tests\Connection\TestUtil;
 
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var EntityManager
-     */
+    /** @var EntityManager */
     protected $entityManager;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $metadata;
 
-    protected function setUp()
+    /**
+     * @throws ORMException
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    protected function setUp(): void
     {
         $this->entityManager = TestUtil::getEntityManager();
         $this->metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
     }
 
-    protected function tearDown()
+    /** @noinspection PhpMissingParentCallCommonInspection */
+    protected function tearDown(): void
     {
         unset($this->entityManager);
     }

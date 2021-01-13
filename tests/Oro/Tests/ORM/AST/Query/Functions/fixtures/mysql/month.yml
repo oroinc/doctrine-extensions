@@ -1,14 +1,14 @@
 - functions:
     - { name: "month", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "numeric" }
   dql: "SELECT MONTH(f.createdAt) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql: "SELECT MONTH(t0_.created_at) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  sql: "SELECT MONTH(t0_.created_at) AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
   expectedResult:
       - 1
 
 - functions:
     - { name: "month", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "numeric" }
   dql: "SELECT MONTH('2014-01-02') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql: "SELECT MONTH('2014-01-02') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  sql: "SELECT MONTH('2014-01-02') AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
   expectedResult:
       - 1
 
@@ -16,6 +16,6 @@
     - { name: "month", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "numeric" }
     - { name: "convert_tz", className: "Oro\\ORM\\Query\\AST\\Functions\\DateTime\\ConvertTz", type: "datetime" }
   dql: "SELECT MONTH(CONVERT_TZ(f.createdAt, '+00:00', '+01:00')) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql: "SELECT MONTH(CONVERT_TZ(t0_.created_at, '+00:00', '+01:00')) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  sql: "SELECT MONTH(CONVERT_TZ(t0_.created_at, '+00:00', '+01:00')) AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
   expectedResult:
       - 1

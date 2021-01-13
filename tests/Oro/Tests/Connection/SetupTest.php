@@ -1,16 +1,23 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Tests\Connection;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\ORM\Tools\ToolsException;
 use Oro\Tests\TestCase;
 
 class SetupTest extends TestCase
 {
-    public function testSchemaUp()
+    /**
+     * @throws ORMException
+     * @throws ToolsException
+     */
+    public function testSchemaUp(): void
     {
         $this->entityManager = TestUtil::getEntityManager();
         $schemaManager = $this->entityManager->getConnection()->getSchemaManager();
@@ -23,12 +30,12 @@ class SetupTest extends TestCase
         $schemaTool->createSchema($this->metadata);
 
         $tables = $schemaManager->listTableNames();
-        $this->assertNotEmpty($tables);
+        static::assertNotEmpty($tables);
 
         $this->loadFixtures();
     }
 
-    protected function loadFixtures()
+    protected function loadFixtures(): void
     {
         $loader = new Loader();
         $loader->loadFromDirectory(__DIR__ . '/Fixtures');

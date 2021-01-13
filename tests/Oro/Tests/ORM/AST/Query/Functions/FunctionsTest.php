@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Tests\ORM\AST\Query\Functions;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Query;
 
+use PHPUnit\Framework\Constraint\LogicalOr;
 use Symfony\Component\Yaml\Yaml;
 
 use Oro\Tests\Connection\TestUtil;
@@ -14,12 +16,9 @@ class FunctionsTest extends TestCase
 {
     /**
      * @dataProvider functionsDataProvider
-     * @param array $functions
-     * @param string $dql
-     * @param string $sql
-     * @param string $expectedResult
+     * @param string|string[] $sql
      */
-    public function testDqlFunction(array $functions, $dql, $sql, $expectedResult)
+    public function testDqlFunction(array $functions, string $dql, $sql, array $expectedResult): void
     {
         $configuration = $this->entityManager->getConfiguration();
 
@@ -30,53 +29,55 @@ class FunctionsTest extends TestCase
         $query = new Query($this->entityManager);
         $query->setDQL($dql);
 
-        if (is_array($sql)) {
-            $constraints = array();
+        if (\is_array($sql)) {
+            $constraints = [];
             foreach ($sql as $sqlVariant) {
-                $constraints[] = $this->equalTo($sqlVariant);
+                $constraints[] = static::equalTo($sqlVariant);
             }
-            $constraint = new \PHPUnit_Framework_Constraint_Or();
+            $constraint = new LogicalOr();
             $constraint->setConstraints($constraints);
-            $this->assertThat($query->getSQL(), $constraint);
+            static::assertThat($query->getSQL(), $constraint);
         } else {
-            $this->assertEquals($sql, $query->getSQL(), sprintf('Unexpected SQL for "%s"', $dql));
+            static::assertEquals($sql, $query->getSQL(), \sprintf('Unexpected SQL for "%s"', $dql));
         }
         $result = $query->getArrayResult();
-        $this->assertNotEmpty($result);
-        $this->assertEquals(
+        static::assertNotEmpty($result);
+        static::assertEquals(
             $expectedResult,
-            array_values(array_shift($result)),
-            sprintf('Unexpected result for "%s"', $dql)
+            \array_values(\array_shift($result)),
+            \sprintf('Unexpected result for "%s"', $dql)
         );
     }
 
     /**
-     * @return array
+     * @throws \Exception
      */
-    public function functionsDataProvider()
+    public function functionsDataProvider(): array
     {
         $platform = TestUtil::getPlatformName();
-        $data = array();
-        $files = new \FilesystemIterator(__DIR__ . '/fixtures/' . $platform, \FilesystemIterator::SKIP_DOTS);
+        $data = [];
+        $files = new \FilesystemIterator(
+            __DIR__ . '/fixtures/' . $platform,
+            \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME
+        );
         foreach ($files as $file) {
-            $fileData = Yaml::parse($file);
-            if (!is_array($fileData)) {
-                throw new \RuntimeException(sprintf('Could not parse file %s', $file));
+            $fileData = Yaml::parseFile($file);
+            if (!\is_array($fileData)) {
+                throw new \RuntimeException(\sprintf('Could not parse file %s', $file));
             }
-            $data = array_merge($data, $fileData);
+            /** @noinspection SlowArrayOperationsInLoopInspection */
+            $data = \array_merge($data, $fileData);
         }
 
         return $data;
     }
 
-    /**
-     * @param string $type
-     * @param string $functionName
-     * @param string $functionClass
-     * @param Configuration $configuration
-     */
-    protected function registerDqlFunction($type, $functionName, $functionClass, Configuration $configuration)
-    {
+    protected function registerDqlFunction(
+        string $type,
+        string $functionName,
+        string $functionClass,
+        Configuration $configuration
+    ): void {
         switch ($type) {
             case 'datetime':
                 $configuration->addCustomDatetimeFunction($functionName, $functionClass);

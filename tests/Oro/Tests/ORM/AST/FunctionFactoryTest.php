@@ -1,45 +1,42 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Tests\ORM\AST;
 
+use Doctrine\ORM\Query\QueryException;
 use Oro\ORM\Query\AST\FunctionFactory;
+use PHPUnit\Framework\TestCase;
 
-class FunctionFactoryTest extends \PHPUnit_Framework_TestCase
+class FunctionFactoryTest extends TestCase
 {
-    /**
-     * @expectedException \Doctrine\ORM\Query\QueryException
-     * @expectedExceptionMessage [Syntax Error] Function "TestF" does not supported for platform "Test"
-     */
-    public function testCreateException()
+    public function testCreateException(): void
     {
-        FunctionFactory::create('Test', 'TestF', array());
+        $this->expectException(QueryException::class);
+        $this->expectExceptionMessage('[Syntax Error] Function "TestF" does not supported for platform "Test"');
+        FunctionFactory::create('Test', 'TestF', []);
     }
 
     /**
      * @dataProvider platformFunctionsDataProvider
-     * @param string $platform
-     * @param string $function
+     * @throws QueryException
      */
-    public function testCreate($platform, $function)
+    public function testCreate(string $platform, string $function): void
     {
-        $functionInstance = FunctionFactory::create($platform, $function, array());
-        $this->assertInstanceOf('Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode', $functionInstance);
+        $this->expectNotToPerformAssertions();
+        FunctionFactory::create($platform, $function, []);
     }
 
-    /**
-     * @return array
-     */
-    public function platformFunctionsDataProvider()
+    public function platformFunctionsDataProvider(): array
     {
-        return array(
-            array('mysql', 'date'),
-            array('Mysql', 'Date'),
-            array('MySql', 'DATE'),
-            array('postgresql', 'group_concat'),
-            array('Mysql', 'Group_Concat'),
-            array('postgresql', 'GROUP_CONCAT'),
-            array('Mysql', 'TimestampDiff'),
-            array('postgresql', 'TIMESTAMPDIFF'),
-        );
+        return [
+            ['mysql', 'date'],
+            ['Mysql', 'Date'],
+            ['MySql', 'DATE'],
+            ['postgresql', 'group_concat'],
+            ['Mysql', 'Group_Concat'],
+            ['postgresql', 'GROUP_CONCAT'],
+            ['Mysql', 'TimestampDiff'],
+            ['postgresql', 'TIMESTAMPDIFF'],
+        ];
     }
 }

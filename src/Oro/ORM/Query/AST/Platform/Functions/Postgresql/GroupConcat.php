@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST\Platform\Functions\Postgresql;
 
@@ -9,26 +10,23 @@ use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
 class GroupConcat extends PlatformFunctionNode
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         $isDistinct = !empty($this->parameters[Base::DISTINCT_KEY]);
         $result = 'array_to_string(array_agg(' . ($isDistinct ? 'DISTINCT ' : '');
 
-        $fields = array();
+        $fields = [];
         /** @var Node[] $pathExpressions */
         $pathExpressions = $this->parameters[Base::PARAMETER_KEY];
         foreach ($pathExpressions as $pathExp) {
             $fields[] = $pathExp->dispatch($sqlWalker);
         }
 
-        if (count($fields) === 1) {
-            $concatenatedFields = reset($fields);
+        if (\count($fields) === 1) {
+            $concatenatedFields = \reset($fields);
         } else {
             $platform = $sqlWalker->getConnection()->getDatabasePlatform();
-            $concatenatedFields = call_user_func_array(array($platform, 'getConcatExpression'), $fields);
+            $concatenatedFields = \call_user_func_array([$platform, 'getConcatExpression'], $fields);
         }
         $result .= $concatenatedFields;
 

@@ -93,7 +93,7 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
 
     private function validateFormat(Parser $parser): void
     {
-        $format = \str_replace('%%', '', $this->parameters[self::FORMAT_KEY]);
+        $format = \str_replace('%%', '', (string)$this->parameters[self::FORMAT_KEY]);
         $unsupportedFormats = \array_diff(self::$knownFormats, self::$supportedFormats);
         foreach ($unsupportedFormats as $unsupportedFormat) {
             if (false !== \strpos($format, $unsupportedFormat)) {

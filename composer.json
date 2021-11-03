@@ -16,12 +16,11 @@
         "doctrine/orm": ">=2.2.3"
     },
     "require-dev": {
-        "php": ">=7.3",
+        "php": ">=7.3.0",
         "phpunit/phpunit": "9.*",
         "doctrine/data-fixtures": "^1.3",
         "symfony/yaml": "5.*",
-        "doctrine/cache": "1.11.*",
-        "doctrine/common": "<3.0.0",
+        "symfony/cache": "5.*",
         "squizlabs/php_codesniffer": "3.5.*"
     },
     "autoload": {

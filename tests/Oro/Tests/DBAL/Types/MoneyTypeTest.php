@@ -6,17 +6,17 @@ use Doctrine\DBAL\Types\Type;
 use Oro\DBAL\Types\MoneyType;
 use Oro\Tests\Connection\TestUtil;
 
-class MoneyTypeTest extends \PHPUnit_Framework_TestCase
+class MoneyTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var MoneyType
      */
     protected $type;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!Type::hasType(MoneyType::TYPE)) {
-            Type::addType(MoneyType::TYPE, 'Oro\DBAL\Types\MoneyType');
+            Type::addType(MoneyType::TYPE, MoneyType::class);
         }
         $this->type = Type::getType(MoneyType::TYPE);
     }

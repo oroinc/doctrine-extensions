@@ -27,7 +27,8 @@ class Cast extends AbstractPlatformAwareFunctionNode
         'json',
         'bool',
         'boolean',
-        'binary'
+        'binary',
+        'uuid'
     ];
 
     /**

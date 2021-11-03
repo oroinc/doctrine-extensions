@@ -1,27 +1,27 @@
 - functions:
     - { name: "convert_tz", className: "Oro\\ORM\\Query\\AST\\Functions\\DateTime\\ConvertTz", type: "datetime" }
   dql: "SELECT CONVERT_TZ(f.createdAt, '+00:00', '+01:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql: "SELECT CONVERT_TZ(t0_.created_at, '+00:00', '+01:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  sql: "SELECT CONVERT_TZ(t0_.created_at, '+00:00', '+01:00') AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
   expectedResult:
       - "2014-01-04 06:06:07"
 
 - functions:
     - { name: "convert_tz", className: "Oro\\ORM\\Query\\AST\\Functions\\DateTime\\ConvertTz", type: "datetime" }
   dql: "SELECT CONVERT_TZ('2014-01-01 00:00:00', '+00:00', '+01:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql: "SELECT CONVERT_TZ('2014-01-01 00:00:00', '+00:00', '+01:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  sql: "SELECT CONVERT_TZ('2014-01-01 00:00:00', '+00:00', '+01:00') AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
   expectedResult:
       - "2014-01-01 01:00:00"
 
 - functions:
     - { name: "convert_tz", className: "Oro\\ORM\\Query\\AST\\Functions\\DateTime\\ConvertTz", type: "datetime" }
   dql: "SELECT CONVERT_TZ('2014-01-01 00:00:00', '+02:00', '+02:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql: SELECT CONVERT_TZ('2014-01-01 00:00:00', '+02:00', '+02:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  sql: SELECT CONVERT_TZ('2014-01-01 00:00:00', '+02:00', '+02:00') AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1
   expectedResult:
       - "2014-01-01 00:00:00"
 
 - functions:
     - { name: "convert_tz", className: "Oro\\ORM\\Query\\AST\\Functions\\DateTime\\ConvertTz", type: "datetime" }
   dql: "SELECT CONVERT_TZ('2014-01-01 00:00:00', '+01:00', '+03:00') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql: SELECT CONVERT_TZ('2014-01-01 00:00:00', '+01:00', '+03:00') AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1
+  sql: SELECT CONVERT_TZ('2014-01-01 00:00:00', '+01:00', '+03:00') AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1
   expectedResult:
       - "2014-01-01 02:00:00"

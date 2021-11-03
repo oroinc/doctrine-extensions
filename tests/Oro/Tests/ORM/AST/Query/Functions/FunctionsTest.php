@@ -5,10 +5,6 @@ namespace Oro\Tests\ORM\AST\Query\Functions;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Query;
-
-use PHPUnit\Framework\Constraint\LogicalOr;
-use Symfony\Component\Yaml\Yaml;
-
 use Oro\Tests\Connection\TestUtil;
 use Oro\Tests\TestCase;
 use PHPUnit\Framework\Constraint\LogicalOr;
@@ -63,7 +59,7 @@ class FunctionsTest extends TestCase
             \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME
         );
         foreach ($files as $file) {
-            $fileData = Yaml::parseFile($file->getPathname());
+            $fileData = Yaml::parseFile($file);
             if (!\is_array($fileData)) {
                 throw new \RuntimeException(\sprintf('Could not parse file %s', $file));
             }

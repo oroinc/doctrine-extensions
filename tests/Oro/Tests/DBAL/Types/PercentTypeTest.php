@@ -5,7 +5,6 @@ namespace Oro\Tests\DBAL\Types;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Types\Type;
-
 use Doctrine\ORM\ORMException;
 use Oro\DBAL\Types\PercentType;
 use Oro\Tests\Connection\TestUtil;

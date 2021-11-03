@@ -11,6 +11,8 @@ use Symfony\Component\Yaml\Yaml;
 
 use Oro\Tests\Connection\TestUtil;
 use Oro\Tests\TestCase;
+use PHPUnit\Framework\Constraint\LogicalOr;
+use Symfony\Component\Yaml\Yaml;
 
 class FunctionsTest extends TestCase
 {
@@ -61,15 +63,18 @@ class FunctionsTest extends TestCase
             \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME
         );
         foreach ($files as $file) {
-            $fileData = Yaml::parseFile($file);
+            $fileData = Yaml::parseFile($file->getPathname());
             if (!\is_array($fileData)) {
                 throw new \RuntimeException(\sprintf('Could not parse file %s', $file));
             }
-            /** @noinspection SlowArrayOperationsInLoopInspection */
-            $data = \array_merge($data, $fileData);
+            $data[] = $fileData;
         }
 
-        return $data;
+        if (!$data) {
+            return [];
+        }
+
+        return array_merge(...$data);
     }
 
     protected function registerDqlFunction(

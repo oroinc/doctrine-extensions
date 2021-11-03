@@ -26,7 +26,8 @@ class Cast extends AbstractPlatformAwareFunctionNode
         'json',
         'bool',
         'boolean',
-        'binary'
+        'binary',
+        'uuid'
     ];
 
     public function parse(Parser $parser)

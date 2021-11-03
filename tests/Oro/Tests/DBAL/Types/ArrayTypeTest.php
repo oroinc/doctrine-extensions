@@ -3,9 +3,11 @@
 namespace Oro\Tests\DBAL\Types;
 
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
+use Oro\DBAL\Types\ArrayType;
 use Oro\Tests\Connection\TestUtil;
 
-class ArrayTypeTest extends \PHPUnit_Framework_TestCase
+class ArrayTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider serializationDataProvider
@@ -43,8 +45,8 @@ class ArrayTypeTest extends \PHPUnit_Framework_TestCase
      */
     protected function getType()
     {
-        Type::overrideType(Type::TARRAY, 'Oro\DBAL\Types\ArrayType');
-        return Type::getType(Type::TARRAY);
+        Type::overrideType(Types::ARRAY, ArrayType::class);
+        return Type::getType(Types::ARRAY);
     }
 
     /**

@@ -1,6 +1,6 @@
 - functions:
     - { name: "minute", className: "Oro\\ORM\\Query\\AST\\Functions\\SimpleFunction", type: "numeric" }
   dql: "SELECT MINUTE(f.createdAt) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql: "SELECT MINUTE(t0_.created_at) AS sclr0 FROM test_foo t0_ WHERE t0_.id = 1"
+  sql: "SELECT MINUTE(t0_.created_at) AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
   expectedResult:
       - 6

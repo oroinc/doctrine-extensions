@@ -5,7 +5,7 @@ namespace Oro\Tests;
 use Doctrine\ORM\EntityManager;
 use Oro\Tests\Connection\TestUtil;
 
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var EntityManager
@@ -17,13 +17,13 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected $metadata;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->entityManager = TestUtil::getEntityManager();
         $this->metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->entityManager);
     }

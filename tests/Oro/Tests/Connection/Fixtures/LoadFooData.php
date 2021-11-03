@@ -3,8 +3,7 @@
 namespace Oro\Tests\Connection\Fixtures;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
-
+use Doctrine\Persistence\ObjectManager;
 use Oro\Entities\Foo;
 
 class LoadFooData implements FixtureInterface

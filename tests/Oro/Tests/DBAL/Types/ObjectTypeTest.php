@@ -3,9 +3,11 @@
 namespace Oro\Tests\DBAL\Types;
 
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
+use Oro\DBAL\Types\ObjectType;
 use Oro\Tests\Connection\TestUtil;
 
-class ObjectTypeTest extends \PHPUnit_Framework_TestCase
+class ObjectTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider serializationDataProvider
@@ -43,8 +45,8 @@ class ObjectTypeTest extends \PHPUnit_Framework_TestCase
      */
     protected function getType()
     {
-        Type::overrideType(Type::OBJECT, 'Oro\DBAL\Types\ObjectType');
-        return Type::getType(Type::OBJECT);
+        Type::overrideType(Types::OBJECT, ObjectType::class);
+        return Type::getType(Types::OBJECT);
     }
 
     /**

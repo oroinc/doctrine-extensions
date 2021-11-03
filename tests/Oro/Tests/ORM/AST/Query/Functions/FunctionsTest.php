@@ -4,11 +4,10 @@ namespace Oro\Tests\ORM\AST\Query\Functions;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Query;
-
-use Symfony\Component\Yaml\Yaml;
-
 use Oro\Tests\Connection\TestUtil;
 use Oro\Tests\TestCase;
+use PHPUnit\Framework\Constraint\LogicalOr;
+use Symfony\Component\Yaml\Yaml;
 
 class FunctionsTest extends TestCase
 {
@@ -35,7 +34,7 @@ class FunctionsTest extends TestCase
             foreach ($sql as $sqlVariant) {
                 $constraints[] = $this->equalTo($sqlVariant);
             }
-            $constraint = new \PHPUnit_Framework_Constraint_Or();
+            $constraint = new LogicalOr();
             $constraint->setConstraints($constraints);
             $this->assertThat($query->getSQL(), $constraint);
         } else {
@@ -56,17 +55,21 @@ class FunctionsTest extends TestCase
     public function functionsDataProvider()
     {
         $platform = TestUtil::getPlatformName();
-        $data = array();
+        $data = [];
         $files = new \FilesystemIterator(__DIR__ . '/fixtures/' . $platform, \FilesystemIterator::SKIP_DOTS);
         foreach ($files as $file) {
-            $fileData = Yaml::parse($file);
+            $fileData = Yaml::parseFile($file->getPathname());
             if (!is_array($fileData)) {
                 throw new \RuntimeException(sprintf('Could not parse file %s', $file));
             }
-            $data = array_merge($data, $fileData);
+            $data[] = $fileData;
         }
 
-        return $data;
+        if (!$data) {
+            return [];
+        }
+
+        return array_merge(...$data);
     }
 
     /**

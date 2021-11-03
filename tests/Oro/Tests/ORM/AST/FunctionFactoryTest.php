@@ -2,16 +2,16 @@
 
 namespace Oro\Tests\ORM\AST;
 
+use Doctrine\ORM\Query\QueryException;
 use Oro\ORM\Query\AST\FunctionFactory;
+use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
-class FunctionFactoryTest extends \PHPUnit_Framework_TestCase
+class FunctionFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \Doctrine\ORM\Query\QueryException
-     * @expectedExceptionMessage [Syntax Error] Function "TestF" does not supported for platform "Test"
-     */
     public function testCreateException()
     {
+        $this->expectException(QueryException::class);
+        $this->expectExceptionMessage('[Syntax Error] Function "TestF" does not supported for platform "Test"');
         FunctionFactory::create('Test', 'TestF', array());
     }
 
@@ -23,7 +23,7 @@ class FunctionFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate($platform, $function)
     {
         $functionInstance = FunctionFactory::create($platform, $function, array());
-        $this->assertInstanceOf('Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode', $functionInstance);
+        $this->assertInstanceOf(PlatformFunctionNode::class, $functionInstance);
     }
 
     /**

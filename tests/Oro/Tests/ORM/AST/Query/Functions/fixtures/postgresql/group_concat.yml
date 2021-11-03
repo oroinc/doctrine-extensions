@@ -1,34 +1,34 @@
 - functions:
     - { name: "group_concat", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\GroupConcat", type: "string" }
   dql: "SELECT GROUP_CONCAT(DISTINCT f.id ORDER BY f.id DESC SEPARATOR ':') FROM Oro\\Entities\\Foo f GROUP BY f.code"
-  sql: "SELECT array_to_string(array_agg(DISTINCT t0_.id  ORDER BY t0_.id DESC), ':') AS sclr0 FROM test_foo t0_ GROUP BY t0_.code"
+  sql: "SELECT array_to_string(array_agg(DISTINCT t0_.id  ORDER BY t0_.id DESC), ':') AS sclr_0 FROM test_foo t0_ GROUP BY t0_.code"
   expectedResult:
       - "3:2:1"
 
 - functions:
     - { name: "group_concat", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\GroupConcat", type: "string" }
   dql: "SELECT GROUP_CONCAT(f.id) FROM Oro\\Entities\\Foo f GROUP BY f.code"
-  sql: "SELECT array_to_string(array_agg(t0_.id), ',') AS sclr0 FROM test_foo t0_ GROUP BY t0_.code"
+  sql: "SELECT array_to_string(array_agg(t0_.id), ',') AS sclr_0 FROM test_foo t0_ GROUP BY t0_.code"
   expectedResult:
       - "1,2,3"
 
 - functions:
     - { name: "group_concat", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\GroupConcat", type: "string" }
   dql: "SELECT GROUP_CONCAT(CONCAT(f.id, ' ', f.name)) FROM Oro\\Entities\\Foo f GROUP BY f.code"
-  sql: "SELECT array_to_string(array_agg(t0_.id || ' ' || t0_.name), ',') AS sclr0 FROM test_foo t0_ GROUP BY t0_.code"
+  sql: "SELECT array_to_string(array_agg(t0_.id || ' ' || t0_.name), ',') AS sclr_0 FROM test_foo t0_ GROUP BY t0_.code"
   expectedResult:
       - "1 test,2 test,3 test"
 
 - functions:
     - { name: "group_concat", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\GroupConcat", type: "string" }
   dql: "SELECT GROUP_CONCAT(CONCAT(f.id, ' ', f.name), ' ', CONCAT(f.name, ' ', f.id) ORDER BY f.id DESC SEPARATOR ':') FROM Oro\\Entities\\Foo f GROUP BY f.code"
-  sql: "SELECT array_to_string(array_agg(t0_.id || ' ' || t0_.name || ' ' || t0_.name || ' ' || t0_.id  ORDER BY t0_.id DESC), ':') AS sclr0 FROM test_foo t0_ GROUP BY t0_.code"
+  sql: "SELECT array_to_string(array_agg(t0_.id || ' ' || t0_.name || ' ' || t0_.name || ' ' || t0_.id  ORDER BY t0_.id DESC), ':') AS sclr_0 FROM test_foo t0_ GROUP BY t0_.code"
   expectedResult:
       - "3 test test 3:2 test test 2:1 test test 1"
 
 - functions:
     - { name: "group_concat", className: "Oro\\ORM\\Query\\AST\\Functions\\String\\GroupConcat", type: "string" }
   dql: "SELECT GROUP_CONCAT(CASE WHEN f.budget > 0 THEN f.budget ELSE 0 END) FROM Oro\\Entities\\Foo f GROUP BY f.code"
-  sql: "SELECT array_to_string(array_agg(CASE WHEN t0_.budget > 0 THEN t0_.budget ELSE 0 END), ',') AS sclr0 FROM test_foo t0_ GROUP BY t0_.code"
+  sql: "SELECT array_to_string(array_agg(CASE WHEN t0_.budget > 0 THEN t0_.budget ELSE 0 END), ',') AS sclr_0 FROM test_foo t0_ GROUP BY t0_.code"
   expectedResult:
       - "100,0,0"

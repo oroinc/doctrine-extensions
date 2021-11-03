@@ -3,21 +3,20 @@
 namespace Oro\Tests\DBAL\Types;
 
 use Doctrine\DBAL\Types\Type;
-
 use Oro\DBAL\Types\PercentType;
 use Oro\Tests\Connection\TestUtil;
 
-class PercentTypeTest extends \PHPUnit_Framework_TestCase
+class PercentTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var PercentType
      */
     protected $percentType;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!Type::hasType(PercentType::TYPE)) {
-            Type::addType(PercentType::TYPE, 'Oro\DBAL\Types\PercentType');
+            Type::addType(PercentType::TYPE, PercentType::class);
         }
         $this->percentType = Type::getType(PercentType::TYPE);
     }

@@ -1,8 +1,6 @@
 Oro Doctrine Extensions
 =======================
 
-[![Build Status](https://travis-ci.org/oroinc/doctrine-extensions.svg)](https://travis-ci.org/oroinc/doctrine-extensions)
-
 Table of Contents
 -----------------
 

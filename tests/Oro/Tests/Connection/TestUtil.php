@@ -17,7 +17,7 @@ class TestUtil
      */
     public static function getEntityManager(): EntityManager
     {
-        if (!self::$entityManager && self::hasRequiredConnectionParams()) {
+        if (!self::$entityManager) {
             $dbParams = self::getConnectionParams();
             $entitiesPath = \realpath(__DIR__ . '/../../Entities');
 
@@ -32,38 +32,16 @@ class TestUtil
         throw new \RuntimeException('Database connection not configured');
     }
 
-    private static function hasRequiredConnectionParams(): bool
-    {
-        return isset(
-            $GLOBALS['db_type'],
-            $GLOBALS['db_username'],
-            $GLOBALS['db_password'],
-            $GLOBALS['db_host'],
-            $GLOBALS['db_name'],
-            $GLOBALS['db_port']
-        );
-    }
-
     private static function getConnectionParams(): array
     {
-        $connectionParams = [
-            'driver' => $GLOBALS['db_type'],
-            'user' => $GLOBALS['db_username'],
-            'password' => $GLOBALS['db_password'],
-            'host' => $GLOBALS['db_host'],
-            'dbname' => $GLOBALS['db_name'],
-            'port' => $GLOBALS['db_port']
+        return [
+            'driver' => getenv('ORO_DB_DRIVER'),
+            'user' => getenv('ORO_DB_USER'),
+            'password' => getenv('ORO_DB_PASS'),
+            'host' => getenv('ORO_DB_HOST'),
+            'dbname' => getenv('ORO_DB_NAME'),
+            'port' => getenv('ORO_DB_PORT')
         ];
-
-        if (isset($GLOBALS['db_server'])) {
-            $connectionParams['server'] = $GLOBALS['db_server'];
-        }
-
-        if (isset($GLOBALS['db_unix_socket'])) {
-            $connectionParams['unix_socket'] = $GLOBALS['db_unix_socket'];
-        }
-
-        return $connectionParams;
     }
 
     /**
@@ -71,7 +49,11 @@ class TestUtil
      */
     public static function getPlatformName(): string
     {
-        $entityManager = self::getEntityManager();
-        return $entityManager->getConnection()->getDatabasePlatform()->getName();
+        $map = ['pdo_pgsql' => 'postgresql', 'pdo_mysql' => 'mysql'];
+        if (empty($map[getenv('ORO_DB_DRIVER')])) {
+            throw new \InvalidArgumentException('Configure ORO_DB_DRIVER environment variable, please.');
+        }
+
+        return $map[getenv('ORO_DB_DRIVER')];
     }
 }

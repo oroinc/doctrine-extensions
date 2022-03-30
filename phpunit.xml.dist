@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit 
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    stopOnFailure="false"
+    bootstrap="tests/bootstrap.php">
+
+    <testsuites>
+        <testsuite name="Oro Doctrine Extensions Test Suite">
+            <directory>tests/Oro/Tests/ORM</directory>
+            <directory>tests/Oro/Tests/DBAL</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

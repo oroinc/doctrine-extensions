@@ -1,5 +1,12 @@
 - functions:
     - { name: "convert_tz", className: "Oro\\ORM\\Query\\AST\\Functions\\DateTime\\ConvertTz", type: "datetime" }
+  dql: "SELECT CONVERT_TZ(f.createdAt, 'UTC', 'Europe/Kiev') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: SELECT "timestamp"(t0_.created_at) AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/Kiev' AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1
+  expectedResult:
+      - "2014-01-04 07:06:07"
+
+- functions:
+    - { name: "convert_tz", className: "Oro\\ORM\\Query\\AST\\Functions\\DateTime\\ConvertTz", type: "datetime" }
   dql: "SELECT CONVERT_TZ('2014-01-01 00:00:00', 'UTC', 'Europe/Kiev') FROM Oro\\Entities\\Foo f WHERE f.id = 1"
   sql: SELECT "timestamp"('2014-01-01 00:00:00') AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/Kiev' AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1
   expectedResult:

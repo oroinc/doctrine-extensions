@@ -14,6 +14,9 @@ class Replace extends AbstractPlatformAwareFunctionNode
     public const FROM_KEY = 'from';
     public const TO_KEY = 'to';
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

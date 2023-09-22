@@ -13,6 +13,9 @@ class ConvertTz extends AbstractPlatformAwareFunctionNode
     public const FROM_TZ_KEY = 'from_tz';
     public const TO_TZ_KEY = 'to_tz';
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

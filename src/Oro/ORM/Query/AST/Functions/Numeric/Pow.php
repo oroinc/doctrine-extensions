@@ -12,6 +12,9 @@ class Pow extends AbstractPlatformAwareFunctionNode
     public const VALUE_KEY = 'value';
     public const POWER_KEY = 'power';
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

@@ -11,6 +11,9 @@ class Sign extends AbstractPlatformAwareFunctionNode
 {
     public const PARAMETER_KEY = 'expression';
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

@@ -9,17 +9,17 @@ use Oro\ORM\Query\AST\FunctionFactory;
 
 abstract class AbstractPlatformAwareFunctionNode extends FunctionNode
 {
-    /** @var array */
-    public $parameters = [];
+    public array $parameters = [];
 
     /**
      * @noinspection PhpMissingReturnTypeInspection
      * @noinspection ReturnTypeCanBeDeclaredInspection
+     * {@inheritdoc}
      */
     public function getSql(SqlWalker $sqlWalker)
     {
         $function = FunctionFactory::create(
-            $sqlWalker->getConnection()->getDatabasePlatform()->getName(),
+            $sqlWalker->getConnection()->getDatabasePlatform(),
             $this->name,
             $this->parameters
         );

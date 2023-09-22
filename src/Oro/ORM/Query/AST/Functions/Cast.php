@@ -12,7 +12,7 @@ class Cast extends AbstractPlatformAwareFunctionNode
     public const TYPE_KEY = 'type';
 
     /** @var array */
-    protected $supportedTypes = [
+    protected array $supportedTypes = [
         'char',
         'string',
         'text',
@@ -30,6 +30,9 @@ class Cast extends AbstractPlatformAwareFunctionNode
         'uuid'
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);
@@ -79,7 +82,7 @@ class Cast extends AbstractPlatformAwareFunctionNode
     {
         $type = \strtolower(\trim($type));
         foreach ($this->supportedTypes as $supportedType) {
-            if (0 === \strpos($type, $supportedType)) {
+            if (str_starts_with($type, $supportedType)) {
                 return true;
             }
         }

@@ -55,7 +55,7 @@ class ObjectTypeTest extends TestCase
         return Type::getType(Types::OBJECT);
     }
 
-    public function serializationDataProvider(): array
+    public static function serializationDataProvider(): array
     {
         $object = new \stdClass();
         $object->a = 'test1';

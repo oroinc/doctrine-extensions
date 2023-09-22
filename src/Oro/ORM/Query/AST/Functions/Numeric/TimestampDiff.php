@@ -16,7 +16,7 @@ class TimestampDiff extends AbstractPlatformAwareFunctionNode
     /**
      * @var array
      */
-    protected $supportedUnits = [
+    protected array $supportedUnits = [
         'MICROSECOND',
         'SECOND',
         'MINUTE',
@@ -28,6 +28,9 @@ class TimestampDiff extends AbstractPlatformAwareFunctionNode
         'YEAR'
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

@@ -26,8 +26,8 @@ class Cast extends PlatformFunctionNode
             return $timestampFunction->getSql($sqlWalker);
         }
 
-        if ($type === 'json' && !$sqlWalker->getConnection()->getDatabasePlatform()->hasNativeJsonType()) {
-            $type = 'text';
+        if ($type === 'json') {
+            $type = 'jsonb';
         }
 
         if ($type === 'bool') {

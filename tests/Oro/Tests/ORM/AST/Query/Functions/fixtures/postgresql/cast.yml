@@ -84,11 +84,9 @@
 - functions:
     - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
   dql: "SELECT CAST(CONCAT('{\"a\":', f.id, '}') as json) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
-  sql:
-    - "SELECT CAST('{\"a\":' || t0_.id || '}' AS json) AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
-    - "SELECT CAST('{\"a\":' || t0_.id || '}' AS text) AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
+  sql: "SELECT CAST('{\"a\":' || t0_.id || '}' AS jsonb) AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
   expectedResult:
-      - '{"a":1}'
+      - '{"a": 1}'
 
 #DECIMAL
 - functions:

@@ -13,7 +13,7 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
     public const FORMAT_KEY = 'format';
 
     /** @var array */
-    private static $knownFormats = [
+    private static array $knownFormats = [
         '%a',
         '%b',
         '%c',
@@ -49,7 +49,7 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
     ];
 
     /** @var array */
-    private static $supportedFormats = [
+    private static array $supportedFormats = [
         '%a',
         '%b',
         '%c',
@@ -76,6 +76,9 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
         '%%',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);
@@ -96,7 +99,7 @@ class DateFormat extends AbstractPlatformAwareFunctionNode
         $format = \str_replace('%%', '', (string)$this->parameters[self::FORMAT_KEY]);
         $unsupportedFormats = \array_diff(self::$knownFormats, self::$supportedFormats);
         foreach ($unsupportedFormats as $unsupportedFormat) {
-            if (false !== \strpos($format, $unsupportedFormat)) {
+            if (str_contains($format, $unsupportedFormat)) {
                 $parser->syntaxError(
                     \sprintf(
                         'Format string contains unsupported specifier %s. The supported specifiers are: "%s"',

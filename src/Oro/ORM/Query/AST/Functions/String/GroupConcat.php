@@ -16,6 +16,7 @@ class GroupConcat extends AbstractPlatformAwareFunctionNode
 
     /**
      * @url http://sysmagazine.com/posts/181666/
+     * {@inheritdoc}
      */
     public function parse(Parser $parser)
     {

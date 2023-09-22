@@ -55,7 +55,7 @@ class ArrayTypeTest extends TestCase
         return Type::getType(Types::ARRAY);
     }
 
-    public function serializationDataProvider(): array
+    public static function serializationDataProvider(): array
     {
         return [
             [['a' => 'b']],

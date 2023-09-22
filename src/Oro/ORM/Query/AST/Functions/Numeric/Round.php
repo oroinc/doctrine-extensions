@@ -12,6 +12,9 @@ class Round extends AbstractPlatformAwareFunctionNode
     public const VALUE = 'value';
     public const PRECISION = 'precision';
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse(Parser $parser)
     {
         $lexer = $parser->getLexer();

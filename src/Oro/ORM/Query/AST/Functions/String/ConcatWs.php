@@ -13,6 +13,9 @@ class ConcatWs extends AbstractPlatformAwareFunctionNode
     public const STRINGS_KEY = 'strings';
     public const SEPARATOR_KEY = 'separator';
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);

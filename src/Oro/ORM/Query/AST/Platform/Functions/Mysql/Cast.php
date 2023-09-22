@@ -16,10 +16,6 @@ class Cast extends PlatformFunctionNode
         $value = $this->parameters[DqlFunction::PARAMETER_KEY];
         $type  = $this->parameters[DqlFunction::TYPE_KEY];
 
-        if ($type === 'json' && !$sqlWalker->getConnection()->getDatabasePlatform()->hasNativeJsonType()) {
-            $type = 'text';
-        }
-
         $type = \strtolower($type);
         $isBoolean = $type === 'bool' || $type === 'boolean';
         if ($type === 'char') {

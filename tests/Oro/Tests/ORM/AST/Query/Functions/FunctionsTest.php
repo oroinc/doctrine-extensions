@@ -5,12 +5,10 @@ namespace Oro\Tests\ORM\AST\Query\Functions;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Query;
-
-use PHPUnit\Framework\Constraint\LogicalOr;
-use Symfony\Component\Yaml\Yaml;
-
 use Oro\Tests\Connection\TestUtil;
 use Oro\Tests\TestCase;
+use PHPUnit\Framework\Constraint\LogicalOr;
+use Symfony\Component\Yaml\Yaml;
 
 class FunctionsTest extends TestCase
 {
@@ -65,11 +63,14 @@ class FunctionsTest extends TestCase
             if (!\is_array($fileData)) {
                 throw new \RuntimeException(\sprintf('Could not parse file %s', $file));
             }
-            /** @noinspection SlowArrayOperationsInLoopInspection */
-            $data = \array_merge($data, $fileData);
+            $data[] = $fileData;
         }
 
-        return $data;
+        if (!$data) {
+            return [];
+        }
+
+        return array_merge(...$data);
     }
 
     protected function registerDqlFunction(

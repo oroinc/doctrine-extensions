@@ -116,4 +116,3 @@
   sql: SELECT TIMESTAMPDIFF(YEAR, '2016-01-01 00:00:01', '2017-01-01 00:00:00') AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1
   expectedResult:
       - 0
-

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Oro\ORM\Query\AST\Functions\String;
 
 use Doctrine\ORM\Query\Parser;
-use Doctrine\ORM\Query\Lexer;
+use Doctrine\ORM\Query\TokenType;
 use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class GroupConcat extends AbstractPlatformAwareFunctionNode
@@ -18,14 +18,14 @@ class GroupConcat extends AbstractPlatformAwareFunctionNode
      * @url http://sysmagazine.com/posts/181666/
      * {@inheritdoc}
      */
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
 
         $lexer = $parser->getLexer();
-        if ($lexer->isNextToken(Lexer::T_DISTINCT)) {
-            $parser->match(Lexer::T_DISTINCT);
+        if ($lexer->isNextToken(TokenType::T_DISTINCT)) {
+            $parser->match(TokenType::T_DISTINCT);
 
             $this->parameters[self::DISTINCT_KEY] = true;
         }
@@ -34,24 +34,24 @@ class GroupConcat extends AbstractPlatformAwareFunctionNode
         $this->parameters[self::PARAMETER_KEY] = [];
         $this->parameters[self::PARAMETER_KEY][] = $parser->StringPrimary();
 
-        while ($lexer->isNextToken(Lexer::T_COMMA)) {
-            $parser->match(Lexer::T_COMMA);
+        while ($lexer->isNextToken(TokenType::T_COMMA)) {
+            $parser->match(TokenType::T_COMMA);
             $this->parameters[self::PARAMETER_KEY][] = $parser->StringPrimary();
         }
 
-        if ($lexer->isNextToken(Lexer::T_ORDER)) {
+        if ($lexer->isNextToken(TokenType::T_ORDER)) {
             $this->parameters[self::ORDER_KEY] = $parser->OrderByClause();
         }
 
-        if ($lexer->isNextToken(Lexer::T_IDENTIFIER)) {
-            if (\strtolower($lexer->lookahead['value']) !== 'separator') {
+        if ($lexer->isNextToken(TokenType::T_IDENTIFIER)) {
+            if (\strtolower($lexer->lookahead->value) !== 'separator') {
                 $parser->syntaxError('separator');
             }
-            $parser->match(Lexer::T_IDENTIFIER);
+            $parser->match(TokenType::T_IDENTIFIER);
 
             $this->parameters[self::SEPARATOR_KEY] = $parser->StringPrimary();
         }
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }

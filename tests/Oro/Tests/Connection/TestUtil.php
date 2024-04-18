@@ -80,7 +80,7 @@ class TestUtil
 
         if ($platform instanceof AbstractMySQLPlatform) {
             return 'mysql';
-        } else if ($platform instanceof PostgreSQLPlatform) {
+        } elseif ($platform instanceof PostgreSQLPlatform) {
             return 'postgresql';
         }
 

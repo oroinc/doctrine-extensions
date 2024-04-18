@@ -1,3 +1,10 @@
+# Upgrade to 3.0
+Version 3.0 requires PHP 8.1 or newer and works with Doctrine/ORM 3.0 or newer.
+
+The following types are no longer supported :
+* `ObjectType`
+* `ArrayType`
+
 # Upgrade to 2.0
 
 Version 2.0 requires PHP 7.3 or newer and works with Doctrine/ORM 2.6 or newer.

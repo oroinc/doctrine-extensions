@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Oro\ORM\Query\AST\Functions\Numeric;
 
 use Doctrine\ORM\Query\Parser;
-use Doctrine\ORM\Query\Lexer;
+use Doctrine\ORM\Query\TokenType;
 use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
 class Round extends AbstractPlatformAwareFunctionNode
@@ -15,19 +15,19 @@ class Round extends AbstractPlatformAwareFunctionNode
     /**
      * {@inheritdoc}
      */
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
         $lexer = $parser->getLexer();
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
         $this->parameters[self::VALUE] = $parser->SimpleArithmeticExpression();
 
         // parse second parameter if available
-        if (Lexer::T_COMMA === $lexer->lookahead['type']) {
-            $parser->match(Lexer::T_COMMA);
+        if (TokenType::T_COMMA === $lexer->lookahead->type) {
+            $parser->match(TokenType::T_COMMA);
             $this->parameters[self::PRECISION] = $parser->ArithmeticPrimary();
         }
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }

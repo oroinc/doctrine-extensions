@@ -6,7 +6,7 @@ namespace Oro\Tests\Connection;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\ORM\ORMException;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use Oro\Tests\TestCase;
@@ -14,13 +14,13 @@ use Oro\Tests\TestCase;
 class SetupTest extends TestCase
 {
     /**
-     * @throws ORMException
      * @throws ToolsException
+     * @throws Exception
      */
     public function testSchemaUp(): void
     {
         $this->entityManager = TestUtil::getEntityManager();
-        $schemaManager = $this->entityManager->getConnection()->getSchemaManager();
+        $schemaManager = $this->entityManager->getConnection()->createSchemaManager();
 
         $schemaTool = new SchemaTool($this->entityManager);
         $tables = $schemaManager->listTableNames();

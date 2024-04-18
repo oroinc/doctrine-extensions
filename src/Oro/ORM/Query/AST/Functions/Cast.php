@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Oro\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\Parser;
-use Doctrine\ORM\Query\Lexer;
+use Doctrine\ORM\Query\TokenType;
 
 class Cast extends AbstractPlatformAwareFunctionNode
 {
@@ -33,32 +33,32 @@ class Cast extends AbstractPlatformAwareFunctionNode
     /**
      * {@inheritdoc}
      */
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
         $this->parameters[self::PARAMETER_KEY] = $parser->ArithmeticExpression();
 
-        $parser->match(Lexer::T_AS);
+        $parser->match(TokenType::T_AS);
 
-        $parser->match(Lexer::T_IDENTIFIER);
+        $parser->match(TokenType::T_IDENTIFIER);
         $lexer = $parser->getLexer();
-        $type = $lexer->token['value'];
+        $type = $lexer->token->value;
 
-        if ($lexer->isNextToken(Lexer::T_OPEN_PARENTHESIS)) {
-            $parser->match(Lexer::T_OPEN_PARENTHESIS);
+        if ($lexer->isNextToken(TokenType::T_OPEN_PARENTHESIS)) {
+            $parser->match(TokenType::T_OPEN_PARENTHESIS);
             $parameter = $parser->Literal();
             $parameters = [
                 $parameter->value
             ];
-            if ($lexer->isNextToken(Lexer::T_COMMA)) {
-                while ($lexer->isNextToken(Lexer::T_COMMA)) {
-                    $parser->match(Lexer::T_COMMA);
+            if ($lexer->isNextToken(TokenType::T_COMMA)) {
+                while ($lexer->isNextToken(TokenType::T_COMMA)) {
+                    $parser->match(TokenType::T_COMMA);
                     $parameter = $parser->Literal();
                     $parameters[] = $parameter->value;
                 }
             }
-            $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+            $parser->match(TokenType::T_CLOSE_PARENTHESIS);
             $type .= '(' . \implode(', ', $parameters) . ')';
         }
 
@@ -75,7 +75,7 @@ class Cast extends AbstractPlatformAwareFunctionNode
 
         $this->parameters[self::TYPE_KEY] = $type;
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 
     protected function isSupportedType(string $type): bool

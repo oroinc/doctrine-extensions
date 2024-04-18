@@ -16,8 +16,11 @@ class FunctionFactory
      *
      * @throws QueryException
      */
-    public static function create(AbstractPlatform $platform, string $functionName, array $parameters): PlatformFunctionNode
-    {
+    public static function create(
+        AbstractPlatform $platform,
+        string $functionName,
+        array $parameters
+    ): PlatformFunctionNode {
         if ($platform instanceof PostgreSQLPlatform) {
             $platformName = 'postgresql';
         } elseif ($platform instanceof MySQLPlatform) {

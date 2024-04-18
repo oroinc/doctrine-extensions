@@ -95,7 +95,7 @@ Add the following dependency to your composer.json:
 ```json
 {
     "require": {
-        "oro/doctrine-extensions": "^2.0"
+        "oro/doctrine-extensions": "^3.0"
     }
 }
 ```

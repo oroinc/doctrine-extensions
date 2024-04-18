@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-23.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         php: [7.3, 7.4]

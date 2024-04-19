@@ -13,19 +13,19 @@ jobs:
           - db_image_name: mysql
             db_image_version: 8
             db: mysql
-            vars: '-e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ROOT_PASSWORD=travis'
+            vars: '-e MYSQL_PASSWORD=myPassword -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=u_doctrine_extensions -e MYSQL_ROOT_PASSWORD=myPassword'
             db_port: 3306
             health: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10'
           - db_image_name: percona
             db_image_version: 8
             db: mysql
-            vars: '-e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ROOT_PASSWORD=travis'
+            vars: '-e MYSQL_PASSWORD=myPassword -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=u_doctrine_extensions -e MYSQL_ROOT_PASSWORD=myPassword'
             db_port: 3306
             health: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10'
           - db_image_name: postgres
             db_image_version: 15
             db: pgsql
-            vars: '-e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
+            vars: '-e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=u_doctrine_extensions -e POSTGRES_PASSWORD=myPassword'
             health: '--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5'
             db_port: 5432
 

@@ -23,7 +23,7 @@ class Round extends AbstractPlatformAwareFunctionNode
         $this->parameters[self::VALUE] = $parser->SimpleArithmeticExpression();
 
         // parse second parameter if available
-        if (Lexer::T_COMMA === $lexer->lookahead['type']) {
+        if (Lexer::T_COMMA === $lexer->lookahead->type) {
             $parser->match(Lexer::T_COMMA);
             $this->parameters[self::PRECISION] = $parser->ArithmeticPrimary();
         }

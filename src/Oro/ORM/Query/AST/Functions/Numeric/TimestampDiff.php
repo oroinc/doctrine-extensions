@@ -38,7 +38,7 @@ class TimestampDiff extends AbstractPlatformAwareFunctionNode
         $parser->match(Lexer::T_IDENTIFIER);
 
         $lexer = $parser->getLexer();
-        $unit = strtoupper(trim($lexer->token['value']));
+        $unit = strtoupper(trim($lexer->token->value));
         if (!$this->isSupportedUnit($unit)) {
             $parser->syntaxError(
                 \sprintf(

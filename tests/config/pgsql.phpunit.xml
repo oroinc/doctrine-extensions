@@ -2,11 +2,11 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" colors="false" stopOnFailure="false" bootstrap="../bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
   <php>
     <var name="db_type" value="pdo_pgsql"/>
-    <var name="db_host" value="127.0.0.1"/>
-    <var name="db_username" value="travis"/>
-    <var name="db_password" value="travis"/>
+    <var name="db_host" value="localhost"/>
+    <var name="db_username" value="u_doctrine_extensions"/>
+    <var name="db_password" value="myPassword"/>
     <var name="db_name" value="doctrine_extensions_tests"/>
-    <var name="db_port" value="54320"/>
+    <var name="db_port" value="5432"/>
   </php>
   <testsuites>
     <testsuite name="Oro Doctrine Extensions Test Suite">

@@ -13,7 +13,7 @@ class TearDownTest extends TestCase
         $schemaTool = new SchemaTool($this->entityManager);
         $schemaTool->dropDatabase();
 
-        $schemaManager = $this->entityManager->getConnection()->getSchemaManager();
+        $schemaManager = $this->entityManager->getConnection()->createSchemaManager();
         $tables = $schemaManager->listTableNames();
         static::assertEmpty($tables);
     }

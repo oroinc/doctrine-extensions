@@ -1,7 +1,7 @@
 Oro Doctrine Extensions
 =======================
 
-[![Build Status](https://travis-ci.org/oroinc/doctrine-extensions.svg)](https://travis-ci.org/oroinc/doctrine-extensions)
+[![CI](https://github.com/oroinc/doctrine-extensions/actions/workflows/ci.yml/badge.svg?branch=3.x)](https://github.com/oroinc/doctrine-extensions/actions/workflows/ci.yml)
 
 Table of Contents
 -----------------

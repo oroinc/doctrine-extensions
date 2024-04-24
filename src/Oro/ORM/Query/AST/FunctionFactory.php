@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace Oro\ORM\Query\AST;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\ORM\Query\QueryException;
 use Oro\ORM\Query\AST\Platform\Functions\PlatformFunctionNode;
 
@@ -16,24 +13,8 @@ class FunctionFactory
      *
      * @throws QueryException
      */
-    public static function create(
-        AbstractPlatform $platform,
-        string $functionName,
-        array $parameters
-    ): PlatformFunctionNode {
-        if ($platform instanceof PostgreSQLPlatform) {
-            $platformName = 'postgresql';
-        } elseif ($platform instanceof MySQLPlatform) {
-            $platformName = 'mysql';
-        } else {
-            throw QueryException::syntaxError(
-                \sprintf(
-                    'Not supported platform "%s"',
-                    $platform::class
-                )
-            );
-        }
-
+    public static function create(string $platformName, string $functionName, array $parameters): PlatformFunctionNode
+    {
         $className = __NAMESPACE__
             . '\\Platform\\Functions\\'
             . static::classify(\strtolower($platformName))

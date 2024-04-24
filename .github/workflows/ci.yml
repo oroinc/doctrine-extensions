@@ -1,0 +1,66 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [8.1]
+        db_image_name: [mysql, percona, postgres]
+        include:
+          - db_image_name: mysql
+            db_image_version: 8
+            db: mysql
+            vars: '-e MYSQL_PASSWORD=myPassword -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=u_doctrine_extensions -e MYSQL_ROOT_PASSWORD=myPassword'
+            db_port: 3306
+            health: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10'
+          - db_image_name: percona
+            db_image_version: 8
+            db: mysql
+            vars: '-e MYSQL_PASSWORD=myPassword -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=u_doctrine_extensions -e MYSQL_ROOT_PASSWORD=myPassword'
+            db_port: 3306
+            health: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10'
+          - db_image_name: postgres
+            db_image_version: 15
+            db: pgsql
+            vars: '-e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=u_doctrine_extensions -e POSTGRES_PASSWORD=myPassword'
+            health: '--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5'
+            db_port: 5432
+
+    services:
+      database:
+        image: ${{ matrix.db_image_name }}:${{ matrix.db_image_version }}
+        ports:
+          - ${{ matrix.db_port }}:${{ matrix.db_port }}
+        options: >-
+          ${{ matrix.vars }}
+          ${{ matrix.health }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, pdo_pgsql
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer self-update
+          composer install --prefer-dist --optimize-autoloader --no-interaction --no-suggest
+
+      - name: Run setup tests
+        run: vendor/bin/phpunit --configuration tests/config/${{ matrix.db }}.phpunit.xml tests/Oro/Tests/Connection/SetupTest.php
+
+      - name: Run test suite
+        run: vendor/bin/phpunit --configuration tests/config/${{ matrix.db }}.phpunit.xml --testsuite="Oro Doctrine Extensions Test Suite"
+
+      - name: Check code style
+        run: vendor/bin/phpcs src/ tests/ -p --encoding=utf-8 --extensions=php --standard=psr2
+
+      - name: Tear down tests
+        run: vendor/bin/phpunit --configuration tests/config/${{ matrix.db }}.phpunit.xml tests/Oro/Tests/Connection/TearDownTest.php

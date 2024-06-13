@@ -18,7 +18,7 @@ class GroupConcat extends AbstractPlatformAwareFunctionNode
      * @url http://sysmagazine.com/posts/181666/
      * {@inheritdoc}
      */
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);

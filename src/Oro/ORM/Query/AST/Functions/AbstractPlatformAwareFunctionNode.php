@@ -16,7 +16,7 @@ abstract class AbstractPlatformAwareFunctionNode extends FunctionNode
      * @noinspection ReturnTypeCanBeDeclaredInspection
      * {@inheritdoc}
      */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         $function = FunctionFactory::create(
             $sqlWalker->getConnection()->getDatabasePlatform(),

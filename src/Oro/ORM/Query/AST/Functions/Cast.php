@@ -43,7 +43,7 @@ class Cast extends AbstractPlatformAwareFunctionNode
 
         $parser->match(Lexer::T_IDENTIFIER);
         $lexer = $parser->getLexer();
-        $type = $lexer->token['value'];
+        $type = $lexer->token->value;
 
         if ($lexer->isNextToken(Lexer::T_OPEN_PARENTHESIS)) {
             $parser->match(Lexer::T_OPEN_PARENTHESIS);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Oro\ORM\Query\AST\Functions\String;
 
 use Doctrine\ORM\Query\Parser;
-use Doctrine\ORM\Query\Lexer;
+use Doctrine\ORM\Query\TokenType;
 
 use Oro\ORM\Query\AST\Functions\AbstractPlatformAwareFunctionNode;
 
@@ -16,22 +16,22 @@ class ConcatWs extends AbstractPlatformAwareFunctionNode
     /**
      * {@inheritdoc}
      */
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
 
         $this->parameters[self::SEPARATOR_KEY] = $parser->StringPrimary();
 
-        $parser->match(Lexer::T_COMMA);
+        $parser->match(TokenType::T_COMMA);
 
         $this->parameters[self::STRINGS_KEY][] = $parser->StringPrimary();
 
-        while ($parser->getLexer()->isNextToken(Lexer::T_COMMA)) {
-            $parser->match(Lexer::T_COMMA);
+        while ($parser->getLexer()->isNextToken(TokenType::T_COMMA)) {
+            $parser->match(TokenType::T_COMMA);
             $this->parameters[self::STRINGS_KEY][] = $parser->StringPrimary();
         }
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }

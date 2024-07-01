@@ -3,48 +3,32 @@ declare(strict_types=1);
 
 namespace Oro\Entities;
 
-/**
- * @Entity
- * @Table(name="test_foo")
- */
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
+
+#[Entity]
+#[Table(name: 'test_foo')]
 class Foo
 {
-    /**
-     * @var int
-     *
-     * @Id
-     * @Column(type="integer", name="id")
-     * @GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[Id]
+    #[Column(name: 'id', type: 'integer')]
+    #[GeneratedValue(strategy: 'AUTO')]
+    protected int $id;
 
-    /**
-     * @var string
-     *
-     * @Column(name="name", type="string", length=255)
-     */
-    protected $name;
+    #[Column(name: "name", type: "string", length: 255)]
+    protected string $name;
 
-    /**
-     * @var \DateTime $createdAt
-     *
-     * @Column(name="created_at", type="datetime", nullable=true)
-     */
-    protected $createdAt;
+    #[Column(name: "created_at", type: "datetime", nullable: true)]
+    protected \DateTime $createdAt;
 
-    /**
-     * @var float
-     *
-     * @Column(name="budget", type="float", nullable=true)
-     */
-    protected $budget;
+    #[Column(name: "budget", type: "float", nullable: true)]
+    protected float $budget;
 
-    /**
-     * @var string
-     *
-     * @Column(name="code", type="string", length=255)
-     */
-    protected $code;
+    #[Column(name: "code", type: "string", length: 255)]
+    protected string $code;
 
     public function getId(): ?int
     {

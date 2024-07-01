@@ -24,7 +24,7 @@ class PercentType extends Type
      * @noinspection PhpMissingReturnTypeInspection
      * @noinspection ReturnTypeCanBeDeclaredInspection
      */
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getFloatDeclarationSQL($column);
     }
@@ -35,7 +35,7 @@ class PercentType extends Type
      * @noinspection ReturnTypeCanBeDeclaredInspection
      * @noinspection PhpDocSignatureInspection
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         return (null === $value) ? null : (double) $value;
     }

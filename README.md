@@ -95,7 +95,7 @@ Add the following dependency to your composer.json:
 ```json
 {
     "require": {
-        "oro/doctrine-extensions": "^2.0"
+        "oro/doctrine-extensions": "^3.0"
     }
 }
 ```
@@ -240,7 +240,3 @@ This library also provides the following field types:
 
 * `MoneyType`
 * `PercentType`
-* `ObjectType`
-* `ArrayType`
-
-`ObjectType` and `ArrayType` use Base64 encoded strings to store values in the database instead of storing serialized strings. For backward compatibility the values that are already stored in the database will be unserialized without Base64 encoding. The new values will be Base64 encoded before saving to the database and Base64 decoded before unserialization.

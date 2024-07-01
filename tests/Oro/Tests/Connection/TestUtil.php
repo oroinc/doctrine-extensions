@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace Oro\Tests\Connection;
 
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\ORMSetup;
 
 class TestUtil
 {
@@ -13,7 +16,6 @@ class TestUtil
 
     /**
      * @throws \RuntimeException
-     * @throws \Doctrine\ORM\ORMException
      */
     public static function getEntityManager(): EntityManager
     {
@@ -21,8 +23,8 @@ class TestUtil
             $dbParams = self::getConnectionParams();
             $entitiesPath = \realpath(__DIR__ . '/../../Entities');
 
-            $config = Setup::createAnnotationMetadataConfiguration([$entitiesPath], true);
-            self::$entityManager = EntityManager::create($dbParams, $config);
+            $config = ORMSetup::createAttributeMetadataConfiguration([$entitiesPath], true);
+            self::$entityManager = new EntityManager(DriverManager::getConnection($dbParams), $config);
         }
 
         if (self::$entityManager) {
@@ -68,10 +70,20 @@ class TestUtil
 
     /**
      * @throws \Exception
+     * @throws \Doctrine\DBAL\Exception
      */
     public static function getPlatformName(): string
     {
         $entityManager = self::getEntityManager();
-        return $entityManager->getConnection()->getDatabasePlatform()->getName();
+
+        $platform = $entityManager->getConnection()->getDatabasePlatform();
+
+        if ($platform instanceof AbstractMySQLPlatform) {
+            return 'mysql';
+        } elseif ($platform instanceof PostgreSQLPlatform) {
+            return 'postgresql';
+        }
+
+        throw new \Exception(sprintf('Platform "%s" not supported', $platform::class));
     }
 }

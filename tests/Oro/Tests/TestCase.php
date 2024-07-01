@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Oro\Tests;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use Oro\Tests\Connection\TestUtil;
 
 class TestCase extends \PHPUnit\Framework\TestCase

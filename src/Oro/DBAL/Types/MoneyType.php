@@ -25,7 +25,7 @@ class MoneyType extends Type
      * @noinspection PhpMissingReturnTypeInspection
      * @noinspection ReturnTypeCanBeDeclaredInspection
      */
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         $column['precision'] = self::TYPE_PRECISION;
         $column['scale']     = self::TYPE_SCALE;
@@ -38,7 +38,7 @@ class MoneyType extends Type
      * @noinspection PhpMissingParentCallCommonInspection
      * @noinspection PhpDocSignatureInspection
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         return $value;
     }

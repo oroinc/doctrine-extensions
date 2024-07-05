@@ -13,8 +13,8 @@
     ],
     "require": {
         "php": ">=8.0",
-        "doctrine/orm": ">=2.6, <3.0",
-        "doctrine/dbal": ">=2.6, <3.0",
+        "doctrine/orm": "^2.6",
+        "doctrine/dbal": "^2.6|^3",
         "doctrine/lexer": "^2|^3"
     },
     "require-dev": {

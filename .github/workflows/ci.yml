@@ -54,6 +54,10 @@ jobs:
           composer self-update
           composer update --prefer-dist --optimize-autoloader --no-interaction --no-suggest ${{ matrix.composer-flags }}
 
+      - name: Check lowest dependencies
+        run: php tests/lowest-dependencies.php
+        if: ${{ matrix.composer-flags == '--prefer-lowest' }}
+
       - name: Run setup tests
         run: vendor/bin/phpunit --configuration tests/config/${{ matrix.db }}.phpunit.xml tests/Oro/Tests/Connection/SetupTest.php
 

@@ -21,7 +21,7 @@ class TestUtil
             $dbParams = self::getConnectionParams();
             $entitiesPath = \realpath(__DIR__ . '/../../Entities');
 
-            $config = Setup::createAnnotationMetadataConfiguration([$entitiesPath], true);
+            $config = Setup::createAnnotationMetadataConfiguration([$entitiesPath], true, null, null, false);
             self::$entityManager = EntityManager::create($dbParams, $config);
         }
 

@@ -3,46 +3,48 @@ declare(strict_types=1);
 
 namespace Oro\Entities;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
- * @Table(name="test_foo")
+ * @ORM\Entity
+ * @ORM\Table(name="test_foo")
  */
 class Foo
 {
     /**
      * @var int
      *
-     * @Id
-     * @Column(type="integer", name="id")
-     * @GeneratedValue(strategy="AUTO")
+     * @ORM\Id
+     * @ORM\Column(type="integer", name="id")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
      * @var string
      *
-     * @Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     protected $name;
 
     /**
      * @var \DateTime $createdAt
      *
-     * @Column(name="created_at", type="datetime", nullable=true)
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     protected $createdAt;
 
     /**
      * @var float
      *
-     * @Column(name="budget", type="float", nullable=true)
+     * @ORM\Column(name="budget", type="float", nullable=true)
      */
     protected $budget;
 
     /**
      * @var string
      *
-     * @Column(name="code", type="string", length=255)
+     * @ORM\Column(name="code", type="string", length=255)
      */
     protected $code;
 

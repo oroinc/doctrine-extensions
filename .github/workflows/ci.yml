@@ -7,8 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [8.1]
+        php: [8.1, 8.2, 8.3, 8.4]
         db_image_name: [mysql, percona, postgres]
+        composer-flags: ['', '--prefer-lowest']
         include:
           - db_image_name: mysql
             db_image_version: 8
@@ -51,7 +52,11 @@ jobs:
       - name: Install dependencies
         run: |
           composer self-update
-          composer install --prefer-dist --optimize-autoloader --no-interaction --no-suggest
+          composer update --prefer-dist --optimize-autoloader --no-interaction --no-suggest ${{ matrix.composer-flags }}
+
+      - name: Check lowest dependencies
+        run: php tests/lowest-dependencies.php
+        if: ${{ matrix.composer-flags == '--prefer-lowest' }}
 
       - name: Run setup tests
         run: vendor/bin/phpunit --configuration tests/config/${{ matrix.db }}.phpunit.xml tests/Oro/Tests/Connection/SetupTest.php
@@ -61,6 +66,7 @@ jobs:
 
       - name: Check code style
         run: vendor/bin/phpcs src/ tests/ -p --encoding=utf-8 --extensions=php --standard=psr2
+        if: ${{ matrix.composer-flags != '--prefer-lowest' }}
 
       - name: Tear down tests
         run: vendor/bin/phpunit --configuration tests/config/${{ matrix.db }}.phpunit.xml tests/Oro/Tests/Connection/TearDownTest.php

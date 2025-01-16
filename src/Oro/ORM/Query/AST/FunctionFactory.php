@@ -53,7 +53,7 @@ class FunctionFactory
         return new $className($parameters);
     }
 
-    private static function classify($word)
+    private static function classify($word): string
     {
         return \str_replace([' ', '_', '-'], '', \ucwords($word, ' _-'));
     }

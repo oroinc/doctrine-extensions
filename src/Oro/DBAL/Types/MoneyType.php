@@ -16,7 +16,7 @@ class MoneyType extends Type
      * @noinspection PhpMissingReturnTypeInspection
      * @noinspection ReturnTypeCanBeDeclaredInspection
      */
-    public function getName()
+    public function getName(): string
     {
         return self::TYPE;
     }
@@ -48,7 +48,7 @@ class MoneyType extends Type
      * @noinspection PhpMissingParentCallCommonInspection
      * @noinspection ReturnTypeCanBeDeclaredInspection
      */
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }

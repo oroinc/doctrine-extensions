@@ -6,9 +6,9 @@ $dependencies = json_decode($content, true, \JSON_THROW_ON_ERROR);
 
 $expectedDependencies = [
     'doctrine/annotations' => '2.0.0',
-    'doctrine/lexer' => '2.0.0',
-    'doctrine/dbal' => '3.3.6',
-    'doctrine/orm' => '2.19.0',
+    'doctrine/lexer' => '3.0.0',
+    'doctrine/dbal' => '3.6.0',
+    'doctrine/orm' => '3.0.0',
 ];
 
 foreach ($expectedDependencies as $expectedDependency => $expectedVersion) {

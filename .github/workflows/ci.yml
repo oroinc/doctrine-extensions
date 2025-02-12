@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [8.1]
+        php: [8.1, 8.2, 8.3, 8.4]
         db_image_name: [mysql, percona, postgres]
         include:
           - db_image_name: mysql
@@ -37,7 +37,6 @@ jobs:
         options: >-
           ${{ matrix.vars }}
           ${{ matrix.health }}
-
     steps:
       - uses: actions/checkout@v3
 

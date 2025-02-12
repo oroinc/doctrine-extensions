@@ -5,7 +5,7 @@ $content = file_get_contents(dirname(__DIR__) . '/composer.lock');
 $dependencies = json_decode($content, true, \JSON_THROW_ON_ERROR);
 
 $expectedDependencies = [
-    'doctrine/annotations' => '1.14.0',
+    'doctrine/annotations' => '2.0.0',
     'doctrine/lexer' => '2.0.0',
     'doctrine/dbal' => '3.3.6',
     'doctrine/orm' => '2.19.0',

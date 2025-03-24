@@ -15,7 +15,7 @@ class PercentType extends Type
      * @noinspection PhpMissingReturnTypeInspection
      * @noinspection ReturnTypeCanBeDeclaredInspection
      */
-    public function getName(): string
+    public function getName()
     {
         return self::TYPE;
     }
@@ -45,7 +45,7 @@ class PercentType extends Type
      * @noinspection PhpMissingReturnTypeInspection
      * @noinspection ReturnTypeCanBeDeclaredInspection
      */
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    public function requiresSQLCommentHint(AbstractPlatform $platform)
     {
         return true;
     }

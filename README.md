@@ -47,7 +47,7 @@ Available functions:
 * `ROUND(value, ?precision)` - Rounds the value to the specified precision (defaults to 0 precision if not specified).
 * `CEIL(value)` - Returns the value rounded up.
 * `SIGN(expr)` - Returns the sign of the argument.
-* `CAST(expr as type)` - Takes an expression of any type and produces a result value of a specified type. Supported types are: `char`, `string`, `text`, `date`, `datetime`, `time`, `int`, `integer`, `bigint`, `decimal`, `boolean`, `binary`, `uuid`.
+* `CAST(expr as type)` - Takes an expression of any type and produces a result value of a specified type. Supported types are: `char`, `string`, `text`, `date`, `datetime`, `time`, `int`, `integer`, `bigint`, `decimal`, `json`, `bool`, `boolean`, `binary`, `uuid`. Only these type names are accepted; a type may be followed by a length or a precision built of non-negative integers, e.g. `CAST(expr as char(5))` or `CAST(expr as decimal(10, 2))`.
 * `CONCAT_WS` - Concatenate all but the first argument. The first argument is used as the separator string.
 * `GROUP_CONCAT` - Returns a concatenated string. GROUP_CONCAT full syntax:
 ```

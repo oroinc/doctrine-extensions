@@ -44,7 +44,7 @@ Available functions:
 * `YEAR(expr)` - Return the year from the date passed
 * `POW(expr, power)` - Return the argument raised to the specified power
 * `SIGN(expr)` - Return the sign of the argument
-* `CAST(expr as type)` - Takes an expression of any type and produces a result value of a specified type. Supported types are: "char, string, text, date, datetime, time, int, integer, decimal, boolean"
+* `CAST(expr as type)` - Takes an expression of any type and produces a result value of a specified type. Supported types are: "char, string, text, date, datetime, time, int, integer, decimal, json, bool, boolean". Only these type names are accepted; a type may be followed by a length or a precision built of non-negative integers, e.g. `CAST(expr as char(5))` or `CAST(expr as decimal(10, 2))`.
 * `CONCAT_WS` - Concatenate all but the first argument with separators. The first argument is used as the separator string.
 * `GROUP_CONCAT` - Return a concatenated string
 

@@ -172,3 +172,25 @@
   sql: "SELECT COUNT(t0_.id) AS sclr_0 FROM test_foo t0_ WHERE CAST(t0_.name AS bytea) = 'TeSt'"
   expectedResult:
       - 0
+
+#LENGTH AND PRECISION
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "string" }
+  dql: "SELECT CAST('12' as char(5)) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('12' AS char(5)) AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '12   '
+
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "string" }
+  dql: "SELECT CAST(12 as string(12)) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST(12 AS varchar(12)) AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - '12'
+
+- functions:
+    - { name: "cast", className: "Oro\\ORM\\Query\\AST\\Functions\\Cast", type: "numeric" }
+  dql: "SELECT CAST('123' as decimal(10, 2)) FROM Oro\\Entities\\Foo f WHERE f.id = 1"
+  sql: "SELECT CAST('123' AS decimal(10, 2)) AS sclr_0 FROM test_foo t0_ WHERE t0_.id = 1"
+  expectedResult:
+      - 123.00

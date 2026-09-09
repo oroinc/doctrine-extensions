@@ -24,6 +24,9 @@ class TestUtil
             $entitiesPath = \realpath(__DIR__ . '/../../Entities');
 
             $config = ORMSetup::createAttributeMetadataConfiguration([$entitiesPath], true);
+            if (\PHP_VERSION_ID >= 80400 && \method_exists($config, 'enableNativeLazyObjects')) {
+                $config->enableNativeLazyObjects(true);
+            }
             self::$entityManager = new EntityManager(DriverManager::getConnection($dbParams), $config);
         }
 

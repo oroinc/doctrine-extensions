@@ -14,30 +14,27 @@ jobs:
           - db_image_name: mysql
             db_image_version: 8
             db: mysql
-            db_host_port: 33060
             db_port: 3306
-            vars: '-e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ROOT_PASSWORD=travis'
+            vars: '-e MYSQL_PASSWORD=myPassword -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=u_doctrine_extensions -e MYSQL_ROOT_PASSWORD=myPassword'
             health: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10'
           - db_image_name: percona
             db_image_version: 8
             db: mysql
-            db_host_port: 33060
             db_port: 3306
-            vars: '-e MYSQL_PASSWORD=travis -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=travis -e MYSQL_ROOT_PASSWORD=travis'
+            vars: '-e MYSQL_PASSWORD=myPassword -e MYSQL_DATABASE=doctrine_extensions_tests -e MYSQL_USER=u_doctrine_extensions -e MYSQL_ROOT_PASSWORD=myPassword'
             health: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10'
           - db_image_name: postgres
             db_image_version: 15
             db: pgsql
-            db_host_port: 54320
             db_port: 5432
-            vars: '-e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=travis -e POSTGRES_PASSWORD=travis'
+            vars: '-e POSTGRES_DB=doctrine_extensions_tests -e POSTGRES_USER=u_doctrine_extensions -e POSTGRES_PASSWORD=myPassword'
             health: '--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5'
 
     services:
       database:
         image: ${{ matrix.db_image_name }}:${{ matrix.db_image_version }}
         ports:
-          - ${{ matrix.db_host_port }}:${{ matrix.db_port }}
+          - ${{ matrix.db_port }}:${{ matrix.db_port }}
         options: >-
           ${{ matrix.vars }}
           ${{ matrix.health }}
@@ -63,7 +60,7 @@ jobs:
             --with doctrine/lexer:^1.0
 
       - name: Show the resolved dependencies
-        run: composer show doctrine/orm doctrine/dbal doctrine/lexer
+        run: composer show | grep -E '^doctrine/(orm|dbal|lexer) '
 
       - name: Run setup tests
         run: vendor/bin/phpunit --configuration tests/config/${{ matrix.db }}.phpunit.xml tests/Oro/Tests/Connection/SetupTest.php

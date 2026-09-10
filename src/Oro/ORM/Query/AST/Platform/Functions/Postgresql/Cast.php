@@ -15,9 +15,8 @@ class Cast extends PlatformFunctionNode
     {
         /** @var Node $value */
         $value = $this->parameters[DqlFunction::PARAMETER_KEY];
-        $type = $this->parameters[DqlFunction::TYPE_KEY];
+        [$type, $arguments] = DqlFunction::splitType($this->parameters[DqlFunction::TYPE_KEY]);
 
-        $type = strtolower($type);
         if ($type === 'datetime') {
             $timestampFunction = new Timestamp(
                 [SimpleFunction::PARAMETER_KEY => $value]
@@ -46,6 +45,10 @@ class Cast extends PlatformFunctionNode
          */
         if ($type === 'string') {
             $type = 'varchar';
+        }
+
+        if ($arguments) {
+            $type .= '(' . \implode(', ', $arguments) . ')';
         }
 
         return 'CAST(' . $this->getExpressionValue($value, $sqlWalker) . ' AS ' . $type . ')';

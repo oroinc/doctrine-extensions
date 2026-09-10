@@ -29,6 +29,7 @@ class Cast extends AbstractPlatformAwareFunctionNode
         'bigint',
         'decimal',
         'json',
+        'jsonb',
         'bool',
         'boolean',
         'binary',

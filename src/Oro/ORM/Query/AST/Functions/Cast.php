@@ -27,6 +27,7 @@ class Cast extends AbstractPlatformAwareFunctionNode
         'integer',
         'decimal',
         'json',
+        'jsonb',
         'bool',
         'boolean'
     );
